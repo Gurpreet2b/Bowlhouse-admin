@@ -1,0 +1,454 @@
+<form action="" [formGroup]="form">
+    <div class="">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="">Coupon Code <span class="required">*</span></label>
+                    <input type="text" formControlName="coupon_code" class="form-control"
+                        placeholder="Enter coupon code" ngbAutofocus>
+                    <div *ngIf="form.controls['coupon_code'].invalid && (form.controls['coupon_code'].dirty || form.controls['coupon_code'].touched)"
+                        class="alert1">
+                        <div *ngIf="form.controls['coupon_code'].errors.required">
+                            Please Enter Coupon Code.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="">Title <span class="required">*</span></label>
+                    <input type="text" formControlName="title" class="form-control" placeholder="Enter Title"
+                        ngbAutofocus>
+                    <div *ngIf="form.controls['title'].invalid && (form.controls['title'].dirty || form.controls['title'].touched)"
+                        class="alert1">
+                        <div *ngIf="form.controls['title'].errors.required">
+                            Please Enter Title.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="">Description <span class="required">*</span></label>
+                    <input type="text" formControlName="description" class="form-control"
+                        placeholder="Enter Description" ngbAutofocus>
+                    <div *ngIf="form.controls['description'].invalid && (form.controls['description'].dirty || form.controls['description'].touched)"
+                        class="alert1">
+                        <div *ngIf="form.controls['description'].errors.required">
+                            Please Enter Description.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="col-md-6">
+                <div class="form-group">
+                    <label for=""> Restaurant </label>
+                    <select class="form-control" formControlName="restaurant_list" multiple>
+                        <option value="" selected>Select Restaurant</option>
+                        <option value="undefined">All</option>
+                        <option *ngFor="let item of RestaurantsList" [value]="item.id">
+                            {{ item.name }}
+                        </option>
+                    </select>
+                </div>
+            </div> -->
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="">Restaurant </label>
+                    <div class="top-scroll" style="border: 2px solid #f3f3f3">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th class="top-trand" style="cursor: pointer;" 
+                                        data-toggle="modal" data-target="#RestaurantListModal"
+                                        (click)="IsOpenRestaurant()" title="Add Restaurant">
+                                            <i class="fa fa-plus"></i>
+                                        </th>
+                                        <th class="top-trand">
+                                            Restaurant Id
+                                        </th>
+                                        <th class="top-trand">
+                                            Name
+                                        </th>
+                                        <th class="top-trand">
+                                            Action
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of RestaurantSelectList; let i=index">
+                                        <td>
+                                            
+                                        </td>
+                                        <td>
+                                            {{item.id}}
+                                        </td>
+                                        <td>
+                                            {{item.name}}
+                                        </td>
+                                        <td>
+                                            <button type="button" class=" btn-danger btn-icon" (click)="DeleteRestaurant(i)">
+                                                <i class="far fa-trash-alt"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group" style="display: inline-grid">
+                    <label for="">Active </label>
+                    <input type="checkbox" formControlName="active">
+                </div>
+            </div>
+            <!-- <div class="col-md-3">
+                <div class="form-group" style="display: inline-grid">
+                    <label for="">Customer </label>
+                    <button class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#CustomerListModal">
+                        Add
+                    </button>
+                </div>
+            </div> -->
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="">Customer </label>
+                    <div class="top-scroll" style="border: 2px solid #f3f3f3">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th class="top-trand" style="cursor: pointer;" 
+                                        data-toggle="modal" data-target="#CustomerListModal"
+                                        (click)="IsOpenCustomer()" title="Add Customer">
+                                            <i class="fa fa-plus"></i>
+                                        </th>
+                                        <th class="top-trand">
+                                            Customer Id
+                                        </th>
+                                        <th class="top-trand">
+                                            Name
+                                        </th>
+                                        <th class="top-trand">
+                                            Action
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of CustomerSelectList; let i=index">
+                                        <td>
+                                            
+                                        </td>
+                                        <td>
+                                            {{item.id}}
+                                        </td>
+                                        <td>
+                                            {{item.name}}
+                                        </td>
+                                        <td>
+                                            <button type="button" class=" btn-danger btn-icon" (click)="DeleteCustomer(i)">
+                                                <i class="far fa-trash-alt"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="col-md-6">
+                <div class="form-group">
+                    <label for=""> Customer </label>
+                    <select class="form-control" formControlName="customer">
+                        <option value="" selected>Select Customer</option>
+                        <option *ngFor="let item of CustomerList" [value]="item.id">
+                            {{ item.name }}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-6" style="margin-top: 29px;">
+                <div class="input-group">
+                    <div class="form-outline" style="display: inline-flex;">
+                        <input id="search-input" (keyup)="onSearchKeyUp($event)" placeholder="Search customer"
+                            type="search" id="form" class="form-control" style="padding: 4px;"/>
+                        <button type="submit" class=" btn-secondary">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </div> -->
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for=""> Type <span class="required">*</span></label>
+                    <select formControlName="type" class="form-control" (change)="IsSelectType($event)">
+                        <option value="" selected>Select Type</option>
+                        <option value="percent">Percent</option>
+                        <option value="value">Value</option>
+                    </select>
+                    <div *ngIf="form.controls['type'].invalid && (form.controls['type'].dirty || form.controls['type'].touched)"
+                        class="alert1">
+                        <div *ngIf="form.controls['type'].errors.required">
+                            Please Select Type.
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="">Value <span class="required">*</span></label>
+                    <input type="number" formControlName="value" class="form-control" [(ngModel)]="ValueLimit"
+                     placeholder="Enter value" min="0" onkeyup="if(this.value<0){this.value= this.value * -1}">
+                    <div *ngIf="form.controls['value'].invalid && (form.controls['value'].dirty || form.controls['value'].touched)"
+                    class="alert1">
+                        <div *ngIf="form.controls['value'].errors.required">
+                            Please Enter Value.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="col-md-6">
+                <div class="form-group">
+                    <label for="">Value </label>
+                    <input type="number" formControlName="value" class="form-control" placeholder="Enter value">
+                </div>
+            </div> -->
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="">Minimum Order Amount <span class="required">*</span></label>
+                    <input type="number" formControlName="order_min_value" class="form-control"
+                        placeholder="Enter Minimum Order Amount" min="0"
+                        onkeyup="if(this.value<0){this.value= this.value * -1}">
+                    <div *ngIf="form.controls['order_min_value'].invalid && (form.controls['order_min_value'].dirty || form.controls['order_min_value'].touched)"
+                    class="alert1">
+                        <div *ngIf="form.controls['order_min_value'].errors.required">
+                            Please Enter Order Min Value.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group" *ngIf="IsType === 'percent'">
+                    <label for="">Value Limit <span class="required">*</span></label>
+                    <input type="number" formControlName="value_limit" class="form-control"
+                        placeholder="Enter Value Limit"  min="0"
+                        onkeyup="if(this.value<0){this.value= this.value * -1}">
+
+                    <!-- <div *ngIf="form.controls['value_limit'].invalid && (form.controls['value_limit'].dirty || form.controls['value_limit'].touched)"
+                    class="alert1">
+                        <div *ngIf="form.controls['value_limit'].errors.required">
+                            Please Enter Value Limit.
+                        </div>
+                    </div> -->
+                </div>
+                <div class="form-group" *ngIf="IsType === 'value'">
+                    <label for="">Value Limit <span class="required">*</span></label>
+                    <input type="number" formControlName="value_limit" class="form-control"
+                    placeholder="Enter Value Limit"  min="0" [(ngModel)]="ValueLimit"
+                    onkeyup="if(this.value<0){this.value= this.value * -1}" 
+                    style="pointer-events: none; opacity: 0.5; background: #f1f1f1;">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="">From Date <span class="required">*</span></label>
+                    <input type="date" formControlName="start_from" class="form-control" placeholder="Enter From date">
+                    <div *ngIf="form.controls['start_from'].invalid && (form.controls['start_from'].dirty || form.controls['start_from'].touched)"
+                    class="alert1">
+                        <div *ngIf="form.controls['start_from'].errors.required">
+                            Please Enter From Date.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="">To Date <span class="required">*</span></label>
+                    <input type="date" formControlName="valid_upto" class="form-control" placeholder="Enter To date">
+                    <div *ngIf="form.controls['valid_upto'].invalid && (form.controls['valid_upto'].dirty || form.controls['valid_upto'].touched)"
+                    class="alert1">
+                        <div *ngIf="form.controls['valid_upto'].errors.required">
+                            Please Enter To Date.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="">Repeat </label>
+                    <input type="number" formControlName="limit" class="form-control" placeholder="Enter repeat"
+                    onkeyup="if(this.value<0){this.value= this.value * -1}" >
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="">Coupon Pic<span class="required">*</span></label>
+                    <div>
+                        <input type="file" id="picture" accept="image/*" (change)="onSelectFile($event)" required>
+                        <!-- <div *ngIf="form.controls['image'].invalid && (form.controls['image'].dirty || form.controls['image'].touched)"
+                            class="alert1">
+                            <div *ngIf="form.controls['image'].errors.required">
+                                Please upload Coupon picture.
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark btn-sm" (click)="onDismiss()">Close</button>
+        <button class="btn btn-secondary btn-sm" (click)="onSubmit()">Create</button>
+        <img src="../../../../../../assets/images/loader.gif" *ngIf="loading">
+    </div>
+</form>
+
+<div class="modal" id="CustomerListModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header" style="padding: 10px 26px;">
+                <h4 class="modal-title">Customer List</h4>
+                <button type="button" class="close" (click)="onCustomerDismiss()"
+                    style="padding: 2rem 1rem;">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <div *ngIf="loading" class="dot-opacity-loader">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                            <!-- <img src="../../../../../../assets/images/loader.gif" *ngIf="loading"> -->
+                            <div class="col-md-6 mb-2">
+                                <div class="input-group">
+                                    <div class="form-outline" style="display: inline-flex;">
+                                        <input id="search-input" [(ngModel)]="Search"
+                                            placeholder="Search customer Id" type="number" id="form"
+                                            class="form-control" style="padding: 4px;" />
+                                        <button type="submit" class=" btn-secondary"
+                                        (click)="getCustomerSearch()">
+                                            <i class="fas fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <table class="table table-hover">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th>
+                                            #
+                                        </th>
+
+                                        <th>
+                                            Customer Name
+                                        </th>
+                                        <th>
+                                            Mobile
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let customer of CustomerLists">
+                                        <td>
+                                            <input type="checkbox" [(ngModel)]="IsCheck"
+                                            (change)="IsCustomer($event, customer)" 
+                                            name="IsCheck" />
+                                        </td>
+                                        <td>
+                                            {{customer.name}}
+                                        </td>
+                                        <td>
+                                            {{customer.Mobile}}
+                                        </td>
+                                    </tr>
+                                    <tr *ngIf="CustomerLists.length === 0">
+                                        No Record Found!
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-dark btn-sm" (click)="onCustomerDismiss()">Close</button>
+                <button class="btn btn-secondary btn-sm" (click)="onSubmitCustomer()">Add Customer</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="RestaurantListModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header" style="padding: 10px 26px;">
+                <h4 class="modal-title">Restaurant List</h4>
+                <button type="button" class="close" (click)="onRestaurantDismiss()"
+                    style="padding: 2rem 1rem;">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <div *ngIf="loading" class="dot-opacity-loader">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                            <table class="table table-hover">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th>
+                                            #
+                                        </th>
+
+                                        <th>
+                                            Restaurant Name
+                                        </th>
+                                        <th>
+                                            Address
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let restaurant of RestaurantsList">
+                                        <td>
+                                            <input type="checkbox" [(ngModel)]="restaurant.is_restaurant_checked"
+                                            name="is_restaurant_checked" />
+                                        </td>
+                                        <td>
+                                            {{restaurant.name}}
+                                        </td>
+                                        <td>
+                                            {{restaurant.address}}
+                                        </td>
+                                    </tr>
+                                    <tr *ngIf="RestaurantsList.length === 0">
+                                        No Record Found!
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-dark btn-sm" (click)="onRestaurantDismiss()">Close</button>
+                <button class="btn btn-secondary btn-sm" (click)="onSubmitRestaurant()">Add Restaurant</button>
+            </div>
+
+        </div>
+    </div>
+</div>

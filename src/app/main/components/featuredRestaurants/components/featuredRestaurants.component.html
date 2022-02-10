@@ -1,0 +1,173 @@
+<!-- <div class="card pt-2">
+    <div class="col-md-12 grid-margin">
+        <div class="d-flex justify-content-between flex-wrap">
+            <div class="col-md-3">
+                <ejs-daterangepicker id='daterangepicker' placeholder='Fiter by date range' [startDate]='start'
+                    [endDate]='end' (change)="IsRangeDate($event)">
+                </ejs-daterangepicker>
+            </div>
+            <div class="col-md-3">
+                <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
+                    <div class="input-group" style="margin-left: 30px">
+                        <div class="form-outline">
+                            <input id="search-input" formControlName="search" placeholder="Search here" type="search"
+                                id="form" class="form-control" style="padding: 17.7px; width: 210px;" />
+                        </div>
+                        <button type="submit" class="btn-secondary">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-6">
+                <div style="display: inline-flex;">
+                    <div class="col-md-2" style="margin-right: 4rem;">
+                        <form class="form-inline">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <select [(ngModel)]="restaurant" [ngModelOptions]="{standalone: true}"
+                                        (change)="IsRestChange($event)" class="btn-sm btn btn-secondary"
+                                        style="width: 155px;">
+                                        <option [ngValue]="undefined" hidden>Filter Restaurant</option>
+                                        <option value="undefined">All</option>
+                                        <option *ngFor="let item of category" [value]="item.id">
+                                            {{ item.name }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-md-2" style="margin-right: 3.5rem;">
+                        <form class="form-inline">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <select [(ngModel)]="status" [ngModelOptions]="{standalone: true}"
+                                        (change)="IsStatusChange($event)" class="btn-sm btn btn-secondary"
+                                        style="width: 155px;">
+                                        <option [ngValue]="undefined" hidden>Filter Status</option>
+                                        <option value="undefined">All</option>
+                                        <option *ngFor="let item of statuslist" [value]="item.name">
+                                            {{ item.name }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-md-2">
+                        <button data-toggle="modal" data-target="#ExportExcelModal"
+                            class="btn-sm btn btn-secondary ml-2" style="padding: 10px; width: 150px;">
+                            Export</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->
+<div class="card style pt-2">
+    <div class="col-md-12 grid-margin">
+        <div class="d-flex justify-content-between flex-wrap">
+            <div class="d-flex align-items-end flex-wrap">
+                <div class="mr-md-3 mr-xl-5">
+                    <h3>Featured Restaurants</h3>
+                </div>
+            </div>
+            <div class="d-flex justify-content-between align-items-end flex-wrap">
+                <button class="btn btn-secondary btn-sm mt-xl-0" 
+                data-toggle="modal" data-target="#CreatefeaturedRestaurants"
+                *ngIf="totalItems < 12">Add New Position</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <div *ngIf="loading" class="dot-opacity-loader">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <table class="table table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>
+                            Position
+                        </th>
+                        <th>
+                            Paid Amount
+                        </th>
+                        <th>
+                            Restaurant Name
+                        </th>
+                        <th>
+                            Restaurant Address
+                        </th>
+                        <th>
+                            From Date
+                        </th>
+                        <th>
+                            To Date
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let featured of FeaturedRestaurants; let i=index">
+                        <td>
+                            {{featured.position}}
+                        </td>
+                        <td>
+                            {{featured.paid_amount}}
+                        </td>
+                        <td>
+                            {{featured.restaurant}}
+                        </td>
+                        <td>
+                            {{featured.restaurant_address}}
+                        </td>
+                        <td>
+                            {{featured.from_date | date}}
+                        </td>
+                        <td>
+                            {{featured.to_date | date}}
+                        </td>
+                    </tr>
+                    <tr *ngIf="FeaturedRestaurants.length === 0">
+                        Record Not Found !!
+                    </tr>
+                </tbody>
+            </table>
+            <!-- <div class="row" style="width: 100%">
+                <div class="col-md-11">
+                    <pagination-controls (pageChange)="onPageChange($event, '1')"></pagination-controls>
+                </div>
+                <div class="col-md-1" style="margin-top: 30px;">
+                    <select id="PerPage" class="form-control" (change)="onPageChange($event, '2')">
+                        <option *ngFor="let item of PageTotalNumber" [value]="item">
+                            {{ item }}
+                        </option>
+                    </select>
+                </div>
+            </div> -->
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="CreatefeaturedRestaurants">
+    <div class="modal-dialog">
+      <div class="modal-content">
+          <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Add New Position</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <app-create-position (valueChange)='ValueChanged($event)'></app-create-position>
+      </div>
+        
+      </div>
+    </div>
+</div>

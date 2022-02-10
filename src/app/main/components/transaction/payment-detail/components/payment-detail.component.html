@@ -1,0 +1,281 @@
+<div class="card style">
+    <div class="col-md-12">
+        <div class="d-flex justify-content-between flex-wrap">
+            <div class="d-flex align-items-end flex-wrap">
+                <div class="mr-md-3 mr-xl-5">
+                    <!-- <h3 *ngIf="detail">Payment to {{detail.name}}</h3> -->
+                </div>
+            </div>
+            <div class="d-flex justify-content-between align-items-end flex-wrap">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card style pt-2">
+    <div class="col-md-12 grid-margin">
+        <div class="d-flex justify-content-between flex-wrap">
+            <div class="d-flex justify-content-between align-items-end flex-wrap">
+                <button class="btn btn-secondary btn-sm ml-2 mt-2 mt-xl-0 view-img" [routerLink]="['/restaurants', 'restdetail' ,restaurant_id]">
+                    Information</button>
+                <button class="btn btn-sm btn-secondary ml-2 mt-2 mt-xl-0 view-img" [routerLink]="['/restaurants', 'menu' ,restaurant_id]">
+                    Menu Item
+                </button>
+                <button class="btn btn-secondary btn-sm ml-2 mt-2 mt-xl-0 view-img" [routerLink]="['/restaurants', 'history' ,restaurant_id]">
+                    Order History
+                </button>
+                <button class="btn btn-sm btn-secondary ml-2 mt-2 mt-xl-0 view-img" [routerLink]="['/restaurants', 'historytransaction' ,restaurant_id]">
+                    Order Transactions
+                </button>
+                <button class="btn btn-secondary btn-sm ml-2 mt-2 mt-xl-0 view-img" [routerLink]="['/transactions', 'paymentdetail' ,restaurant_id]">
+                    Issue Payment
+                </button>
+                <!-- <button class="btn btn-sm btn-secondary ml-2 mt-2 mt-xl-0 view-img" [routerLink]="['/restaurants', 'bankdetail' ,restaurant_id]">
+                    Bank Detail
+                </button> -->
+                <button class="btn btn-sm btn-secondary ml-2 mt-2 mt-xl-0 view-img" [routerLink]="['/restaurants', 'boughtServices' ,restaurant_id]">
+                    Bought Services
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="ml-2 mr-2 row">
+    <div class="col-md-12" style="display: inline-flex;">
+        <ul class="nav nav-tabs" role="tablist" style="border-bottom: none; width: 735px;">
+            <li class="nav-item active">
+                <a class="nav-link active" (click)="Today()" data-toggle="tab" href="#home4" role="tab">Today
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" (click)="days7()" data-toggle="tab" href="#home4" role="tab">Last 7 days
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" (click)="days15()" data-toggle="tab" href="#home4" role="tab">Last 15 days
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" (click)="days30()" data-toggle="tab" href="#home4" role="tab">Last 1 Month
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" (click)="month6()" data-toggle="tab" href="#home4" role="tab">Last 6 Months
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" (click)="year()" data-toggle="tab" href="#home4" role="tab">Last 1 year
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" (click)="DateRange()" data-toggle="tab" href="#home4" role="tab">Date Range
+                </a>
+            </li>
+        </ul>
+        <div class="d-flex justify-content-between align-items-end flex-wrap">
+            <form style="margin-left: 2px;" class="form-inline">
+                <div class="form-group">
+                    <div class="input-group">
+                        <select placeholder="Status" [(ngModel)]="status" [ngModelOptions]="{standalone: true}"
+                            (change)="IsStatusChange($event)" class="btn-sm btn-secondary">
+                            <option selected value="undefined">Filter Status</option>
+                            <option value="PAID">Paid</option>
+                            <option value="UNPAID">Unpaid</option>
+                            <option value="INITIATED">Initiated</option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    
+    <div class="col-md-12 grid-margin" *ngIf="IsRange">
+        <div class="col-md-4">
+            <ejs-daterangepicker id='daterangepicker' placeholder='Filter by date range' [startDate]='start'
+                [endDate]='end' (change)="IsRangeDate($event)">
+            </ejs-daterangepicker>
+        </div>
+    </div> 
+</div>
+
+<!-- <div class="card">
+    <div class="col-md-12 grid-margin">
+        <div class="d-flex justify-content-between flex-wrap">
+            <div class="col-md-4">
+                <ejs-daterangepicker id='daterangepicker' placeholder='Filter by date range' [startDate]='start'
+                    [endDate]='end' (change)="IsRangeDate($event)">
+                </ejs-daterangepicker>
+            </div>
+            <div class="d-flex justify-content-between align-items-end flex-wrap">
+                <form class="form-inline">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <select [(ngModel)]="lastdate" [ngModelOptions]="{standalone: true}"
+                                (change)="lastDays($event)" class="btn-sm btn-secondary">
+                                <option selected value="undefined">Filter Days</option>
+                                <option value="15">Last 15 days</option>
+                                <option value="30">Last 30 days</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+                <form style="margin-left: 2px;" class="form-inline">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <select placeholder="Status" [(ngModel)]="status" [ngModelOptions]="{standalone: true}"
+                                (change)="IsStatusChange($event)" class="btn-sm btn-secondary">
+                                <option selected value="undefined">Filter Status</option>
+                                <option value="PAID">Paid</option>
+                                <option value="UNPAID">Unpaid</option>
+                                <option value="INITIATED">Initiated</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div> -->
+
+<div class="row mt-4">
+    <div class="col-md-9">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <div *ngIf="loading" class="dot-opacity-loader">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <!-- <img src="../../../../../../assets/images/loader.gif" *ngIf="loading"> -->
+                    <table class="table table-hover">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>
+                                    #
+                                </th>
+                                <th>
+                                    Status
+                                </th>
+                                <th>
+                                    Id
+                                </th>
+                                <th style="width: 108px;">
+                                    Order Date
+                                </th>
+                                <th style="width: 85px;">
+                                    Amount
+                                </th>
+                                <th>
+                                    Commission
+                                </th>
+                                <th>
+                                    VAT
+                                </th>
+                                <th>
+                                    Delivery Charge
+                                </th>
+                                <th>
+                                    Amount to Pay
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr
+                                *ngFor="let customer of customers | paginate: { itemsPerPage: 10, currentPage: currentPage, totalItems: totalItems }; let i=index">
+                                <td>
+                                    <!-- <input  type="checkbox" (change)="IsCalculation(customer)"
+                                            [(ngModel)]="customer.isCheck" name="isCheck" id="customer.id" /> -->
+                                    <span *ngIf="customer.payment_status === 'PAID'"><input [disabled]="isDisabled"
+                                            type="checkbox" (change)="IsCalculation(customer)"
+                                            [(ngModel)]="customer.isCheck" name="isCheck" id="customer.id" /></span>
+                                    <span *ngIf="customer.payment_status === 'INITIATED'"><input [disabled]="isDisabled"
+                                            type="checkbox" (change)="IsCalculation(customer)"
+                                            [(ngModel)]="customer.isCheck" name="isCheck" id="customer.id" /></span>
+                                    <span class="table-active" *ngIf="customer.payment_status === 'UNPAID'"><input
+                                            type="checkbox" (change)="IsCalculation(customer)"
+                                            [(ngModel)]="customer.isCheck" name="isCheck" id="customer.id" /></span>
+                                </td>
+                                <td>
+                                    <span *ngIf="customer.payment_status === 'UNPAID'"><a
+                                            style="color: red;">{{customer.payment_status}}</a></span>
+                                    <span *ngIf="customer.payment_status === 'PAID'" style="color: green;"><a>
+                                            {{customer.payment_status}}</a></span>
+                                    <span *ngIf="customer.payment_status === 'INITIATED'"><a style="color: orange;">
+                                            {{customer.payment_status}}</a></span>
+                                </td>
+                                <td>
+                                    {{customer.order.id}}
+                                </td>
+                                <td>
+                                    {{customer.created_date | date}}
+                                </td>
+                                <td>
+                                    AED {{customer.order_amount | number: '.0-2'}}
+                                </td>
+                                <td>
+                                    AED {{customer.order.commission}}
+                                </td>
+                                <td>
+                                    AED {{customer.order.tax_amount | number: '.0-2'}}
+                                </td>
+                                <td>
+                                    AED {{customer.order.delivery_charge | number: '.0-2'}}
+                                </td>
+                                <td>
+                                    AED <input type="text" (keyup)="onChangeValue($event, customer)"
+                                        value="{{customer.payable_amount | number: '.0-2'}}" 
+                                        style="width: 50px;">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!-- <pagination-controls (pageChange)="onPageChange($event)"></pagination-controls> -->
+                    <div class="row" style="width: 100%">
+                        <div class="col-md-10">
+                            <pagination-controls (pageChange)="onPageChange($event, '1')"></pagination-controls>
+                        </div>
+                        <div class="col-md-2" style="margin-top: 30px;">
+                            <select id="PerPage" class="form-control" (change)="onPageChange($event, '2')"
+                            style="width: 70px;">
+                                <option *ngFor="let item of PageTotalNumber" [value]="item">
+                                    {{ item }}
+                                </option>
+                                <!-- <option value="10">10</option>
+                                <option value="20">20</option>
+                                <option value="30">30</option>
+                                <option value="40">40</option>
+                                <option value="50">50</option>
+                                <option value="60">60</option>
+                                <option value="70">70</option>
+                                <option value="80">80</option>
+                                <option value="90">90</option>
+                                <option value="100">100</option> -->
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-body">
+                <h5>Total Amount : AED {{TotalSum | number: '.0-2'}}</h5>
+                <div *ngIf="IsUserName !== 'bowlhouse_helpdesk'">
+                    <hr *ngIf="TotalSum > 0">
+                    <button type="submit" (click)="onCreate()" class="btn btn-secondary btn-sm"
+                    *ngIf="TotalSum > 0">Make Payment </button>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5>Outstanding Amount : AED {{OutStandingAmount | number: '.0-2'}}</h5>
+            </div>
+        </div>
+    </div>
+
+</div>

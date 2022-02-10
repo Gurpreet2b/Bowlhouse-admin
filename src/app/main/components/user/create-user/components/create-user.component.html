@@ -1,0 +1,86 @@
+<form action="" [formGroup]="form">
+    <div class="">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="">User Name <span class="required">*</span></label>
+                    <input type="text" formControlName="username" class="form-control"
+                        placeholder="Enter User Name">
+                    <div *ngIf="form.controls['username'].invalid && (form.controls['username'].dirty || form.controls['username'].touched)"
+                        class="alert1">
+                        <div *ngIf="form.controls['username'].errors.required">
+                            Please Enter User Name.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="">Email <span class="required">*</span></label>
+                    <input type="text" formControlName="email" class="form-control" placeholder="Enter Email"
+                        ngbAutofocus>
+                    <div *ngIf="form.controls['email'].invalid && (form.controls['email'].dirty || form.controls['email'].touched)"
+                        class="alert1">
+                        <div *ngIf="form.controls['email'].errors.required">
+                            Please Enter Email.
+                        </div>
+                        <div *ngIf="form.controls.email.errors.email">Email must be a valid email address</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="">Password <span class="required">*</span></label>
+                    <input type="text" formControlName="password" class="form-control" placeholder="Enter Password"
+                        ngbAutofocus>
+                    <div *ngIf="form.controls['password'].invalid && (form.controls['password'].dirty || form.controls['password'].touched)"
+                        class="alert1">
+                        <div *ngIf="form.controls['password'].errors.required">
+                            Please Enter Password.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="">Confirm Password <span class="required">*</span></label>
+                    <input type="text" formControlName="confirm_password" class="form-control" placeholder="Enter Confirm Password"
+                        ngbAutofocus>
+                    <div *ngIf="form.controls['confirm_password'].invalid && (form.controls['confirm_password'].dirty || form.controls['confirm_password'].touched)"
+                        class="alert1">
+                        <div *ngIf="form.controls['confirm_password'].errors.required">
+                            Please Enter Confirm Password.
+                        </div>
+                        <div *ngIf="form.controls['confirm_password'].errors.confirmedValidator">Password and Confirm Password must be match.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for=""> Group <span class="required">*</span></label>
+                    <select class="form-control" formControlName="group_id">
+                        <option value="" selected>Select Group</option>
+                        <option *ngFor="let item of GroupList" [value]="item.id">
+                             {{ item.name }}
+                        </option>
+                    </select>
+                    <div *ngIf="form.controls['group_id'].invalid && (form.controls['group_id'].dirty || form.controls['group_id'].touched)"
+                    class="alert1">
+                        <div *ngIf="form.controls['group_id'].errors.required">
+                            Please Enter Group.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark btn-sm" (click)="onDismiss()">Close</button>
+        <button class="btn btn-secondary btn-sm" (click)="onSubmit()">Create</button>
+        <!-- <img src="../../../../../../assets/images/loader.gif" *ngIf="loading"> -->
+    </div>
+</form>

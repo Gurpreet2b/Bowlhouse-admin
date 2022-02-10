@@ -1,0 +1,16 @@
+.form-control {
+    color: #495057;
+}
+
+.modal .modal-dialog .modal-content .modal-body {
+    padding: 12px 26px;
+}
+
+.modal .modal-dialog .modal-content .modal-header {
+    padding: 6px 26px;
+}
+
+.modal-header .close {
+    padding: 2rem 1rem;
+    margin: -25px -26px -25px auto;
+}

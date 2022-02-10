@@ -1,0 +1,365 @@
+<div class="card style pt-2">
+    <div class="col-md-12 grid-margin">
+        <div class="d-flex justify-content-between flex-wrap">
+            <div class="d-flex align-items-end flex-wrap">
+                <div class="mr-md-3 mr-xl-5">
+                    <h3>{{detail.name}}'s Transactions</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-md-12">
+    <div class="d-flex justify-content-between flex-wrap">
+        <div class="d-flex align-items-end flex-wrap">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb no-pad">
+                    <li class="breadcrumb-item"><a [routerLink]="['/customers', 'profile', detail.id]"
+                            href="javascript:void(0)">Profile</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Transactions</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="d-flex align-items-end flex-wrap">
+            <!-- <ejs-daterangepicker id='daterangepicker' placeholder='Select a date range' [startDate]='start'
+                [endDate]='end' (change)="IsRangeDate($event)">
+            </ejs-daterangepicker> -->
+        </div>
+    </div>
+</div>
+<div class="row" style="margin: 10px 0 0; padding-top: 0px;">
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" role="tablist" style="border-bottom: none;">
+        <li class="nav-item active">
+            <a class="nav-link active" data-toggle="tab" href="#home4" role="tab">All
+
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#refund" role="tab">Refunds
+            </a>
+        </li>
+        <!-- <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#doc" role="tab">Others
+            </a>
+        </li> -->
+
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content" style="border-top: 2px solid #ececec; width: 100%;">
+        <div class="tab-pane active" id="home4" role="tabpanel">
+            <div *ngIf="loading" class="dot-opacity-loader">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div class="row">
+                <div class="col-md-8">
+                    <div *ngFor="let order of transaction | paginate: { itemsPerPage: 10, currentPage: currentPage, totalItems: totalItems }"
+                        class="card mb-2 col-md-12">
+                        <div class="card-body">
+                            <div class="card-card">
+                                <div class="card-custom">
+                                    <div class="card-imgage">
+                                        <img class="card-img" src="../../../../../../assets/images/face5.jpg"
+                                            alt="Picture">
+                                    </div>&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <div style="text-align:left;" class="card-description">
+                                        <h5>{{order.order.customer_id.name}} Paid to {{order.order.restaurant.name}}
+                                        </h5>
+                                        <h5><span *ngIf="order.payment_on_delivery === false">Credit/Debit
+                                                Card</span>
+                                            <span class="table-active"
+                                                *ngIf="order.payment_on_delivery === true">COD</span>
+                                        </h5>
+                                        <h5>{{order.order.created_date | date}}
+                                        </h5>
+                                    </div>
+                                    <div style="text-align:end;" class="card-description">
+
+                                        <h5>
+                                            <span *ngIf="order.status.name === 'SUCCESS'"><a
+                                                    style="color: green;">Success</a></span>
+                                            <span *ngIf="order.status.name === 'PENDING'"><a
+                                                    style="color:orange;">Pending</a></span>
+                                            <span *ngIf="order.status.name === 'CANCELLED'"><a
+                                                    style="color: red;">Cancelled</a></span>
+                                            <span *ngIf="order.status.name === 'DECLINED'"><a
+                                                    style="color: brown;">Declined</a></span>
+                                            <span *ngIf="order.status.name === 'PAID_ON_DELIVERY'"><a
+                                                style="color: brown;">PAID ON DELIVERY</a></span>
+                                            <span *ngIf="order.status.name === 'REFUND'"><a
+                                                style="color: orange;">Refund</a></span>
+
+                                        </h5>
+                                        <h5>
+                                            <span *ngIf="order.status.name === 'SUCCESS'"><a style="color: red;">- AED
+                                                    {{order.amount}}</a></span>
+                                            <span *ngIf="order.status.name === 'PENDING'"><a>AED
+                                                    {{order.amount}}</a></span>
+                                            <span *ngIf="order.status.name === 'CANCELLED'"><a style="color: brown;">AED
+                                                    {{order.amount}}</a></span>
+                                            <span *ngIf="order.status.name === 'DECLINED'"><a style="color: brown;">AED
+                                                    {{order.amount}}</a></span>
+                                            <span *ngIf="order.status.name === 'PAID_ON_DELIVERY'"><a style="color: red;">AED
+                                                {{order.amount}}</a></span>
+                                            <span *ngIf="order.status.name === 'REFUND'"><a>AED
+                                                {{order.amount}}</a></span>
+                                                    
+
+                                        </h5>
+                                        <p><i (click)="collapse.toggle()" [attr.aria-expanded]="!isCollapsed"
+                                                aria-controls="collapseExample" class="mdi mdi-chevron-down">
+
+                                            </i>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed">
+                            <div class="card-description" style="border: white;">
+                                <div class="card-body">
+                                    <h5>Paid Using:&nbsp;&nbsp;<span
+                                            *ngIf="order.payment_on_delivery === false">Credit/Debit
+                                            Card</span>
+                                        <span class="table-active" *ngIf="order.payment_on_delivery === true">Cash On
+                                            Delivery</span>
+
+                                    </h5>
+                                    <h5> <button type="button" class="btn btn-outline-secondary btn-sm"
+                                            [routerLink]="['/customers', 'detail' ,order.order.id]">Order
+                                            Id:&nbsp;&nbsp; {{order.order.id}}</button></h5>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-4">
+                    <div class="card mb-2 col-md-12" style="margin-left: 10px;">
+                        <div class="card-body">
+                            <div class="ml-2 card-card">
+                                Filter Transactions
+                                <hr>
+                                <div class="form-check">
+                                    <ejs-daterangepicker id='daterangepicker' placeholder='Filter by date range'
+                                        [startDate]='start' [endDate]='end' (change)="IsRangeDate($event)">
+                                    </ejs-daterangepicker>
+                                </div>
+                                <!-- <label><b>Status</b></label> -->
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                        id="flexRadioDefault1" (click)="IsSatatusChange('PENDING')">
+                                    <label class="form-check-label" for="flexRadioDefault1">
+                                        Pending
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                        id="flexRadioDefault2" (click)="IsSatatusChange('SUCCESS')">
+                                    <label class="form-check-label" for="flexRadioDefault2">
+                                        Success
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                        id="flexRadioDefault2" (click)="IsSatatusChange('CANCELLED')">
+                                    <label class="form-check-label" for="flexRadioDefault2">
+                                        Cancelled
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                        id="flexRadioDefault2" (click)="IsSatatusChange('DECLINED')">
+                                    <label class="form-check-label" for="flexRadioDefault2">
+                                        Declined
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                        id="flexRadioDefault2" (click)="IsSatatusChange('PAID_ON_DELIVERY')">
+                                    <label class="form-check-label" for="flexRadioDefault2">
+                                        PAID ON DELIVERY
+                                    </label>
+                                </div>
+                                <div class="mb-2 col-md-12"> </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <pagination-controls (pageChange)="onPageChange($event)"></pagination-controls>
+        </div>
+        <div class="tab-pane" id="refund" role="tabpanel">
+            <div class="row">
+                <div class="col-md-8">
+                    <div *ngFor="let refund of refunds | paginate: { itemsPerPage: 10, currentPage: currentPage, totalItems: totalItems }"
+                        class="card mb-2 col-md-12">
+                        <div class="card-body">
+                            <div class="card-custom">
+                                <div class="card-imgage">
+                                    <img class="card-img" src="../../../../../../assets/images/ic_launcher.png"
+                                        alt="Picture">
+                                </div>&nbsp;&nbsp;&nbsp;&nbsp;
+                                <div style="text-align:left;" class="card-description">
+                                    <h5>Refund from {{refund.order.restaurant.name}}</h5>
+                                    <h5><span *ngIf="details.payment_on_delivery === false">Credit/Debit
+                                            Card</span>
+                                        <span class="table-active"
+                                            *ngIf="details.payment_on_delivery === true">COD</span>
+                                    </h5>
+                                    <h5>{{refund.order.created_date | date}}
+                                    </h5>
+                                </div>
+
+                                <div style="text-align:end;" class="card-description">
+
+                                    <h5>
+                                        <span *ngIf="refund.status === 'SUCCESS'"><a style="color: green;">Refund
+                                                Success</a></span>
+                                        <span *ngIf="refund.status === 'PENDING'"><a style="color:orange;">Refund
+                                                Pending</a></span>
+                                        <span *ngIf="refund.status === 'CANCELLED'"><a style="color: red;">Refund
+                                                Cancelled</a></span>
+                                        <span *ngIf="refund.status === 'DECLINED'"><a style="color: brown;">Refund
+                                                Declined</a></span>
+
+                                    </h5>
+                                    <h5><span *ngIf="refund.status === 'SUCCESS'"><a style="color: red;"> - AED
+                                                {{refund.refundable_amount}}</a></span>
+                                        <span *ngIf="refund.status === 'PENDING'"><a> AED
+                                                {{refund.refundable_amount}}</a></span>
+                                        <span *ngIf="refund.status === 'CANCELLED'"><a style="color: brown;"> AED
+                                                {{refund.refundable_amount}}</a></span>
+                                        <span *ngIf="refund.status === 'DECLINED'"><a style="color: brown;"> AED
+                                                {{refund.refundable_amount}}</a></span>
+                                    </h5>
+                                    <p><i (click)="collapse.toggle()" [attr.aria-expanded]="!isCollapsed"
+                                            aria-controls="collapseExample" class="mdi mdi-chevron-down">
+
+                                        </i>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed">
+                            <div class="card-description" style="border: white;">
+                                <div class="card-body">
+                                    <h5>Paid Using:&nbsp;&nbsp;<span
+                                            *ngIf="refund.order.payment_detail.payment_on_delivery === false">Credit/Debit
+                                            Card</span>
+                                        <span class="table-active"
+                                            *ngIf="refund.order.payment_detail.payment_on_delivery === true">Cash On
+                                            Delivery</span>
+
+                                    </h5>
+                                    <h5> <button type="button" class="btn btn-outline-secondary btn-sm"
+                                            [routerLink]="['/transactions', 'detailtransaction' ,refund.order.id]">Order
+                                            Id:&nbsp;&nbsp; {{refund.order.id}}</button></h5>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card mb-2 col-md-12" style="margin-left: 10px;">
+                        <div class="card-body">
+                            <div class="ml-2 card-card">
+                                Filter Transactions
+                                <hr>
+                                <div class="form-check">
+                                    <ejs-daterangepicker id='daterangepicker' placeholder='Filter by date range'
+                                        [startDate]='start' [endDate]='end' (change)="IsRange($event)">
+                                    </ejs-daterangepicker>
+                                </div>
+                                <!-- <br> -->
+                                <!-- <label>By Status</label> -->
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                        id="flexRadioDefault1" (click)="IsRefund('PENDING')">
+                                    <label class="form-check-label" for="flexRadioDefault1">
+                                        Pending
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                        id="flexRadioDefault2" (click)="IsRefund('SUCCESS')">
+                                    <label class="form-check-label" for="flexRadioDefault2">
+                                        Success
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                        id="flexRadioDefault2" (click)="IsRefund('INITIATED')">
+                                    <label class="form-check-label" for="flexRadioDefault2">
+                                        Initiated
+                                    </label>
+                                </div>
+                                <div class="mb-2 col-md-12"> </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <pagination-controls (pageChange)="onPage($event)"></pagination-controls>
+        </div>
+        <!-- <div class="tab-pane" id="doc" role="tabpanel">
+            <div class="row">
+                <div class="card mb-2 col-md-12">
+                    <div class="card-body">
+                        <div class="table-responsive pt-1">
+                            <table class="table table-hover">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th>
+                                            #
+                                        </th>
+                                        <th>
+                                            Name
+                                        </th>
+                                        <th>
+                                            Address
+                                        </th>
+                                        <th>
+                                            Items
+                                        </th>
+                                        <th>
+                                            Amount
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr
+                                        *ngFor="let order of transaction | paginate: { itemsPerPage: 10, currentPage: currentPage, totalItems: totalItems }; let i=index">
+                                        <td>
+                                            {{i+1}}
+                                        </td>
+                                        <td>
+                                            {{order.customer_id.name}}
+                                        </td>
+                                        <td>
+                                            {{order.address}}
+                                        </td>
+                                        <td>
+                                            {{order.no_of_items}}
+                                        </td>
+                                        <td>
+                                            AED {{order.total_amount}}
+                                        </td>
+                                    </tr>
+                                    <tr *ngIf="transaction.length === 0">No record found!</tr>
+                                </tbody>
+                            </table>
+                            <pagination-controls (pageChange)="onPageChange($event)"></pagination-controls>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+    </div>
+</div>

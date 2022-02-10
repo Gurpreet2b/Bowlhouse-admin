@@ -1,0 +1,182 @@
+<!-- <div class="card style pt-2">
+    <div class="col-md-12">
+        <div class="d-flex justify-content-between flex-wrap">
+            <div class="d-flex align-items-end flex-wrap">
+                <div class="mr-md-3 mr-xl-5">
+                    <h3>Add Menu Item - #{{this.restaurant_id}}</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->
+<nav aria-label="breadcrumb">
+    <ol class="ml-2 breadcrumb no-pad">
+        <li class="breadcrumb-item"><a [routerLink]="['../']" href="javascript:void(0)">Menu</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Add Menu Item</li>
+    </ol>
+</nav>
+
+<div class="card mb-2">
+    <div class="ml-2  card-body">
+        <form [formGroup]="form" (submit)="onSubmit()">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="">Item Name <span class="required">*</span></label>
+                        <input placeholder="Enter item name" type="text" class="form-control" formControlName="name"
+                            required>
+                        <div *ngIf="form.controls['name'].invalid && (form.controls['name'].dirty || form.controls['name'].touched)"
+                            class="alert1">
+                            <div *ngIf="form.controls['name'].errors.required">
+                                Please enter item name.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="">Food Picture </label>
+                        <div>
+                            <input type="file" id="picture" accept="image/*" formControlName="picture"
+                                (change)="onSelectFile($event)">
+                            <!-- <div *ngIf="form.controls['picture'].invalid && (form.controls['picture'].dirty || form.controls['picture'].touched)"
+                                class="alert1">
+                                <div *ngIf="form.controls['picture'].errors.required">
+                                    Please upload picture.
+                                </div>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="">Category <span class="required">*</span></label>
+                        <select formControlName="category" class="form-control" name="" required>
+                            <option value="">Select Category</option>
+                            <option *ngFor="let item of category" [value]="item.id">
+                                {{ item.name }}
+                            </option>
+                        </select>
+                        <div *ngIf="form.controls['category'].invalid && (form.controls['category'].dirty || form.controls['category'].touched)"
+                            class="alert1">
+                            <div *ngIf="form.controls['category'].errors.required">
+                                Please choose category.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="">Cuisine <span class="required">*</span></label>
+                        <select formControlName="cuisine" class="form-control" name="" required>
+                            <option value="">Select Cuisine</option>
+                            <option *ngFor="let item of cuisine" [value]="item.id">
+                                {{ item.name }}
+                            </option>
+                        </select>
+                        <div *ngIf="form.controls['cuisine'].invalid && (form.controls['cuisine'].dirty || form.controls['cuisine'].touched)"
+                            class="alert1">
+                            <div *ngIf="form.controls['cuisine'].errors.required">
+                                Please choose cuisine.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="">Food Preference <span class="required">*</span></label><br>
+                        <select placeholder="Preference" formControlName="isVeg" class="form-control" name="" required>
+                            <option value="">Select food Preference</option>
+                            <option value="true">Veg</option>
+                            <option value="false">Non Veg</option>
+                        </select>
+                        <div *ngIf="form.controls['isVeg'].invalid && (form.controls['isVeg'].dirty || form.controls['isVeg'].touched)"
+                            class="alert1">
+                            <div *ngIf="form.controls['isVeg'].errors.required">
+                                Please choose food Preference.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="">Status <span class="required">*</span></label>
+                        <section class="checkbox-section" name="" required>
+                            <label class="checkbox-inline">
+                                <input class="check" type="checkbox" [(ngModel)]="isActive"
+                                    [ngModelOptions]="{standalone: true}" /> Is
+                                Active</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <label class="checkbox-inline">
+                                <input class="check" type="checkbox" [(ngModel)]="isAvailable"
+                                    [ngModelOptions]="{standalone: true}" /> Is Available</label>
+                        </section>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="">Price <span class="required">*</span></label>
+                        <input placeholder="Enter price" type="number" class="form-control" formControlName="price"
+                            required>
+                        <div *ngIf="form.controls['price'].invalid && (form.controls['price'].dirty || form.controls['price'].touched)"
+                            class="alert1">
+                            <div *ngIf="form.controls['price'].errors.required">
+                                Please enter price.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="">Discount</label>
+                        <input placeholder="Enter discount" type="number" class="form-control"
+                            formControlName="discount" min="0" onkeyup="if(this.value<0){this.value= this.value * -1}">
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="">Preparation time <span class="required">*</span></label>
+                        <input placeholder="Enter preparation time" type="number" class="form-control"
+                            formControlName="preparation_time" min="0" onkeyup="if(this.value<0){this.value= this.value * -1}">
+                        <div *ngIf="form.controls['preparation_time'].invalid && (form.controls['preparation_time'].dirty || form.controls['preparation_time'].touched)"
+                            class="alert1">
+                            <div *ngIf="form.controls['preparation_time'].errors.required">
+                                Please enter preparation time.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="">Description <span class="required">*</span></label>
+                        <textarea placeholder="Enter discription" name="" cols="10" rows="1" class="form-control"
+                            formControlName="discription"></textarea>
+                        <div *ngIf="form.controls['discription'].invalid && (form.controls['discription'].dirty || form.controls['discription'].touched)"
+                            class="alert1">
+                            <div *ngIf="form.controls['discription'].errors.required">
+                                Please enter discription.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group text-right">
+                        <button type="submit" class="btn btn-secondary btn-sm">Save</button>
+                        <img src="../../../../../../assets/images/loader.gif" *ngIf="loading">
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

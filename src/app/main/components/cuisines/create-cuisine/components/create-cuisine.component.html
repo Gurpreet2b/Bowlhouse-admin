@@ -1,0 +1,45 @@
+<form action="" [formGroup]="form">
+    <div class="modal-header">
+        <h4 class="modal-title">Create Cuisine</h4>
+        <button type="button" class="close" aria-label="Close" (click)="onDismiss()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="">Cuisine <span class="required">*</span></label>
+                    <input type="text" formControlName="name" class="form-control" placeholder="Enter cuisine name"
+                        ngbAutofocus>
+                    <div *ngIf="form.controls['name'].invalid && (form.controls['name'].dirty || form.controls['name'].touched)"
+                        class="alert1">
+                        <div *ngIf="form.controls['name'].errors.required">
+                            Please enter cuisine name.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="">Cuisine Pic<span class="required">*</span></label>
+                    <div>
+                        <input type="file" id="picture" accept="image/*" formControlName="picture"
+                            (change)="onSelectFile($event)" required>
+                        <div *ngIf="form.controls['picture'].invalid && (form.controls['picture'].dirty || form.controls['picture'].touched)"
+                            class="alert1">
+                            <div *ngIf="form.controls['picture'].errors.required">
+                                Please upload cuisine picture.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark btn-sm" (click)="onDismiss()">Close</button>
+        <button class="btn btn-secondary btn-sm" (click)="onSubmit()">Create</button>
+        <img src="../../../../../../assets/images/loader.gif" *ngIf="loading">
+    </div>
+</form>

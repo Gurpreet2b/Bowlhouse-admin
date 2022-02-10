@@ -1,0 +1,107 @@
+<form action="" [formGroup]="form">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="">Subject</label>
+                <input type="text" [(ngModel)]="Subject" [ngModelOptions]="{standalone: true}" class="form-control disable"
+                    placeholder="Enter Subject name">
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="">Order Id</label>
+                <input type="text" [(ngModel)]="OrderId" [ngModelOptions]="{standalone: true}" class="form-control disable" placeholder="Enter Order Id">
+
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="">Customer Id</label>
+                <input type="text" [(ngModel)]="CustomerId" [ngModelOptions]="{standalone: true}" class="form-control disable" placeholder="Enter Order Id">
+
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="">Description</label>
+                <input class="form-control disable" type="text" [(ngModel)]="Description"
+                   [ngModelOptions]="{standalone: true}" placeholder="Enter Description">
+            </div>
+        </div>
+    </div>
+    
+</form>
+<!-- <button class="btn btn-secondary btn-sm mt-xl-0" style="padding: 10px;" data-toggle="modal"
+data-target="#CreateCommentModal">Add Comment</button> -->
+
+<div class="table-responsive">
+    <div *ngIf="loading" class="dot-opacity-loader">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+    <img [src]="Attachment" alt="profile" style="height: 70px; width: 70px;">
+    <div style="width: 92%; float: right;">
+        <table class="table border-table" >
+            <thead class="thead-lightNew">
+                <tr>
+                    <th>
+                        <!-- <span>{{CommentList?.username}} </span> -->
+                        <span class="comment-head"> Order Date {{CommentList?.created_date | date}}</span>
+                    </th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="line-height: 20px;">
+                        {{CommentList?.chat}} 
+                    </td>
+                    
+                    <!-- <td>
+                        {{10 * (currentPage-1) + i+1}}
+                    </td>
+
+                    <td style="white-space: nowrap;">
+                        {{comment.created_date | date}}
+                    </td> -->
+                    <!-- <td>
+                        <div class="scroll-comment" *ngIf="comment.comment.length > 500">
+                            {{comment.comment}} 
+                        </div>
+                        <div *ngIf="comment.comment.length < 499">
+                            {{comment.comment}} 
+                        </div>
+                    </td> -->
+                </tr>
+
+            </tbody>
+        </table>
+        <!-- <div class="table-bottom-line"></div> -->
+    </div>
+    <!-- <div class="row mr-3">
+        <div class="col-md-10">
+            <div class="form-group">
+                <textarea class="form-control" rows="1" placeholder="Enter Comment" 
+                 [(ngModel)]="Comment" [ngModelOptions]="{standalone: true}"></textarea>
+            </div>
+        </div>
+            <button class="btn btn-secondary btn-sm" style="height:32px; margin-top: 5px;" (click)="OnComment()">Add Comment</button>
+    </div> -->
+</div>
+    
+
+<!-- <tr>
+    <td colspan="4">
+        <div class="row mt-3">
+            <div class="col-md-10">
+                <div class="form-group">
+                    <textarea class="form-control" rows="1" placeholder="Enter Comment" 
+                     [(ngModel)]="Comment" [ngModelOptions]="{standalone: true}"></textarea>
+                </div>
+            </div>
+                <button class="btn btn-secondary btn-sm" style="height:32px; margin-top: 5px;" (click)="OnComment()">Add Comment</button>
+        </div>
+    </td>
+</tr> -->

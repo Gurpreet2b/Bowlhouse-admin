@@ -1,0 +1,223 @@
+<div class="card style">
+    <div class="col-md-12 grid-margin">
+        <div class="d-flex justify-content-between flex-wrap">
+            <div class="d-flex align-items-end flex-wrap">
+                <div class="mr-md-3 mr-xl-5">
+                    <!-- <h3>Menu Items - {{RestaurantName}}</h3> -->
+                    <!-- <h2 *ngIf="menuItems">Test  {{menuItems.restaurant.name}}</h3> -->
+                </div>
+            </div>
+            <!-- <div class="d-flex justify-content-between align-items-end flex-wrap">
+                <button class="btn btn-secondary btn-sm mt-xl-0" [routerLink]="['create']">Add Menu Item</button>
+            </div> -->
+        </div>
+    </div>
+</div>
+<div class="row style">
+    <div class="col-md-10 grid-margin">
+        <div class="d-flex justify-content-between flex-wrap">
+            <div class="d-flex justify-content-between align-items-end flex-wrap">
+                <button class="btn btn-secondary btn-sm ml-2 mt-xl-0 view-img" [routerLink]="['/restaurants', 'restdetail' ,restaurant_id]">
+                    Information</button>
+                <button class="btn btn-sm btn-secondary ml-2 mt-xl-0 view-img" [routerLink]="['/restaurants', 'menu' ,restaurant_id]">
+                    Menu Item
+                </button>
+                <button class="btn btn-secondary btn-sm ml-2 mt-xl-0 view-img" [routerLink]="['/restaurants', 'history' ,restaurant_id]">
+                    Order History
+                </button>
+                <button class="btn btn-sm btn-secondary ml-2 mt-xl-0 view-img" [routerLink]="['/restaurants', 'historytransaction' ,restaurant_id]">
+                    Order Transactions
+                </button>
+                <button class="btn btn-secondary btn-sm ml-2 mt-xl-0 view-img" [routerLink]="['/transactions', 'paymentdetail' ,restaurant_id]">
+                    Issue Payment
+                </button>
+                <!-- <button class="btn btn-sm btn-secondary ml-2 mt-2 mt-xl-0 view-img" [routerLink]="['/restaurants', 'bankdetail' ,restaurant_id]">
+                    Bank Detail
+                </button> -->
+                <button class="btn btn-sm btn-secondary ml-2 mt-2 mt-xl-0 view-img" [routerLink]="['/restaurants', 'boughtServices' ,restaurant_id]">
+                    Bought Services
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2 grid-margin text-right" style="margin-left: -9px;">
+        <button class="btn btn-secondary btn-sm mt-xl-0 p-3" [routerLink]="['create']">Add Menu Item</button>
+    </div>
+</div>
+
+<!-- <div class="row">
+    <div class="col-md-9">
+        <div class="d-flex justify-content-between flex-wrap">
+            <div class="d-flex align-items-end flex-wrap">
+                <nav aria-label="breadcrumb">
+                    <ol class="ml-2 breadcrumb no-pad">
+                        <li class="breadcrumb-item"><a [routerLink]="['/restaurants/restdetail/', this.restaurant_id]"
+                                href="javascript:void(0)">Restaurant</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Menus</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="d-flex justify-content-between flex-wrap">
+            <div class="d-flex justify-content-between align-items-end flex-wrap">
+                <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
+                    <div class="input-group ml-4 mt-2 mb-1">
+                        <div class="form-outline">
+                            <input id="search-input" formControlName="search" placeholder="Search here"
+                                type="search" id="form" class="form-control" />
+                        </div>
+                        <button type="submit" class="btn-secondary">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+<div class="row m-1">
+    <div class="col-md-1 mt-1">
+        <a [routerLink]="['/restaurants/restdetail/', this.restaurant_id]">Restaurants</a>
+    </div>
+    <div class="col-md-8 mt-1">
+        / Menus
+    </div>
+    <div class="col-md-3">
+        <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
+            <div class="input-group" style="margin-left: 30px">
+                <div class="form-outline">
+                    <input id="search-input" formControlName="search" placeholder="Search here"
+                        type="search" id="form" class="form-control" />
+                </div>
+                <button type="submit" class="btn-secondary">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <div *ngIf="loading" class="dot-opacity-loader">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <table class="table table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>
+                            Picture
+                        </th>
+                        <th>
+                            Food Name
+                        </th>
+                        <th>
+                            Cuisine
+                        </th>
+                        <th>
+                            Category
+                        </th>
+                        <th>
+                            Price
+                        </th>
+                        <th>
+                            Description
+                        </th>
+                        <th>
+                            Discount
+                        </th>
+                        <th>
+                            Time
+                        </th>
+                        <th>
+                            Action
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+
+
+                    <tr
+                        *ngFor="let menuItem of menuItems | paginate: { itemsPerPage: 10, currentPage: currentPage, totalItems: totalItems }">
+                        <td style="padding: 4px 10px">
+                            <img *ngIf="menuItem.picture" [src]="menuItem.picture" alt="profile" style="height: 35px; width: 35px;">
+                            <span *ngIf="!menuItem.picture" style="color: red;">No Image</span>
+                        </td>
+                        <td>
+                            <!-- <img [src]="menuItem.picture" alt="profile" style="height: 35px; width: 35px;"> -->
+                            {{menuItem.name}}
+                        </td>
+                        <td>
+                            {{menuItem.cuisine.name}}
+                        </td>
+                        <td>
+                            {{menuItem.category.name}}
+                        </td>
+                        <td>
+                            AED {{menuItem.price}}
+                        </td>
+                        <td>
+                            {{menuItem.discription}}
+                        </td>
+                        <td>
+                            {{menuItem.discount}} %
+                        </td>
+                        <td>
+                            {{menuItem.preparation_time}} Min.
+                        </td>
+                        <td>
+                            <div class="template-demo d-flex justify-content-between flex-nowrap">
+                                <button type="button" placement="top" ngbTooltip="Edit"
+                                    class="btn-secondary   btn-icon" [routerLink]="[menuItem.id, 'edit']">
+                                    <i class="mdi mdi-lead-pencil"></i>
+                                    <!-- <i class="fas fa-edit"></i> -->
+                                </button>
+                                <button type="button" placement="top" ngbTooltip="Delete"
+                                    class="btn-danger  btn-icon" (click)="delete(menuItem.id)">
+                                    <i class="far fa-trash-alt"></i>
+                                </button>
+
+                                <!-- <a placement="top" ngbTooltip="Edit" [routerLink]="[menuItem.id, 'edit']">
+                                    <i class="mdi mdi-lead-pencil"></i>
+                                </a>
+                                <a placement="top" ngbTooltip="Delete" (click)="delete(menuItem.id)">
+                                    <i class="mdi mdi-delete"></i>
+                                </a> -->
+                            </div>
+                        </td>
+                    </tr>
+                    <tr *ngIf="menuItems.length === 0">No record found!</tr>
+                </tbody>
+            </table>
+            <!-- <pagination-controls (pageChange)="onPageChange($event)"></pagination-controls> -->
+            <div class="row" style="width: 100%">
+                <div class="col-md-11">
+                    <pagination-controls (pageChange)="onPageChange($event, '1')"></pagination-controls>
+                </div>
+                <div class="col-md-1" style="margin-top: 30px;">
+                    <select id="PerPage" class="form-control" (change)="onPageChange($event, '2')">
+                        <option *ngFor="let itemMenu of PageTotalNumberMenu" [value]="itemMenu">
+                            {{ itemMenu }}
+                        </option>
+                        <!-- <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="30">30</option>
+                        <option value="40">40</option>
+                        <option value="50">50</option>
+                        <option value="60">60</option>
+                        <option value="70">70</option>
+                        <option value="80">80</option>
+                        <option value="90">90</option>
+                        <option value="100">100</option> -->
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

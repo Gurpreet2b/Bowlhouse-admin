@@ -1,0 +1,89 @@
+<div class="card style pt-2">
+    <div class="col-md-12 grid-margin">
+        <div class="d-flex justify-content-between flex-wrap">
+            <div class="d-flex align-items-end flex-wrap">
+                <div class="mr-md-3 mr-xl-5">
+                    <h3>Restaurant Offer Request</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <div *ngIf="loading" class="dot-opacity-loader">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <table class="table table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>
+                            #
+                        </th>
+                        <th>
+                            Type
+                        </th>
+                        <th>
+                            Value
+                        </th>
+                        <th>
+                            Order Min Value
+                        </th>
+                        <th>
+                            Value Limit
+                        </th>
+                        <th>
+                            Comment
+                        </th>
+                        <th>
+                            Created Date
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr
+                        *ngFor="let coupon of CouponRequest | paginate: { itemsPerPage: 10, currentPage: currentPage, totalItems: totalItems }; let i=index">
+                        <td>
+                            {{ 10 * (currentPage-1) + i+1 }}
+                        </td>
+                        <td>
+                            {{coupon.type}}
+                        </td>
+                        <td>
+                            {{coupon.value}}
+                        </td>
+                        <td>
+                            <span *ngIf="coupon.order_min_value">
+                                {{coupon.order_min_value}}
+                            </span>
+                            <span *ngIf="!coupon.order_min_value" style="color: red;">
+                                Not Provided
+                            </span>
+                        </td>
+                        <td>
+                            {{coupon.value_limit}}
+                        </td>
+                        <td>
+                            <span *ngIf="coupon.comment">
+                                {{coupon.comment}}
+                            </span>
+                            <span *ngIf="!coupon.comment" style="color: red;">
+                                Not Provided
+                            </span>
+                        </td>
+                        <td>
+                            {{coupon.created_date | date}}
+                        </td>
+                    </tr>
+                    <tr *ngIf="CouponRequest.length === 0">
+                        No Record Found!
+                    </tr>
+                </tbody>
+            </table>
+            <pagination-controls (pageChange)="onPageChange($event)"></pagination-controls>
+        </div>
+    </div>
+</div>

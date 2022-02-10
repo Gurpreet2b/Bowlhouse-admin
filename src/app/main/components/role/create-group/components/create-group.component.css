@@ -1,0 +1,15 @@
+.form-control {
+    color: #495057;
+}
+.top-trand {
+    background: #f5f7f7;
+    color: black;
+    border: #f5f7f7;
+  }
+  
+.top-scroll {
+  height: 140px;
+  position: relative;
+  overflow: auto;
+  display: block;
+}

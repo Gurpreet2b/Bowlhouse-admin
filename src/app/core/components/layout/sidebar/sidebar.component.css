@@ -1,0 +1,24 @@
+/* .sdr{
+    background: rgb(201,201,201);
+    background: radial-gradient(circle, rgba(201,201,201,1) 0%, rgba(85,85,85,1) 100%);
+} */
+
+/* .sdr{
+    background: rgb(48,48,48);
+background: linear-gradient(90deg, rgba(48,48,48,1) 0%, rgba(101,101,101,1) 50%, rgba(41,41,41,1) 100%);
+} */
+
+/* .sdr{
+    background-image: linear-gradient(to right, #120e11, #181519, #1d1a20, #222028, #252630, #232730, #202730, #1e2830, #192227, #151c1f, #111617, #0c0f0f);
+} */
+
+
+/* .sdr{
+    background-image: linear-gradient(to bottom, #0c2a1d, #153633, #284145, #3f4c54, #54585e);
+} */
+
+.sdr{
+  /* background-image: "../../../../../assets/images/blur-bg.jpg"; */
+  background-image:url("../../../../../assets/images/blur-bg.jpg");
+  /* background-color: rgba(0,0,0,.5); */
+}

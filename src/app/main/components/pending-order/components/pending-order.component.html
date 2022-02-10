@@ -1,0 +1,641 @@
+<div class="row">
+    <ul class="nav nav-tabs" role="tablist" style="border-bottom: none;">
+        <li class="nav-item active">
+            <a class="nav-link active" data-toggle="tab" href="#Pending" role="tab" (click)="PendingOrder('PLACED')">Pending Order
+            </a>
+        </li>
+        <!-- <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#Placed" role="tab" (click)="PlacedOrder()">Placed Order
+            </a>
+        </li> -->
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#Accepted" role="tab" (click)="AcceptedOrder('ACCEPTED')">Accepted Order
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#Ready" role="tab" (click)="ReadyOrder('READY')">Ready Order
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#Pickup" role="tab" (click)="PickupOrder('PICKEDUP')">PickedUp Order
+            </a>
+        </li>
+    </ul>
+    <div class="col-md-2 mt-1">
+        <form class="form-inline">
+            <div class="form-group">
+                <div class="input-group">
+                    <select
+                        (change)="IsRestChange($event)" class="btn-sm btn btn-secondary"
+                        style="width: 170px;">
+                        <option [ngValue]="undefined" hidden>Filter Restaurant</option>
+                        <option value="undefined">All</option>
+                        <option *ngFor="let item of RestaurantList" [value]="item.id">
+                            {{ item.name }}
+                        </option>
+                    </select>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="col-md-2 mt-1">
+        <form class="form-inline">
+            <div class="form-group">
+                <div class="input-group">
+                    <select (change)="OnChangeCluster($event)" class="btn-sm btn btn-secondary">
+                        <option [ngValue]="undefined" hidden>Filter Cluster</option>
+                        <option value="undefined">All</option>
+                        <option *ngFor="let item of ClusterList" [value]="item.id">
+                            {{ item.name }}
+                        </option>
+                    </select>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Tab panes -->
+    <div class="tab-content" style="border-top: 2px solid #ececec;  width: 100%;">
+        
+        <div class="tab-pane active" id="Pending" role="tabpanel">
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <div *ngIf="loading" class="dot-opacity-loader">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                        <table class="table table-hover">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>
+                                        #
+                                    </th>
+                                    <th>
+                                        Id
+                                    </th>
+                                    <th>
+                                        Date
+                                    </th>
+                                    <th>
+                                        Restaurant
+                                    </th>
+                                    <th>
+                                        Mobile
+                                    </th>
+                                    <th>
+                                        Customer
+                                    </th>
+                                    <th>
+                                        Amount
+                                    </th>
+                                    <th>
+                                        Status
+                                    </th>
+                                     <th>
+                                        Order Time
+                                    </th>
+                                    <th>
+                                        Alert
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr [routerLink]="['/customers', 'detail' ,customer.id]" style="cursor: pointer;"
+                                 *ngFor="let customer of customers | paginate: { itemsPerPage: 10, currentPage: currentPage, totalItems: totalItems }; let i=index">
+                                    <td>
+                                        {{ 10 * (currentPage-1) + i+1 }}
+                                    </td>
+                                    <td>
+                                        {{customer.id}}
+                                    </td>
+                                    <td>
+                                        {{customer.created_date | date}}, {{customer.created_date | date: 'shortTime'}}
+                                    </td>
+                                    <td>
+                                        {{customer.restaurant.name}}
+                                    </td>
+                                    <td>
+                                        {{customer.restaurant.mobile}}
+                                    </td>
+                                    <td>
+                                        {{customer.customer.name}}
+                                    </td>
+                                    
+                                    <td>
+                                        AED {{customer.total_amount | number: '.0-2'}}
+                                    </td>
+                                    
+                                    <td>
+                                        <span style="color: green;"><a>
+                                                {{customer.status[0].status.name}}</a>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        {{(customer.ordered_time_in_sec / 60) | number: '.0-2'}}Mins
+                                    </td>
+                                    <td>
+                                        <span *ngIf="customer.ordered_time_in_sec > 600  else elseBlock1">
+                                            <img src="/assets/images/red-alert.gif" alt="Alert" style="width: 25px; height: 25px;">
+                                        </span>
+                                        
+                                        <span *ngIf="customer.ordered_time_in_sec < 300">
+                                            <img src="/assets/images/green-alert.png" alt="Alert" style="width: 25px; height: 25px;">
+                                        </span>
+                                        <ng-template #elseBlock1>
+                                            <span *ngIf="customer.ordered_time_in_sec > 300">
+                                                <img src="/assets/images/orange-alert.png" alt="Alert" style="width: 25px; height: 25px;">
+                                            </span>
+                                        </ng-template>
+                                    </td>
+                                </tr>
+                                <tr *ngIf="customers.length === 0">
+                                    No Record Found!
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="row" style="width: 100%">
+                            <div class="col-md-11">
+                                <pagination-controls (pageChange)="onPageChange($event, '1')"></pagination-controls>
+                            </div>
+                            <div class="col-md-1" style="margin-top: 30px;">
+                                <select id="PerPage" class="form-control" (change)="onPageChange($event, '2')">
+                                    <option *ngFor="let item of PageTotalNumber" [value]="item">
+                                        {{ item }}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+
+        <!-- <div class="tab-pane" id="Placed" role="tabpanel">
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <div *ngIf="loading" class="dot-opacity-loader">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                        <table class="table table-hover">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>
+                                        #
+                                    </th>
+                                    <th>
+                                        Id
+                                    </th>
+                                    <th>
+                                        Date
+                                    </th>
+                                    <th>
+                                        Restaurant
+                                    </th>
+                                    <th>
+                                        Mobile
+                                    </th>
+                                    <th>
+                                        Customer
+                                    </th>
+                                    <th>
+                                        Amount
+                                    </th>
+                                    <th>
+                                        Status
+                                    </th>
+                                     <th>
+                                        Order Time
+                                    </th>
+                                    <th>
+                                        Alert
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr [routerLink]="['/customers', 'detail' ,customer.id]" style="cursor: pointer;"
+                                 *ngFor="let customer of customers | paginate: { itemsPerPage: 10, currentPage: currentPage, totalItems: totalItems }; let i=index">
+                                    <td>
+                                        {{ 10 * (currentPage-1) + i+1 }}
+                                    </td>
+                                    <td>
+                                        {{customer.id}}
+                                    </td>
+                                    <td>
+                                        {{customer.created_date | date}}, {{customer.created_date | date: 'shortTime'}}
+                                    </td>
+                                    <td>
+                                        {{customer.restaurant.name}}
+                                    </td>
+                                    <td>
+                                        {{customer.restaurant.mobile}}
+                                    </td>
+                                    <td>
+                                        {{customer.customer.name}}
+                                    </td>
+                                    
+                                    <td>
+                                        {{customer.total_amount | number: '.0-2'}}
+                                    </td>
+                                    
+                                    <td>
+                                        <span style="color: green;"><a>
+                                                {{customer.status[0].status.name}}</a>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        {{(customer.ordered_time_in_sec / 60) | number: '.0-2'}}Mins
+                                    </td>
+                                    <td>
+                                        <span *ngIf="customer.ordered_time_in_sec > 420  else elseBlock1">
+                                            <img src="/assets/images/red-alert.gif" alt="Alert" style="width: 25px; height: 25px;">
+                                        </span>
+                                        
+                                        <span *ngIf="customer.ordered_time_in_sec < 120">
+                                            <img src="/assets/images/green-alert.png" alt="Alert" style="width: 25px; height: 25px;">
+                                        </span>
+                                        <ng-template #elseBlock1>
+                                            <span *ngIf="customer.ordered_time_in_sec > 120">
+                                                <img src="/assets/images/orange-alert.png" alt="Alert" style="width: 25px; height: 25px;">
+                                            </span>
+                                        </ng-template>
+                                    </td>
+                                </tr>
+                                <tr *ngIf="customers.length === 0">
+                                    No Record Found!
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="row" style="width: 100%">
+                            <div class="col-md-11">
+                                <pagination-controls (pageChange)="onPageChange($event, '1')"></pagination-controls>
+                            </div>
+                            <div class="col-md-1" style="margin-top: 30px;">
+                                <select id="PerPage" class="form-control" (change)="onPageChange($event, '2')">
+                                    <option *ngFor="let item of PageTotalNumber" [value]="item">
+                                        {{ item }}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+
+        <div class="tab-pane" id="Accepted" role="tabpanel">
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <div *ngIf="loading" class="dot-opacity-loader">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                        <table class="table table-hover">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>
+                                        #
+                                    </th>
+                                    <th>
+                                        Id
+                                    </th>
+                                    <th>
+                                        Date
+                                    </th>
+                                    <th>
+                                        Restaurant
+                                    </th>
+                                    <th>
+                                        Mobile
+                                    </th>
+                                    <th>
+                                        Customer
+                                    </th>
+                                    <th>
+                                        Amount
+                                    </th>
+                                    <th>
+                                        Status
+                                    </th>
+                                     <th>
+                                        Order Time
+                                    </th>
+                                    <th>
+                                        Alert
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr [routerLink]="['/customers', 'detail' ,customer.id]" style="cursor: pointer;"
+                                 *ngFor="let customer of customers | paginate: { itemsPerPage: 10, currentPage: currentPage, totalItems: totalItems }; let i=index">
+                                    <td>
+                                        {{ 10 * (currentPage-1) + i+1 }}
+                                    </td>
+                                    <td>
+                                        {{customer.id}}
+                                    </td>
+                                    <td>
+                                        {{customer.created_date | date}}, {{customer.created_date | date: 'shortTime'}}
+                                    </td>
+                                    <td>
+                                        {{customer.restaurant.name}}
+                                    </td>
+                                    <td>
+                                        {{customer.restaurant.mobile}}
+                                    </td>
+                                    <td>
+                                        {{customer.customer.name}}
+                                    </td>
+                                    
+                                    <td>
+                                        AED {{customer.total_amount | number: '.0-2'}}
+                                    </td>
+                                    
+                                    <td>
+                                        <span style="color: green;"><a>
+                                                {{customer.status[0].status.name}}</a>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        {{(customer.ordered_time_in_sec / 60) | number: '.0-2'}}Mins
+                                    </td>
+                                    <td>
+                                        <span *ngIf="customer.ordered_time_in_sec > 2700  else elseBlock1">
+                                            <img src="/assets/images/red-alert.gif" alt="Alert" style="width: 25px; height: 25px;">
+                                        </span>
+                                        
+                                        <span *ngIf="customer.ordered_time_in_sec < 1800">
+                                            <img src="/assets/images/green-alert.png" alt="Alert" style="width: 25px; height: 25px;">
+                                        </span>
+                                        <ng-template #elseBlock1>
+                                            <span *ngIf="customer.ordered_time_in_sec > 1800">
+                                                <img src="/assets/images/orange-alert.png" alt="Alert" style="width: 25px; height: 25px;">
+                                            </span>
+                                        </ng-template>
+                                    </td>
+                                </tr>
+                                <tr *ngIf="customers.length === 0">
+                                    No Record Found!
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="row" style="width: 100%">
+                            <div class="col-md-11">
+                                <pagination-controls (pageChange)="onPageChange($event, '1')"></pagination-controls>
+                            </div>
+                            <div class="col-md-1" style="margin-top: 30px;">
+                                <select id="PerPage" class="form-control" (change)="onPageChange($event, '2')">
+                                    <option *ngFor="let item of PageTotalNumber" [value]="item">
+                                        {{ item }}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+
+        <div class="tab-pane" id="Ready" role="tabpanel">
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <div *ngIf="loading" class="dot-opacity-loader">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                        <table class="table table-hover">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>
+                                        #
+                                    </th>
+                                    <th>
+                                        Id
+                                    </th>
+                                    <th>
+                                        Date
+                                    </th>
+                                    <th>
+                                        Restaurant
+                                    </th>
+                                    <th>
+                                        Mobile
+                                    </th>
+                                    <th>
+                                        Customer
+                                    </th>
+                                    <th>
+                                        Amount
+                                    </th>
+                                    <th>
+                                        Status
+                                    </th>
+                                     <th>
+                                        Order Time
+                                    </th>
+                                    <th>
+                                        Alert
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr [routerLink]="['/customers', 'detail' ,customer.id]" style="cursor: pointer;"
+                                 *ngFor="let customer of customers | paginate: { itemsPerPage: 10, currentPage: currentPage, totalItems: totalItems }; let i=index">
+                                    <td>
+                                        {{ 10 * (currentPage-1) + i+1 }}
+                                    </td>
+                                    <td>
+                                        {{customer.id}}
+                                    </td>
+                                    <td>
+                                        {{customer.created_date | date}}, {{customer.created_date | date: 'shortTime'}}
+                                    </td>
+                                    <td>
+                                        {{customer.restaurant.name}}
+                                    </td>
+                                    <td>
+                                        {{customer.restaurant.mobile}}
+                                    </td>
+                                    <td>
+                                        {{customer.customer.name}}
+                                    </td>
+                                    
+                                    <td>
+                                        AED {{customer.total_amount | number: '.0-2'}}
+                                    </td>
+                                    
+                                    <td>
+                                        <span style="color: green;"><a>
+                                                {{customer.status[0].status.name}}</a>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        {{(customer.ordered_time_in_sec / 60) | number: '.0-2'}}Mins
+                                    </td>
+                                    <td>
+                                        <span *ngIf="customer.ordered_time_in_sec > 3600  else elseBlock1">
+                                            <img src="/assets/images/red-alert.gif" alt="Alert" style="width: 25px; height: 25px;">
+                                        </span>
+                                        
+                                        <span *ngIf="customer.ordered_time_in_sec < 3000">
+                                            <img src="/assets/images/green-alert.png" alt="Alert" style="width: 25px; height: 25px;">
+                                        </span>
+                                        <ng-template #elseBlock1>
+                                            <span *ngIf="customer.ordered_time_in_sec > 3000">
+                                                <img src="/assets/images/orange-alert.png" alt="Alert" style="width: 25px; height: 25px;">
+                                            </span>
+                                        </ng-template>
+                                    </td>
+                                </tr>
+                                <tr *ngIf="customers.length === 0">
+                                    No Record Found!
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="row" style="width: 100%">
+                            <div class="col-md-11">
+                                <pagination-controls (pageChange)="onPageChange($event, '1')"></pagination-controls>
+                            </div>
+                            <div class="col-md-1" style="margin-top: 30px;">
+                                <select id="PerPage" class="form-control" (change)="onPageChange($event, '2')">
+                                    <option *ngFor="let item of PageTotalNumber" [value]="item">
+                                        {{ item }}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+
+        <div class="tab-pane" id="Pickup" role="tabpanel">
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <div *ngIf="loading" class="dot-opacity-loader">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                        <table class="table table-hover">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>
+                                        #
+                                    </th>
+                                    <th>
+                                        Id
+                                    </th>
+                                    <th>
+                                        Date
+                                    </th>
+                                    <th>
+                                        Restaurant
+                                    </th>
+                                    <th>
+                                        Mobile
+                                    </th>
+                                    <th>
+                                        Customer
+                                    </th>
+                                    <th>
+                                        Amount
+                                    </th>
+                                    <th>
+                                        Status
+                                    </th>
+                                     <th>
+                                        Order Time
+                                    </th>
+                                    <th>
+                                        Alert
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr [routerLink]="['/customers', 'detail' ,customer.id]" style="cursor: pointer;"
+                                 *ngFor="let customer of customers | paginate: { itemsPerPage: 10, currentPage: currentPage, totalItems: totalItems }; let i=index">
+                                    <td>
+                                        {{ 10 * (currentPage-1) + i+1 }}
+                                    </td>
+                                    <td>
+                                        {{customer.id}}
+                                    </td>
+                                    <td>
+                                        {{customer.created_date | date}}, {{customer.created_date | date: 'shortTime'}}
+                                    </td>
+                                    <td>
+                                        {{customer.restaurant.name}}
+                                    </td>
+                                    <td>
+                                        {{customer.restaurant.mobile}}
+                                    </td>
+                                    <td>
+                                        {{customer.customer.name}}
+                                    </td>
+                                    
+                                    <td>
+                                        AED {{customer.total_amount | number: '.0-2'}}
+                                    </td>
+                                    
+                                    <td>
+                                        <span style="color: green;"><a>
+                                                {{customer.status[0].status.name}}</a>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        {{(customer.ordered_time_in_sec / 60) | number: '.0-2'}}Mins
+                                    </td>
+                                    <td>
+                                        <span *ngIf="customer.ordered_time_in_sec > 7200  else elseBlock1">
+                                            <img src="/assets/images/red-alert.gif" alt="Alert" style="width: 25px; height: 25px;">
+                                        </span>
+                                        
+                                        <span *ngIf="customer.ordered_time_in_sec < 5400">
+                                            <img src="/assets/images/green-alert.png" alt="Alert" style="width: 25px; height: 25px;">
+                                        </span>
+                                        <ng-template #elseBlock1>
+                                            <span *ngIf="customer.ordered_time_in_sec > 5400">
+                                                <img src="/assets/images/orange-alert.png" alt="Alert" style="width: 25px; height: 25px;">
+                                            </span>
+                                        </ng-template>
+                                    </td>
+                                </tr>
+                                <tr *ngIf="customers.length === 0">
+                                    No Record Found!
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="row" style="width: 100%">
+                            <div class="col-md-11">
+                                <pagination-controls (pageChange)="onPageChange($event, '1')"></pagination-controls>
+                            </div>
+                            <div class="col-md-1" style="margin-top: 30px;">
+                                <select id="PerPage" class="form-control" (change)="onPageChange($event, '2')">
+                                    <option *ngFor="let item of PageTotalNumber" [value]="item">
+                                        {{ item }}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+

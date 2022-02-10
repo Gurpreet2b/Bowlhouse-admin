@@ -1,0 +1,245 @@
+<div class="row">
+    <div *ngIf="loading" class="dot-opacity-loader">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+    <div class="col-md-12" *ngIf="ClusterDetails !== undefined">
+        <div class="card col-md-12 p-2 ml-0.5 pb-3">
+            <div class="row" *ngIf="ClusterDetails.action === 'add'">
+                <div class="col-md-6">
+                    <div style="text-align:start;" class="card-imgage">
+                        <img src="{{ClusterDetails.image}}" alt="Picture">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card-body" style="padding: 0;">
+                        <div class="card-card rest-border">
+                            <div class="card-custom">
+                                <div style="padding: 16px" class="card-description">
+                                    <div class="label-name text-center" style="font-size: 25px;">Cluster New Details</div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <div class="label-name">Cluster</div>
+                                            <div>{{ClusterDetails.name}}</div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <div class="label-name">Requested User</div>
+                                            <div>{{ClusterDetails.user.username}}</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <div class="label-name">Latitude</div>
+                                            <div>{{ClusterDetails.latitude }}</div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <div class="label-name">Longitude</div>
+                                            <div>{{ClusterDetails.longitude}}</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <div class="label-name">Created Date</div>
+                                            <div>{{ClusterDetails.created_date | date}}</div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <div class="label-name">Updated Date</div>
+                                            <div>{{ClusterDetails.updated_date | date }}</div>
+                                        </div>
+                                    </div>
+
+                                     <div class="row mt-2">
+                                        <div class="col-md-2">
+                                            <button class="btn btn-primary btn-sm"
+                                                [routerLink]="['/restaurant-approvals']">
+                                                Back
+                                            </button>
+                                        </div>
+                                        <div class="col-md-2 mr-3" *ngIf="ClusterDetails?.approved_status === 'UNAPPROVED'">
+                                            <button class="btn btn-success btn-sm" (click)="IsApproval()">Approve</button>
+                                        </div>
+                                        <div class="col-md-2" *ngIf="ClusterDetails?.approved_status === 'UNAPPROVED'">
+                                            <button class="btn btn-danger btn-sm" 
+                                            data-toggle="modal" data-target="#DiscardModal">Discard</button>
+                                        </div>
+                                        
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" *ngIf="ClusterDetails.action === 'edit'">
+                <div class="col-md-6">
+                    <div style="text-align:start;" class="card-imgage">
+                        <img src="{{ClusterDetails.image}}" alt="Picture">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card-body" style="padding: 0;">
+                        <div class="card-card rest-border">
+                            <div class="card-custom">
+                                <div style="padding: 16px" class="card-description">
+                                    <div class="label-name text-center" style="font-size: 25px;">Cluster New Details</div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <div class="label-name">Cluster</div>
+                                            <div [ngClass]="{'Highlight1': ClusterDetails?.name !== ClusterPreviousDetails?.name}">
+                                                {{ClusterDetails.name}}
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <div class="label-name">Requested User</div>
+                                            <div>
+                                                {{ClusterDetails.user.username}}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <div class="label-name">Latitude</div>
+                                            <div [ngClass]="{'Highlight1': ClusterDetails?.latitude !== LatitudeData}">
+                                                {{ClusterDetails.latitude}}
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <div class="label-name">Longitude</div>
+                                            <div [ngClass]="{'Highlight1': ClusterDetails?.longitude !== LongitudeData}">
+                                                {{ClusterDetails.longitude}}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <div class="label-name">Created Date</div>
+                                            <div>
+                                                {{ClusterDetails.created_date | date}}
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <div class="label-name">Updated Date</div>
+                                            <div>
+                                                {{ClusterDetails.updated_date | date}}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                     <div class="row mt-2">
+                                        <div class="col-md-2">
+                                            <button class="btn btn-primary btn-sm"
+                                                [routerLink]="['/restaurant-approvals']">
+                                                Back
+                                            </button>
+                                        </div>
+                                        <div class="col-md-2 mr-3" *ngIf="ClusterDetails?.approved_status === 'UNAPPROVED'">
+                                            <button class="btn btn-success btn-sm" (click)="IsApproval()">Approve</button>
+                                        </div>
+                                        <div class="col-md-2" *ngIf="ClusterDetails?.approved_status === 'UNAPPROVED'">
+                                            <button class="btn btn-danger btn-sm" 
+                                            data-toggle="modal" data-target="#DiscardModal">Discard</button>
+                                        </div>
+                                        
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-12" *ngIf="ClusterPreviousDetails !== undefined">
+        <div class="card col-md-12 p-2 ml-0.5 pb-3" *ngIf="ClusterDetails?.action === 'edit'">
+            <div class="row">
+                <div class="col-md-6">
+                    <div style="text-align:start;" class="card-imgage">
+                        <img src="{{ClusterPreviousDetails.image}}" alt="Picture">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card-body" style="padding: 0;">
+                        <div class="card-card rest-border">
+                            <div class="card-custom">
+                                <div style="padding: 16px" class="card-description">
+                                    <div class="label-name text-center" style="font-size: 25px;">Cluster Previous Details</div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <div class="label-name">Cluster</div>
+                                            <div>{{ClusterPreviousDetails.name}}</div>
+                                        </div>
+                                       
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <div class="label-name">Latitude</div>
+                                            <div>{{LatitudeData }}</div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <div class="label-name">Longitude</div>
+                                            <div>{{LongitudeData}}</div>
+                                        </div>
+                                    </div>
+
+                                    <!-- <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <div class="label-name">Created Date</div>
+                                            <div>{{ClusterPreviousDetails.created_date | date}}</div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <div class="label-name">Updated Date</div>
+                                            <div>{{ClusterPreviousDetails.updated_date | date }}</div>
+                                        </div>
+                                    </div> -->
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+               
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="DiscardModal">
+    <div class="modal-dialog" style="margin: 40px 380px;">
+        <div class="modal-content" style="width: 500px;">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Reason for Cluster discard</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="">Comment</label>
+                            <textarea type="text" [(ngModel)]="comment" [ngModelOptions]="{standalone: true}"
+                                class="form-control disable" placeholder="Enter Comment">
+                            </textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-dark btn-sm"
+                    data-dismiss="modal">Close</button>
+                    <button class="btn btn-secondary btn-sm" (click)="IsDiscard()">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

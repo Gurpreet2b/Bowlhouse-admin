@@ -1,0 +1,193 @@
+<nav class="sdr sidebar sidebar-offcanvas hover" id="sidebar">
+    <ul class="nav ps ps--active-y">
+        <li class="nav-item" *ngIf="Permission[0].is_check">
+            <a style="color: white;" class="nav-link" href="javascript:void(0)" routerLink="/dashboard" routerLinkActive="active">
+                <i class="mdi mdi-home menu-icon"></i>
+                <span  class="menu-title">Dashboard</span>
+            </a>
+        </li>
+        <li class="nav-item" *ngIf="Permission[1].is_check">
+            <a style="color: white;" class="nav-link" href="javascript:void(0)" routerLink="/restaurants" routerLinkActive="active">
+                <i class="mdi mdi-home-map-marker menu-icon"></i>
+                <span class="menu-title">Restaurants</span>
+            </a>
+        </li>
+        <li class="nav-item" *ngIf="Permission[2].is_check">
+            <a style="color: white;" class="nav-link" href="javascript:void(0)" routerLink="/customers" routerLinkActive="active">
+                <i class="mdi mdi-account-group menu-icon"></i>
+                <span class="menu-title">Customers</span>
+            </a>
+        </li>
+       
+        <li class="nav-item" *ngIf="Permission[3].is_check">
+            <a style="color: white;" class="nav-link" href="javascript:void(0)" routerLink="/allorders" routerLinkActive="active">
+                <i class="mdi mdi-database menu-icon"></i>
+                <span class="menu-title">Orders</span>
+            </a>
+        </li>
+        <li class="nav-item" *ngIf="Permission[14].is_check">
+            <a style="color: white;" class="nav-link" href="javascript:void(0)" routerLink="/pending-orders" routerLinkActive="active">
+                <i class="mdi mdi-database menu-icon"></i>
+                <span class="menu-title">Ongoing Orders</span>
+            </a>
+        </li>
+        <li *ngIf="RoleName === 'Helpdesk' && Permission[4].is_check" class="nav-item">
+            <a style="color: white;" class="nav-link" href="javascript:void(0)" routerLink="/refunds" routerLinkActive="active">
+                <i class="mdi mdi-cash-refund menu-icon"></i>
+                <span class="menu-title">Refund Management</span>
+            </a>
+        </li>
+        <li *ngIf="RoleName === 'Admin' || RoleName === 'Finance' && Permission[4].is_check"  class="nav-item">
+            <a style="color: white;" class="nav-link" href="javascript:void(0)" routerLink="/adminrefund" routerLinkActive="active">
+                <i class="mdi mdi-cash-refund menu-icon"></i>
+                <span class="menu-title">Refund Management</span>
+            </a>
+        </li>
+        <!-- <li *ngIf="name !== 'admin' && Permission[5].is_check" class="nav-item">
+            <a style="color: white;" class="nav-link" href="javascript:void(0)" routerLink="/helppayment" routerLinkActive="active">
+                <i class="mdi mdi-book-open menu-icon"></i>
+                <span class="menu-title">COD Management</span>
+            </a>
+        </li> -->
+        <li *ngIf="Permission[5].is_check" class="nav-item">
+            <a style="color: white;" class="nav-link" href="javascript:void(0)" routerLink="/paymentmang" routerLinkActive="active">
+                <i class="mdi mdi-book-open menu-icon"></i>
+                <span class="menu-title">COD Management</span>
+            </a>
+        </li>
+        
+        <li class="nav-item" *ngIf="Permission[6].is_check">
+            <a style="color: white;" class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+                <i class="mdi mdi-bank menu-icon"></i>
+                <span class="menu-title">Finance</span>
+                <i style="color: white;" class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="ui-basic">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"> <a  style="color: white;" class="nav-link"  href="javascript:void(0)"  routerLink="/transactions">Customer Transactions</a>
+                    </li>
+                    <li class="nav-item"> <a style="color: white;" class="nav-link" href="javascript:void(0)" routerLink="/transactions/payment">Restaurant Transactions</a></li>
+                </ul>
+            </div>
+        </li>
+        <li class="nav-item" *ngIf="name === 'Super Admin'">
+            <a style="color: white;" class="nav-link" data-toggle="collapse" href="#ui-basic1" aria-expanded="false" aria-controls="ui-basic">
+                <i class="mdi mdi-silverware menu-icon"></i>
+                <span class="menu-title">Super Management</span>
+                <i style="color: white;" class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="ui-basic1">
+                <ul class="nav flex-column sub-menu">
+                    <li  class="nav-item"> <a style="color: white;"class="nav-link"  href="javascript:void(0)"  routerLink="/user-role">User Management</a>
+                    </li>
+                    <li  class="nav-item"> <a style="color: white;"class="nav-link"  href="javascript:void(0)"  routerLink="/role-management">Role Management</a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+        <li class="nav-item" *ngIf="Permission[7].is_check">
+            <a style="color: white;" class="nav-link" data-toggle="collapse" href="#ui-basic22" aria-expanded="false" aria-controls="ui-basic">
+                <i class="mdi mdi-silverware menu-icon"></i>
+                <span class="menu-title">Master Items</span>
+                <i style="color: white;" class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="ui-basic22">
+                <ul class="nav flex-column sub-menu">
+                    <li  class="nav-item"> <a style="color: white;"class="nav-link"  href="javascript:void(0)"  routerLink="/cuisines">Cuisine</a>
+                    </li>
+                    <li  class="nav-item"> <a style="color: white;"class="nav-link"  href="javascript:void(0)"  routerLink="/clusters">Cluster</a>
+                    </li>
+                    <li  class="nav-item"> <a style="color: white;"class="nav-link" href="javascript:void(0)" routerLink="/category">Food Category</a></li>
+                </ul>
+            </div>
+        </li>
+        <li class="nav-item" *ngIf="Permission[8].is_check">
+            <a style="color: white;" class="nav-link" href="javascript:void(0)" routerLink="/customer-grievance" routerLinkActive="active">
+                <i class="mdi mdi-account-group menu-icon"></i>
+                <span class="menu-title">Customer Grievance</span>
+            </a>
+        </li>
+        <li class="nav-item" *ngIf="Permission[9].is_check">
+            <a style="color: white;" class="nav-link" data-toggle="collapse" href="#ui-basic10" aria-expanded="false" aria-controls="ui-basic">
+                <i class="mdi mdi-database menu-icon"></i>
+                <span class="menu-title">Ticket System</span>
+                <i style="color: white;" class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="ui-basic10">
+                <ul class="nav flex-column sub-menu">
+                    <li  class="nav-item"> <a style="color: white;"class="nav-link"  href="javascript:void(0)" 
+                        routerLink="/generate-ticket">Recent Ticket</a>
+                    </li>
+                    <li  class="nav-item"> <a style="color: white;"class="nav-link"  href="javascript:void(0)" 
+                        routerLink="/generate-ticket/archive">Archival Ticket</a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+        <li class="nav-item" *ngIf="Permission[10].is_check">
+            <a style="color: white;" class="nav-link" data-toggle="collapse" href="#ui-basic11" aria-expanded="false" aria-controls="ui-basic">
+                <i class="mdi mdi-database menu-icon"></i>
+                <span class="menu-title">Coupon System</span>
+                <i style="color: white;" class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="ui-basic11">
+                <ul class="nav flex-column sub-menu">
+                    <li  class="nav-item"> <a style="color: white;"class="nav-link"  href="javascript:void(0)" 
+                        routerLink="/coupon">Coupon</a>
+                    </li>
+                    <li  class="nav-item"> <a style="color: white;"class="nav-link"  href="javascript:void(0)" 
+                        routerLink="/offer">Offer Flash Cards</a>
+                    </li>
+                    <li  class="nav-item"> <a style="color: white;"class="nav-link"  href="javascript:void(0)" 
+                        routerLink="/coupon/coupon-request">Restaurant Request</a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+        <li class="nav-item" *ngIf="Permission[11].is_check">
+            <a style="color: white;" class="nav-link" href="javascript:void(0)" routerLink="/featuredRestaurants" routerLinkActive="active">
+                <i class="mdi mdi-account-group menu-icon"></i>
+                <span class="menu-title">Featured Restaurants</span>
+            </a>
+        </li>
+        <li class="nav-item" *ngIf="Permission[12].is_check">
+            <a style="color: white;" class="nav-link" href="javascript:void(0)" routerLink="/header-content" routerLinkActive="active">
+                <i class="mdi mdi-account-group menu-icon"></i>
+                <span class="menu-title">Header Content</span>
+            </a>
+        </li>
+        <li class="nav-item" *ngIf="Permission[13].is_check">
+            <a style="color: white;" class="nav-link" data-toggle="collapse" href="#ui-basic2" aria-expanded="false" aria-controls="ui-basic2">
+                <i class="mdi mdi-bank menu-icon"></i>
+                <span class="menu-title">Approval System</span>
+                <i style="color: white;" class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="ui-basic2">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"> <a  style="color: white;" class="nav-link"  href="javascript:void(0)" routerLink="/restaurant-approvals">Helpdesk</a>
+                    </li>
+                    <li class="nav-item"> <a style="color: white;" class="nav-link" href="javascript:void(0)" routerLink="/restaurant-approvals/finance">Finance</a></li>
+                </ul>
+            </div>
+        </li>
+        <!-- <li class="nav-item">
+            <a style="color: white;" class="nav-link" href="javascript:void(0)" routerLink="/generate-ticket" routerLinkActive="active">
+                <i class="mdi mdi-database menu-icon"></i>
+                <span class="menu-title">Ticket System</span>
+            </a>
+        </li> -->
+        <!-- <li class="nav-item">
+            <a class="nav-link" href="javascript:void(0)" routerLink="/terms" routerLinkActive="active">
+                <i class="mdi mdi-home-map-marker menu-icon"></i>
+                <span class="menu-title">Terms & Conditions</span>
+            </a>
+        </li> -->
+        <!-- <div class="ps__rail-x" style="left: 0px; bottom: 0px;">
+            <div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div>
+        </div>
+        <div class="ps__rail-y" style="top: 0px; height: 609px; right: 0px;">
+            <div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 399px;"></div>
+        </div> -->
+    </ul>
+</nav>
+

@@ -1,0 +1,229 @@
+<div class="card pt-2 style">
+    <div class="col-md-12 grid-margin">
+        <div class="d-flex justify-content-between flex-wrap">
+            <div class="d-flex align-items-end flex-wrap ">
+                <div class="mr-md-3 mr-xl-5">
+                    <h3>Transactions Of {{detail.restaurant_name}}</h3>
+                </div>
+            </div>
+            <div class="d-flex justify-content-between align-items-end flex-wrap">
+                <button (click)="exportToExcel()" class="btn btn-sm btn-secondary">Export To Excel</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-md-12">
+    <div class="d-flex justify-content-between flex-wrap">
+        <div class="d-flex align-items-end flex-wrap">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb no-pad">
+                    <li class="breadcrumb-item"><a [routerLink]="['/transactions/payment']"
+                            href="javascript:void(0)">Transactions</a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">Transaction Detail</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="d-flex justify-content-between align-items-end flex-wrap">
+            <!-- <button (click)="exportToExcel()" class="btn btn-sm btn-secondary">Export To Excel</button> -->
+            <!-- <button style="margin-left: 2px;" (click)="captureScreen()" type="button" class="btn btn-success">
+                Generate Report
+            </button> -->
+        </div>
+    </div>
+</div>
+
+<!-- <div id="content" #content class="row">id="htmlData" -->
+    
+<div id="htmlData">
+    <div class="col-md-12">
+        <div class="card-card">
+            <div class="col-md-12 grid-margin padding">
+                <div class="d-flex justify-content-between flex-wrap">
+                    <div class="d-flex align-items-end flex-wrap">
+                        <div class="mr-md-3 mr-xl-5">
+                            <p>Transaction Id: {{detail.id}}</p>
+                            <p>Bank Transaction Id: {{detail.bank_transaction_id}}</p>
+                            <p>Restaurant Name: {{detail.restaurant_name}}</p>
+                            <p>Address: {{detail.restaurant_address}}</p>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-end flex-wrap">
+                        <button style="padding-bottom: 10px; padding-top: 10px;" 
+                        type="button" class="btn-sm btn btn-secondary"
+                        data-toggle="modal" data-target="#BankModal"
+                        *ngIf="detail.status !== 'PAID'">Change Status</button>
+                        <!-- <div class="input-group">
+                            <form [formGroup]="form" (submit)="onSubmit()" class="form-inline">
+                                <div class="form-group">
+                                    <label for="">Bank Transaction Id</label>&nbsp;
+                                    <input type="text" class="form-control" formControlName="bank_transaction_id">
+                                </div>&nbsp;&nbsp;
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <select formControlName="status" type="submit" class="btn btn-sm btn-secondary">
+                                            <option value="">Select Status</option>
+                                            <option value="PAID">PAID</option>
+                                            <option value="INITIATED">INITIATED</option>
+                                        </select>
+                                    </div>
+                                </div>&nbsp;&nbsp;
+                                <button [hidden]="isShow" style="padding-bottom: 10px; padding-top: 10px;" type="submit"
+                                    class="btn-sm btn btn-secondary">Update</button>
+                            </form>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="col-md-12"> -->
+        <div class="card ml-2 mr-2">
+            <div class="card-body">
+                <div style="display: inline-flex ">
+                    <h5> Total Payable Amount : AED {{detail.total_payable_amount}}</h5>
+                    <p class="badge-outline-warning p-1" style="margin-left: 10px;
+                    margin-top: -5px;">{{detail.status}}</p>
+                </div>
+                <div class="table-responsive">
+                    <div *ngIf="loading" class="dot-opacity-loader">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <!-- <img src="../../../../../../assets/images/loader.gif" *ngIf="loading"> -->
+                    <table class="table table-hover">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>
+                                    #
+                                </th>
+                                <th>
+                                    Order Id
+                                </th>
+                                <th style="display: none;">
+                                    Transaction Id
+                                </th>
+                                <th style="display: none;">
+                                    Restaurant Name
+                                </th>
+                                <th>
+                                    Amount To Pay
+                                </th>
+                                <th>
+                                    Commision
+                                </th>
+                                <th>
+                                    Delivery Charges
+                                </th>
+                                <th>
+                                    Amount To Tax 
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr
+                                *ngFor="let restaurant of restaurants | paginate: { itemsPerPage: 10, currentPage: currentPage, totalItems: totalItems }; let i=index">
+                                <td>
+                                    {{i+1}}
+                                </td>
+                                <td>
+                                    {{restaurant.order.id}}
+                                </td>
+                                <td style="display: none;">
+                                    {{restaurant.transaction_ref}}
+                                </td>
+                                <td style="display: none;">
+                                    {{restaurant.restaurant.name}}
+                                </td>
+                                <td>
+                                    AED {{restaurant.payable_amount}}
+                                </td>
+                                <td>
+                                    AED {{restaurant.order.commission}}
+                                </td>
+                                <td>
+                                    AED {{restaurant.order.delivery_charge}}
+                                </td>
+                                <td>
+                                     {{restaurant.order.tax_amount}}
+                                </td>
+                            </tr>
+                            <br>
+                        </tbody>
+
+                    </table>
+                    <pagination-controls (pageChange)="onPageChange($event)"></pagination-controls>
+                </div>
+            </div>
+        </div>
+    <!-- </div> -->
+</div>
+
+<div class="modal" id="BankModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+          <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Change Status</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <form [formGroup]="form" (submit)="onSubmit()">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="">Bank Transaction Id <span class="required">*</span></label>&nbsp;
+                    <input type="text" class="form-control" formControlName="bank_transaction_id" (keydown.space)="$event.preventDefault();">
+                    <div *ngIf="form.controls['bank_transaction_id'].invalid && (form.controls['bank_transaction_id'].dirty || form.controls['bank_transaction_id'].touched)"
+                        class="alert1">
+                        <div *ngIf="form.controls['bank_transaction_id'].errors.required">
+                            Please enter Bank Transaction Id.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="">Status </label>
+                    <select formControlName="status" class="form-control">
+                        <option value="">Select Status</option>
+                        <option value="PAID">PAID</option>
+                        <option value="INITIATED">INITIATED</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <button [hidden]="isShow" style="padding-bottom: 10px; padding-top: 10px;" type="submit"
+                        class="btn-sm btn btn-secondary">Update
+                    </button>
+                </div>
+            </div>
+        </form>
+        <!-- <div class="input-group">
+            <form [formGroup]="form" (submit)="onSubmit()" class="form-inline">
+                <div class="form-group">
+                    <label for="">Bank Transaction Id</label>&nbsp;
+                    <input type="text" class="form-control" formControlName="bank_transaction_id">
+                </div>&nbsp;&nbsp;
+                <div class="form-group">
+                    <div class="input-group">
+                        <label for="">Status</label>&nbsp;
+                        <select formControlName="status" type="submit" class="form-control">
+                            <option value="">Select Status</option>
+                            <option value="PAID">PAID</option>
+                            <option value="INITIATED">INITIATED</option>
+                        </select>
+                    </div>
+                </div>&nbsp;&nbsp;
+                <button [hidden]="isShow" style="padding-bottom: 10px; padding-top: 10px;" type="submit"
+                    class="btn-sm btn btn-secondary">Update</button>
+            </form>
+        </div> -->
+      </div>
+        
+      </div>
+    </div>
+</div>

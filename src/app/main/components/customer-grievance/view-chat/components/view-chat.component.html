@@ -1,0 +1,365 @@
+<!-- <div class="card pt-2">
+    <div class="col-md-12 grid-margin">
+        <div class="d-flex justify-content-between flex-wrap">
+            <div class="col-md-5">
+                <ejs-daterangepicker id='daterangepicker' placeholder='Fiter by date range' [startDate]='start'
+                    [endDate]='end' (change)="IsRangeDate($event)">
+                </ejs-daterangepicker>
+            </div>
+            <div class="col-md-3" style="margin-left: -2rem;">
+                <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
+                    <div class="input-group" style="margin-left: 30px">
+                        <div class="form-outline">
+                            <input id="search-input" formControlName="search" placeholder="Search here" type="search"
+                                id="form" class="form-control" style="padding: 17.7px; width: 210px;" />
+                        </div>
+                        <button type="submit" class="btn-secondary">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-2" style="margin-right: -18px;">
+                <form class="form-inline">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <select (change)="IsStatusFilter($event)" class="btn-sm btn btn-secondary"
+                                style="width: 155px;">
+                                <option value="undefined" selected>Filter Status</option>
+                                <option value="PENDING">Pending</option>
+                                <option value="INITIATED">Initiated</option>
+                                <option value="DONE">Done</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-secondary btn-sm mt-xl-0" style="padding: 10px;" data-toggle="modal"
+                    data-target="#CreateTicketModal">Create Ticket</button>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+<div class="row">
+    <ul class="nav nav-tabs" role="tablist" style="border-bottom: none;">
+        <li class="nav-item active">
+            <a class="nav-link active" data-toggle="tab" href="#RecentGrievances" (click)="TabsFilterChange('')" role="tab">Opened Grievances
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#ArchivalGrievances" (click)="TabsFilterChange('Done')" role="tab">Archival Grievances
+            </a>
+        </li>
+    </ul>
+
+<!-- Tab panes -->
+    <div class="tab-content" style="border-top: 2px solid #ececec;  width: 100%;">
+        <div class="tab-pane active" id="RecentGrievances" role="tabpanel">
+            <div class="card pt-2">
+                <div class="col-md-12 grid-margin">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <ejs-daterangepicker id='daterangepicker' placeholder='Fiter by date range' [startDate]='start'
+                                [endDate]='end' (change)="IsRangeDate($event)">
+                            </ejs-daterangepicker>
+                        </div>
+                        <div class="col-md-3" style="margin-left: -1rem;">
+                            <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
+                                <div class="input-group" style="margin-left: 30px">
+                                    <div class="form-outline">
+                                        <input id="search-input" formControlName="search" placeholder="Search here" type="search"
+                                            id="form" class="form-control" style="padding: 17.7px; width: 210px;" />
+                                    </div>
+                                    <button type="submit" class="btn-secondary">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-md-2 ml-2">
+                            <form class="form-inline">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <select class="btn-sm btn btn-secondary"
+                                            style="width: 155px;" (change)="IsStatusFilter($event)">
+                                            <option value="undefined" selected>Filter Status</option>
+                                            <option value="PENDING">Pending</option>
+                                            <option value="INITIATED">Initiated</option>
+                                            <!-- <option value="DONE">Done</option> -->
+                                        </select>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <div *ngIf="loading" class="dot-opacity-loader">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                        <table class="table table-hover">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>
+                                        Attachment
+                                    </th>
+                                    <th>
+                                        Order Id
+                                    </th>
+                                    <th>
+                                        Customer Id
+                                    </th>
+                                    <th>
+                                        Created Date
+                                    </th>
+                                    <th>
+                                        Status
+                                    </th>
+                                    <th style="width: 400px;">
+                                        Chat
+                                    </th>
+                                    <th>
+                                        Comment
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let chat of ChatHistoryList | paginate: { itemsPerPage: 10, currentPage: currentPage, totalItems: totalItems }; let i=index"
+                                (click)="onEditChat(chat.id, chat)" data-toggle="modal" data-target="#EditViewModal">
+                                    <td>
+                                        <img [src]="chat.attachment" alt="profile" style="height: 35px; width: 35px;">
+                                    </td>
+                                    <td>
+                                        {{ chat.order }}
+                                </td>
+                                <td>
+                                        {{ chat.customer }}
+                                    </td>
+                                    <td>
+                                        {{ chat.created_date | date }}
+                                    </td>
+                                    <td>
+                                        {{ chat.status }}
+                                    </td>
+                                    <td style="width: 400px;">
+                                        {{ chat.chat }}
+                                    </td>
+                                    <td>
+                                        {{ chat.comment }}
+                                    </td>
+                                
+                                </tr>
+                                <tr *ngIf="ChatHistoryList.length === 0">
+                                    No Record Found!
+                                </tr>
+                            </tbody>
+                        </table>
+                        <pagination-controls (pageChange)="onPageChange($event)"></pagination-controls>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane" id="ArchivalGrievances" role="tabpanel">
+
+            <div class="card pt-2">
+                <div class="col-md-12 grid-margin">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <ejs-daterangepicker id='daterangepicker' placeholder='Fiter by date range' [startDate]='start'
+                                [endDate]='end' (change)="IsRangeDate($event)">
+                            </ejs-daterangepicker>
+                        </div>
+                        <div class="col-md-3" style="margin-left: -1rem;">
+                            <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
+                                <div class="input-group" style="margin-left: 30px">
+                                    <div class="form-outline">
+                                        <input id="search-input" formControlName="search" placeholder="Search here" type="search"
+                                            id="form" class="form-control" style="padding: 17.7px; width: 210px;" />
+                                    </div>
+                                    <button type="submit" class="btn-secondary">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-md-2 ml-2">
+                            <form class="form-inline">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <select class="btn-sm btn btn-secondary"
+                                            style="width: 155px;" (change)="IsStatusFilter($event)">
+                                            <option value="undefined" selected>Filter Status</option>
+                                            <option value="Done">Rejected</option>
+                                            <option value="DONE">Done</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <div *ngIf="loading" class="dot-opacity-loader">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                        <table class="table table-hover">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>
+                                        Attachment
+                                    </th>
+                                    <th>
+                                        Order Id
+                                    </th>
+                                    <th>
+                                        Customer Id
+                                    </th>
+                                    <th>
+                                        Created Date
+                                    </th>
+                                    <th>
+                                        Status
+                                    </th>
+                                    <th style="width: 400px;">
+                                        Chat
+                                    </th>
+                                    <th>
+                                        Comment
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let chat of ChatHistoryList | paginate: { itemsPerPage: 10, currentPage: currentPage, totalItems: totalItems }; let i=index">
+                                    <td>
+                                        <img [src]="chat.attachment" alt="profile" style="height: 35px; width: 35px;">
+                                    </td>
+                                    <td>
+                                        {{ chat.order }}
+                                </td>
+                                <td>
+                                        {{ chat.customer }}
+                                    </td>
+                                    <td>
+                                        {{ chat.created_date | date }}
+                                    </td>
+                                    <td>
+                                        {{ chat.status }}
+                                    </td>
+                                    <td style="width: 400px;">
+                                        {{ chat.chat }}
+                                    </td>
+                                    <td>
+                                        {{ chat.comment }}
+                                    </td>
+                                
+                                </tr>
+                                <tr *ngIf="ChatHistoryList.length === 0">
+                                    No Record Found!
+                                </tr>
+                            </tbody>
+                        </table>
+                        <pagination-controls (pageChange)="onPageChange($event)"></pagination-controls>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    
+</div>
+
+<div class="modal" id="CreateChatModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Create Ticket Against Customer Grievance</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                <app-create-chat [ChatId]="ChatId" (valueChange)='ValueChanged($event)'></app-create-chat>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="EditViewModal">
+    <div class="modal-dialog" style="margin: 40px 105px;">
+        <div class="modal-content" style="width: 1140px;">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <div class="col-md-8 mt-1">
+                    <h3 class="modal-title">View Customer Grievance</h3>
+                </div>
+                <!-- <div class="col-md-2 mt-2">
+                    <div class="form-group">
+                        <select class="form-control" [(ngModel)]="Status" [ngModelOptions]="{standalone: true}"
+                        [disabled]="IsdisabledStatus === 'DONE'">
+                            <option value="undefined" selected>Change Status</option>
+                            <option value="PENDING">Pending</option>
+                            <option value="INITIATED">Initiated</option>
+                            <option value="DONE">Done</option>
+                        </select>
+                    </div>
+                </div> -->
+                <div class="col-md-2">
+                    <button class="btn btn-secondary btn-sm ml-5"
+                    data-toggle="modal" data-target="#CreateChatModal"
+                    (click)="raiseClose()">Raise Ticket</button>
+                </div>
+                <div class="col-md-1">
+                    <button class="btn btn-secondary btn-sm"
+                    (click)="OnStatusReject()">Reject</button>
+                </div>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <app-edit-ticket [ChatId]="ChatId" (valueChange)='ValueChanged($event)'></app-edit-ticket>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- <div class="modal" id="ChangeStatusModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Change Status</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <select class="form-control" [(ngModel)]="Status" [ngModelOptions]="{standalone: true}">
+                            <option value="undefined" selected>Change Status</option>
+                            <option value="PENDING">Pending</option>
+                            <option value="INITIATED">Initiated</option>
+                            <option value="DONE">Done</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-dark btn-sm" data-dismiss="modal">Close</button>
+                    <button class="btn btn-secondary btn-sm" (click)="OnStatusChange()">Save</button>
+                    <img src="../../../../../../assets/images/loader.gif" *ngIf="loading">
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->

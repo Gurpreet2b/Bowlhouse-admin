@@ -1,0 +1,296 @@
+<div class="card style">
+    <div class="col-md-12">
+        <div class="d-flex justify-content-between flex-wrap">
+            <div class="d-flex align-items-end flex-wrap">
+                <div class="mr-md-3 mr-xl-5">
+                    <!-- <h3>Restaurants in BowlHouse Chain</h3> -->
+                </div>
+            </div>
+            <!-- <div class="d-flex justify-content-between align-items-end flex-wrap" style="margin-bottom: 6px;">
+                <button (click)="exportToExcel()" class="btn-sm btn btn-secondary">Export To Excel</button>
+            </div> -->
+        </div>
+    </div>
+</div>
+
+<!-- <button (click)="captureScreen()"type="submit" class="btn btn-secondary">
+    PDF
+</button> -->
+
+<div class="row m-1">
+    <div class="col-md-5">
+        <button class="btn btn-secondary btn-sm mt-xl-0" routerLink="/restaurants/create"
+        style="height: 37px;">
+            Add Restaurant
+        </button>
+        <button (click)="exportToExcel()" class="btn-sm btn btn-secondary ml-2"
+        style="height: 37px;">Export To Excel</button>
+        <select (change)="OnChangeCluster($event)" class="btn-sm btn btn-secondary ml-2">
+            <option [ngValue]="undefined" hidden>Filter Cluster</option>
+            <option value="undefined">All</option>
+            <option *ngFor="let item of ClusterList" [value]="item.id">
+                {{ item.name }}
+            </option>
+        </select>
+    </div>
+    <!-- <div class="col-md-5">
+        <select (change)="OnChangeCluster($event)" class="btn-sm btn btn-secondary">
+            <option [ngValue]="undefined" hidden>Filter Cluster</option>
+            <option value="undefined">All</option>
+            <option *ngFor="let item of ClusterList" [value]="item.id">
+                {{ item.name }}
+            </option>
+        </select>
+    </div> -->
+    
+    <div class="col-md-2" style="margin-left: -48px;">
+        <select (change)="OnChangeSearch($event)" class="btn-sm btn btn-secondary">
+            <option value="id" selected>Search By ID</option>
+            <option value="name">Name</option>
+            <option value="email">Email</option>
+            <option value="mobile">Mobile</option>
+            <option value="contact_person"> Contact Person</option>
+            <option value="address"> Address</option>
+        </select>
+    </div>
+    <div class="col-md-3" style="margin-left: -25px;">
+        <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
+            <div class="input-group" style="margin-left: -10px">
+                <div class="form-outline">
+                    <input id="search-input" formControlName="search" placeholder="Search here"
+                        type="search" id="form" class="form-control"
+                        style="height: 38px;" />
+                </div>
+                <button type="submit" class="btn-secondary">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="htmlData" class="card">
+    <div class="card-body">
+        <!-- <div class="row">
+            <div class="col-md-12">
+                <div class="d-flex justify-content-between flex-wrap">
+                    <div class="d-flex align-items-end flex-wrap">
+                        <div class="mr-md-3 mr-xl-5">
+                            <div class="d-flex justify-content-between align-items-end flex-wrap">
+                                <button class="btn btn-secondary btn-sm mt-xl-0" routerLink="/restaurants/create">
+                                    Add Restaurant</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-end flex-wrap">
+                        <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
+                            <div class="input-group">
+                                <div class="form-outline">
+                                    <input id="search-input" formControlName="search" placeholder="Search here"
+                                        type="search" id="form" class="form" />
+                                </div>
+                                <button type="submit" class="btn-secondary">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+        <div class="table-responsive pt-1">
+            <!-- <div class="loader-demo-box"> -->
+            <div *ngIf="loading" class="dot-opacity-loader">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <table class="table table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>
+                            #
+                        </th>
+                        <!-- <th>
+                            Profile
+                        </th> -->
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                            Owner
+                        </th>
+                        <th style="width: 140px;">
+                            Contact Person
+                        </th>
+                        <th>
+                            Address
+                        </th>
+                        
+                        <!-- <th>
+                            Rating
+                        </th> -->
+                        <th>
+                            Mobile
+                        </th>
+                        <th>
+                            Email
+                        </th>
+                        <th>
+                            Status
+                        </th>
+                        <th>
+                            Cluster
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr
+                        *ngFor="let restaurant of restaurants | paginate: { itemsPerPage: 10, currentPage: currentPage, totalItems: totalItems }; let i=index">
+                        <td>
+                            {{ 10 * (currentPage-1) + i+1 }}
+                        </td>
+                        <!-- <td>
+                            <img [src]="restaurant.profile_pic" alt="profile" style="height: 37px; width: 37px;">
+                        </td> -->
+                        <td>
+                            <a [routerLink]="['/restaurants','restdetail', restaurant.id]">{{restaurant.name}}</a>
+                        </td>
+                        <td>
+                            {{restaurant.owner_name}}
+                        </td>
+                        <td>
+                            {{restaurant.contact_person}}
+                        </td>
+                        <td>
+                            {{restaurant.address}}
+                        </td>
+                        
+                        <!-- <td>
+                            <app-star-rating [currentRate]="restaurant.rating" [readOnly]="true">
+                            </app-star-rating>
+                        </td> -->
+                        <td>
+                            {{restaurant.mobile}}
+                        </td>
+                        <td>
+                            {{restaurant.email}}
+                        </td>
+                        <td>
+                            <span *ngIf="restaurant.active === true" style="color: green;">
+                                Active
+                            </span>
+                            <span *ngIf="restaurant.active === false" style="color: orange;">
+                                InActive
+                            </span>
+                        </td>
+                        <td>
+                            {{restaurant.cluster_name}}
+                        </td>
+                        <!-- <td>
+                            <div class="template-demo d-flex justify-content-between flex-nowrap">
+                                <button type="button" placement="top" ngbTooltip="Order History"
+                                class="btn-dark btn-icon"
+                                    [routerLink]="['/restaurants', 'history' ,restaurant.id]">
+                                    <i class="mdi mdi-history"></i>
+                                </button>
+                                <button type="button" placement="top" ngbTooltip="Transactions"
+                                class="btn-secondary btn-icon"
+                                    [routerLink]="['/restaurants', 'historytransaction' ,restaurant.id]">
+                                    <i class="mdi mdi-application"></i>
+                                </button>
+                                <button type="button" placement="top" ngbTooltip="Issue Payment"
+                                class="btn-dark btn-icon"
+                                    [routerLink]="['/transactions', 'paymentdetail' ,restaurant.id]">
+                                    <i class="mdi mdi-cash-multiple"></i>
+                                </button>
+
+                            </div>
+                        </td> -->
+                    </tr>
+                </tbody>
+            </table>
+            <!-- <pagination-controls (pageChange)="onPageChange($event)"></pagination-controls> -->
+            <div class="row" style="width: 100%">
+                <div class="col-md-11">
+                    <pagination-controls (pageChange)="onPageChange($event, '1')"></pagination-controls>
+                </div>
+                <div class="col-md-1" style="margin-top: 30px;">
+                    <select id="PerPage" class="form-control" (change)="onPageChange($event, '2')">
+                        <option *ngFor="let item of PageTotalNumber" [value]="item">
+                            {{ item }}
+                        </option>
+                        <!-- <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="30">30</option>
+                        <option value="40">40</option>
+                        <option value="50">50</option>
+                        <option value="60">60</option>
+                        <option value="70">70</option>
+                        <option value="80">80</option>
+                        <option value="90">90</option>
+                        <option value="100">100</option> -->
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="table-responsive pt-1" #epltable style="display: none">
+    <table class="table table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th>
+                    #
+                </th>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Owner
+                </th>
+                <th>
+                    Contact Person
+                </th>
+                <th>
+                    Address
+                </th>
+                <th>
+                    Mobile
+                </th>
+                <th>
+                    Email
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr
+                *ngFor="let restaurant of restaurantExport let i=index">
+                <td>
+                    {{i+1}}
+                </td>
+                <td>
+                    {{restaurant.name}}
+                </td>
+                <td>
+                    {{restaurant.owner_name}}
+                </td>
+                <td>
+                    {{restaurant.contact_person}}
+                </td>
+                <td>
+                    {{restaurant.address}}
+                </td>
+                <td>
+                    {{restaurant.mobile}}
+                </td>
+                <td>
+                    {{restaurant.email}}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    
+</div>

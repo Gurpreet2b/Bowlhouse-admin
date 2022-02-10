@@ -1,0 +1,94 @@
+<div class="card style pt-2">
+    <div class="col-md-12 grid-margin">
+        <div class="d-flex justify-content-between flex-wrap">
+            <div class="d-flex align-items-end flex-wrap">
+                <div class="mr-md-3 mr-xl-5">
+                    <h3>Sales</h3>
+                </div>
+            </div>
+            <div class="d-flex justify-content-between align-items-end flex-wrap">
+                <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
+                    <div class="input-group">
+                        <div class="form-outline">
+                            <input id="search-input" formControlName="search" placeholder="Search here"
+                                type="search" id="form" />
+                        </div>
+                        <button type="submit" class=" btn-secondary">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card ">
+    <div class="card-body">
+        <div class="table-responsive">
+            <div *ngIf="loading" class="dot-opacity-loader">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <!-- <img src="../../../../../../assets/images/loader.gif"
+            *ngIf="loading"> -->
+            <table class="table table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>
+                            #
+                        </th>
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                            Email
+                        </th>
+                        <th>
+                            Mobile
+                        </th>
+                        <!-- <th>
+                            Actions
+                        </th> -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr [routerLink]="['/customers/profile', customer.id]"
+                        *ngFor="let customer of customers | paginate: { itemsPerPage: 10, currentPage: currentPage, totalItems: totalItems }; let i=index">
+                        <td>
+                            {{i+1}}
+                        </td>
+                        <!-- <td>
+                            <span *ngIf="customer.name"><a [routerLink]="['/customers/profile', customer.id]">{{customer.name}}</a></span>
+                            <span class="table-active" *ngIf="customer.name === ''">Not Provided</span>
+                        </td> -->
+                        <td>
+                            <span *ngIf="customer.name">{{customer.name}}</span>
+                            <span style="color: red;" *ngIf="customer.name === ''">Not Provided</span>
+                        </td>
+                        <td>
+                            <span *ngIf="customer.email">{{customer.email}}</span>
+                            <span style="color: red;" *ngIf="customer.email === ''">Not Provided</span>
+                        </td>
+                        <td>
+                            <span *ngIf="customer.email">{{customer.Mobile}}</span>
+                            <span style="color: red;" *ngIf="customer.email === ''"> {{customer.Mobile}}</span>
+                        </td>
+                        <!-- <td>
+                            <div class="template-demo d-flex flex-nowrap">
+                                <button type="button" [routerLink]="['/customers/profile', customer.id]" class="btn btn-primary">
+                                    <i class="mdi mdi-account"></i> View Profile
+                                </button>
+                                <button type="button" [routerLink]="['/customers/history', customer.id]" class="btn btn-light">
+                                    <i class="mdi mdi-history"></i> Order History
+                                </button>
+                            </div>
+                        </td> -->
+                    </tr>
+                </tbody>
+            </table>
+            <pagination-controls (pageChange)="onPageChange($event)"></pagination-controls>
+        </div>
+    </div>
+</div>

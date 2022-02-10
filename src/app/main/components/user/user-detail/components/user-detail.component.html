@@ -1,0 +1,97 @@
+<div class="card style pt-2">
+    <div class="col-md-12 grid-margin">
+        <div class="d-flex justify-content-between flex-wrap">
+            <div class="d-flex align-items-end flex-wrap">
+                <div class="mr-md-3 mr-xl-5">
+                    <h3>User Details</h3>
+                </div>
+            </div>
+            <div class="d-flex justify-content-between align-items-end flex-wrap">
+                <button class="btn btn-secondary btn-sm mt-xl-0"
+                data-toggle="modal" data-target="#ChangePasswordModal">
+                  Change Password</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card mb-2 col-md-12">
+            <div class="card-body">
+                <!-- <h4 class="text-secondary">User Details</h4> -->
+                <!-- <hr> -->
+                <p>User Name: {{UserDetails?.username}} </p>
+                <hr>
+                <p>Email: {{UserDetails?.email}} </p>
+                <!-- <p>Group: {{UserDetails?.groups[0].name}} </p> -->
+                <p>Superuser: {{UserDetails?.is_superuser}} </p>
+                <p>Active: {{UserDetails?.is_active}} </p>
+                <p>User Joining Date: {{ JoinDate }} </p>
+                <hr>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card mb-2 col-md-12">
+            <div class="card-body">
+                <div>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>
+                                        #
+                                    </th>
+                                    <th>
+                                        Permission Name
+                                    </th>
+                                    <th>
+                                        Action
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let permission of Permissions; let i=index">
+                                    <td>{{i+1}}</td>
+                                    <td>
+                                        {{permission.name}}
+                                    </td>
+                                    <td>
+                                        {{permission.is_check}}
+                                    </td>
+                                </tr>
+                                <tr *ngIf="Permissions.length === 0">
+                                    No Record Found !!
+                                </tr>
+                            </tbody>
+                        </table>
+                        <hr>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="ChangePasswordModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Reset User Password</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <app-change-password [UserId]="UserId" ></app-change-password>
+      </div>
+        
+      </div>
+    </div>
+</div>

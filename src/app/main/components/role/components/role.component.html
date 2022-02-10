@@ -1,0 +1,89 @@
+<div class="card style pt-2">
+    <div class="col-md-12 grid-margin">
+        <div class="d-flex justify-content-between flex-wrap">
+            <div class="d-flex align-items-end flex-wrap">
+                <div class="mr-md-3 mr-xl-5">
+                    <h3>Role Management</h3>
+                </div>
+            </div>
+            <div class="d-flex justify-content-between align-items-end flex-wrap">
+                <button class="btn btn-secondary btn-sm mt-xl-0" 
+                data-toggle="modal" data-target="#CreateGroup"
+                >Add New Group</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="p-3" style="display: flex;">
+            <label for="" style="width: 133px; margin-top: 5px;">Group Name </label>
+            <select class="form-control" (change)="IsChangeGroup($event)">
+                <option selected>Select Group</option>
+                <option *ngFor="let item of GroupList" [value]="item.id">
+                     {{ item.name }}
+                </option>
+            </select>
+        </div>
+    </div>
+</div>
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <div *ngIf="loading" class="dot-opacity-loader">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <table class="table table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>
+                            #
+                        </th>
+                        <th>
+                            Permission Name
+                        </th>
+                        <th>
+                            Action
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let permission of PermissionList; let i=index">
+                        <td>{{i+1}}</td>
+                        <td>
+                            {{permission.name}}
+                        </td>
+                        <td>
+                            <input type="checkbox" [(ngModel)]="permission.is_check" name="isCheck" 
+                            id="customer.id" />
+                        </td>
+                    </tr>
+                    <tr *ngIf="PermissionList.length > 0">
+                        <button class="btn btn-secondary btn-sm mt-xl-0" (click)="IsPermissionSubmit()">Update</button>
+                    </tr>
+                    <tr *ngIf="PermissionList.length === 0">
+                        No Record Found !!
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="CreateGroup">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Add New Group</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <app-create-group (valueChange)='ValueChanged($event)'></app-create-group>
+      </div>
+        
+      </div>
+    </div>
+</div>

@@ -1,0 +1,209 @@
+<div class="card style pt-2">
+    <div class="col-md-12 grid-margin">
+        <div class="d-flex justify-content-between flex-wrap">
+            <div class="d-flex align-items-end flex-wrap">
+                <div class="mr-md-3 mr-xl-5">
+                    <h3>Order Details Of {{customers.name}}</h3>
+                </div>
+            </div>
+            <div class="d-flex justify-content-between align-items-end flex-wrap">
+                <button class="btn btn-secondary btn-sm mt-xl-0"
+                data-toggle="modal" data-target="#CancelOrderModal">
+                  Cancel Order
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<nav aria-label="breadcrumb">
+    <ol class="ml-2 breadcrumb no-pad">
+        <li class="breadcrumb-item"><a [routerLink]="['/customers', 'profile', customers.id]"
+                href="javascript:void(0)">Profile</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">Order Detail</li>
+    </ol>
+</nav>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card mb-2 col-md-12">
+            <div *ngIf="detailsData !== undefined" class="card-body">
+                <div class="row">
+                    <div class="col-md-12 grid-margin">
+                        <div class="d-flex justify-content-between flex-wrap">
+                            <div class="d-flex align-items-end flex-wrap">
+                                <nav aria-label="breadcrumb">
+                                    <h4 class="text-secondary">Your Order #{{detailsData.id}} </h4>
+
+                                </nav>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-end flex-wrap">
+                                <p class="badge-outline-warning">{{detailsData.status[0].status.name}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>
+                                        Items
+                                    </th>
+                                    <th>
+                                        Item Price
+                                    </th>
+                                    <th>
+                                        Item Price Discounted
+                                    </th>
+                                    <th>
+                                        Item Quantity
+                                    </th>
+                                    <th>
+                                        Discount Per Item (%)
+                                    </th>
+                                    <th>
+                                        Discounted Total 
+                                    </th>
+                                    <th>
+                                        Total Amount
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let order of orders">
+                                    <td>
+                                        {{order.item_name}}
+                                    </td>
+                                    <td>
+                                        {{order.item_price}}
+                                    </td>
+                                    <td>
+                                        {{order.item_discounted_price}}
+                                    </td>
+                                    <td>
+                                        {{order.item_quantity}}
+                                    </td>
+                                    <td>
+                                        {{order.item_discount}}
+                                    </td>
+                                    <td>
+                                       AED {{order.discounted_total}}
+                                    </td>
+                                    <td>
+                                        AED {{ order.total_amount }}
+                                </tr>
+                                
+                            </tbody>
+                        </table>
+                        <hr>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-8">
+                        </div>
+                        <div class="col-md-4">
+                            <p>
+                                Item Total:
+                                <span style="text-decoration: line-through;">
+                                    {{detailsData.items_total}}
+                                </span>
+                                 {{detailsData.items_total_after_discount}}
+                            </p>
+                            <p>
+                                Tax: {{detailsData.tax}}
+                            </p>
+                            <p>
+                                <span *ngIf="detailsData.delivery_charge === null"> Shipping: AED
+                                    0
+                                </span>
+                                <span *ngIf="detailsData.delivery_charge !== null"> Shipping:
+                                    AED {{detailsData.delivery_charge}}</span>
+
+                            </p>
+                            <p>
+                                Coupon Discount: AED {{detailsData.discount_by_coupon_aed}}
+                            </p>
+                            <p>
+                                Order Total: AED {{detailsData.total_amount}}
+                            </p>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="card mb-2 col-md-12">
+            <div class="card-body">
+                <h4 class="text-secondary">General Details</h4>
+                <hr>
+                <p *ngIf="detailsData !== undefined">Order Date: {{detailsData.created_date | date}}, {{detailsData.created_date | date:'shortTime'}} </p>
+                <p *ngIf="details">Payment: <span
+                        *ngIf="details[0].payment_on_delivery === false">Credit/Debit
+                        Card</span>
+                    <span class="table-active" *ngIf="details[0].payment_on_delivery === true">COD</span>
+                </p>
+                <hr>
+                <p>Deliver To: {{customers.name}} </p>
+                <p>Mobile: {{customers.Mobile}} </p>
+                <p>Email: {{customers.email}} </p>
+                <p>Address: {{detailsData?.address}} </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6" *ngIf="CouponDetailsData">
+        <div class="card mb-2 col-md-12">
+            <div class="card-body" >
+                <h4 class="text-secondary">Coupon Details</h4>
+                <hr>
+                <p>Valid Date: {{CouponDetailsData.start_from | date}} -  {{CouponDetailsData.valid_upto | date}}</p>
+                <p>Coupon Code: {{CouponDetailsData.coupon_code}}</p>
+                <hr>
+                <p>Title: {{CouponDetailsData.title}} </p>
+                <p>Order Min Value: {{CouponDetailsData.order_min_value}} </p>
+                <p>Order Value: {{CouponDetailsData.value}} </p>
+                <p>Description: {{CouponDetailsData.description}} </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="CancelOrderModal">
+    <div class="modal-dialog" style="margin: 40px 380px;">
+        <div class="modal-content" style="width: 500px;">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Reason For Order Cancellation</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="">Remarks</label>
+                            <textarea type="text" [(ngModel)]="cancelRemarks" [ngModelOptions]="{standalone: true}"
+                                class="form-control disable" placeholder="Enter Your Remarks">
+                            </textarea>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <button class="btn btn-secondary btn-sm" (click)="IsCancelOrder()">Submit</button>
+                    <button type="button" class="btn btn-outline-dark btn-sm ml-2"
+                    data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,182 @@
+<div class="card style">
+    <div class="col-md-12">
+        <div class="d-flex justify-content-between flex-wrap">
+            <div class="d-flex align-items-end flex-wrap">
+                <div class="mr-md-3 mr-xl-5">
+                    <!-- <h3 *ngIf="detail">Payment to {{detail.name}}</h3> -->
+                </div>
+            </div>
+            <div class="d-flex justify-content-between align-items-end flex-wrap">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card style pt-2">
+    <div class="col-md-12 grid-margin">
+        <div class="d-flex justify-content-between flex-wrap">
+            <div class="d-flex justify-content-between align-items-end flex-wrap">
+                <button class="btn btn-secondary btn-sm ml-2 mt-2 mt-xl-0 view-img" [routerLink]="['/restaurants', 'restdetail' ,restaurant_id]">
+                    Information</button>
+                <button class="btn btn-sm btn-secondary ml-2 mt-2 mt-xl-0 view-img" [routerLink]="['/restaurants', 'menu' ,restaurant_id]">
+                    Menu Item
+                </button>
+                <button class="btn btn-secondary btn-sm ml-2 mt-2 mt-xl-0 view-img" [routerLink]="['/restaurants', 'history' ,restaurant_id]">
+                    Order History
+                </button>
+                <button class="btn btn-sm btn-secondary ml-2 mt-2 mt-xl-0 view-img" [routerLink]="['/restaurants', 'historytransaction' ,restaurant_id]">
+                    Order Transactions
+                </button>
+                <button class="btn btn-secondary btn-sm ml-2 mt-2 mt-xl-0 view-img" [routerLink]="['/transactions', 'paymentdetail' ,restaurant_id]">
+                    Issue Payment
+                </button>
+                <button class="btn btn-sm btn-secondary ml-2 mt-2 mt-xl-0 view-img" [routerLink]="['/restaurants', 'boughtServices' ,restaurant_id]">
+                    Bought Services
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <div class="ml-2 mr-2 row">
+    <div class="col-md-12" style="display: inline-flex;">
+        <ul class="nav nav-tabs" role="tablist" style="border-bottom: none; width: 735px;">
+            <li class="nav-item active">
+                <a class="nav-link active" (click)="Today()" data-toggle="tab" href="#home4" role="tab">Today
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" (click)="days7()" data-toggle="tab" href="#home4" role="tab">Last 7 days
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" (click)="days15()" data-toggle="tab" href="#home4" role="tab">Last 15 days
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" (click)="days30()" data-toggle="tab" href="#home4" role="tab">Last 1 Month
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" (click)="month6()" data-toggle="tab" href="#home4" role="tab">Last 6 Months
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" (click)="year()" data-toggle="tab" href="#home4" role="tab">Last 1 year
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" (click)="DateRange()" data-toggle="tab" href="#home4" role="tab">Date Range
+                </a>
+            </li>
+        </ul>
+        <div class="d-flex justify-content-between align-items-end flex-wrap">
+            <form style="margin-left: 2px;" class="form-inline">
+                <div class="form-group">
+                    <div class="input-group">
+                        <select placeholder="Status" [(ngModel)]="status" [ngModelOptions]="{standalone: true}"
+                            (change)="IsStatusChange($event)" class="btn-sm btn-secondary">
+                            <option selected value="undefined">Filter Status</option>
+                            <option value="PAID">Paid</option>
+                            <option value="UNPAID">Unpaid</option>
+                            <option value="INITIATED">Initiated</option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    
+    <div class="col-md-12 grid-margin" *ngIf="IsRange">
+        <div class="col-md-4">
+            <ejs-daterangepicker id='daterangepicker' placeholder='Filter by date range' [startDate]='start'
+                [endDate]='end' (change)="IsRangeDate($event)">
+            </ejs-daterangepicker>
+        </div>
+    </div> 
+</div> -->
+
+<div class="row mt-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <div *ngIf="loading" class="dot-opacity-loader">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <!-- <img src="../../../../../../assets/images/loader.gif" *ngIf="loading"> -->
+                    <h3> Bought Services</h3>
+                    <table class="table table-hover">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>
+                                    Position
+                                </th>
+                                <th>
+                                    Paid Amount
+                                </th>
+                                <th>
+                                    From Date
+                                </th>
+                                <th>
+                                    To Date
+                                </th>
+                                <th>
+                                    Restaurant
+                                </th>
+                                <th>
+                                    Cluster
+                                </th>
+                                <th>
+                                    Cuisine
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr
+                                *ngFor="let bought of BoughtService | paginate: { itemsPerPage: 10, currentPage: currentPage, totalItems: totalItems }; let i=index">
+                                <td>
+                                   {{bought.position}}
+                                </td>
+                                <td>
+                                    {{bought.paid_amount}}
+                                </td>
+                                <td>
+                                    {{bought.from_date | date}}
+                                </td>
+                                <td>
+                                    {{bought.to_date | date}}
+                                </td>
+                                <td>
+                                    {{bought.restaurant.name}}
+                                </td>
+                                <td>
+                                    {{bought.restaurant.cluster_name}}
+                                </td>
+                                <td>
+                                    {{bought.restaurant.cuisine}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!-- <pagination-controls (pageChange)="onPageChange($event)"></pagination-controls> -->
+                    <div class="row" style="width: 100%">
+                        <div class="col-md-10">
+                            <pagination-controls (pageChange)="onPageChange($event, '1')"></pagination-controls>
+                        </div>
+                        <div class="col-md-2" style="margin-top: 30px;">
+                            <select id="PerPage" class="form-control" (change)="onPageChange($event, '2')"
+                            style="width: 70px;">
+                                <option *ngFor="let item of PageTotalNumber" [value]="item">
+                                    {{ item }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

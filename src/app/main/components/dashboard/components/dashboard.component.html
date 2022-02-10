@@ -1,0 +1,1155 @@
+<!-- <div style="background-image: url(../../../../../assets/images/blur-bg.jpg)"> -->
+<div class="dash">
+    <div class="pt-2 ml-2 mr-2 col-md-12">
+        <div class="d-flex justify-content-between flex-wrap">
+            <div class="d-flex align-items-end flex-wrap">
+                <div class="mr-md-3 mr-xl-5">
+                    <!-- <h3>DASHBOARD</h3> -->
+                </div>
+            </div>
+            <!-- <div class="d-flex align-items-end flex-wrap">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb no-pad">
+                        <li class="breadcrumb-item active">Home</li>
+                        <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+                    </ol>
+                </nav>
+            </div> -->
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div style="text-align: center;" class="mt-2 animated fadeIn">
+                <div class="mt-2 ml-1 mr-1 mb-4 row">
+                    <div class="act text-left">
+                        <div class="col-md-6">
+                            New Customers : {{ alldata.new_customer_count }} / Subscriptions : {{
+                            alldata.new_subscriber_count }}
+                        </div>
+                        <div class="col-md-6">
+                            Active Restaurants: {{ActiveData?.active}} / InActive Restaurants: {{InActiveData}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3 ml-4">
+            <select (change)="OnChangeCluster($event)" class="btn-sm btn btn-secondary selc">
+                <option [ngValue]="undefined" hidden>Filter Cluster</option>
+                <option value="undefined">All</option>
+                <option *ngFor="let item of ClusterList" [value]="item.id">
+                    {{ item.name }}
+                </option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <select [(ngModel)]="RestaurantId" [ngModelOptions]="{standalone: true}" (change)="IsRestChange($event)"
+                class="btn-sm btn btn-secondary selc">
+                <option [ngValue]="undefined" hidden>Filter Restaurant</option>
+                <option value="undefined">All</option>
+                <option *ngFor="let item of category" [value]="item.id">
+                    {{ item.name }}
+                </option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <button data-toggle="modal" data-target="#ExportExcelModal" class="btn-sm btn btn-secondary selc"
+             style="height: 37px;" title="Export Excel">Export To Excel
+                <!-- Export To Excel -->
+                <!-- <img src="/assets/images/export.jpg" style="width: 37px;" /> -->
+            </button>
+        </div>
+    </div>
+    <div class="ml-2 mr-2 row">
+        <div class="col-md-12">
+            <ul class="nav nav-tabs" role="tablist" style="border-bottom: none; width: 735px;">
+                <li class="nav-item active">
+                    <a class="nav-link active" (click)="Today()" data-toggle="tab" href="#home4" role="tab">Today
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" (click)="days7()" data-toggle="tab" href="#home4" role="tab">Last 7 days
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" (click)="days15()" data-toggle="tab" href="#home4" role="tab">Last 15 days
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" (click)="days30()" data-toggle="tab" href="#home4" role="tab">Last 1 Month
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" (click)="month6()" data-toggle="tab" href="#home4" role="tab">Last 6 Months
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" (click)="year()" data-toggle="tab" href="#home4" role="tab">Last 1 year
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" (click)="DateRange()" data-toggle="tab" href="#home4" role="tab">Date Range
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Tab panes -->
+        <div class="tab-content" style=" width: 100%;">
+            <div class="tab-pane active" id="home4" role="tabpanel">
+                <div class="col-md-12" *ngIf="IsRange">
+                    <div class="col-md-3 grid-margin">
+                        <ejs-daterangepicker id='daterangepicker' placeholder='Filter by date range' [startDate]='start'
+                            [endDate]='end' (change)="IsRangeDate($event)">
+                        </ejs-daterangepicker>
+                    </div>
+                </div>
+                <div *ngIf="loading" class="dot-opacity-loader">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <div class="row" *ngIf="RoleName === 'Admin' || RoleName === 'Finance' || UserName === 'Super Admin'">
+                    <div class="col-md-12">
+                        <div style="text-align: center;" class="mt-2 animated fadeIn">
+                            <div class="mt-2 ml-1 mr-1 row">
+                                <div class="col-md-3">
+                                    <div class="nbh  text-white rounded" style="height: 104px;">
+                                        <div class="card-body pb-0" style="padding-top: 30px;">
+                                            <button type="button" class="btn btn-transparent p-0 float-right">
+                                                <i class="icon-location-pin"></i>
+                                            </button>
+
+                                            <div class="panel-body"
+                                                ng-transclude="">
+                                                <div class="pie-chart-item ng-scope">
+                                                    <div class="description">
+                                                        <div>Total Sales: AED {{ alldata.sales?.total | number: '.0-2'}}</div>
+                                                        <div *ngIf="alldata?.restaurant_order_count?.length > 0">
+                                                            Renewal Subscriptions: {{ alldata.subscription_renewal_count | number: '.0-2' }}
+                                                        </div>
+                                                        <!-- <div class="ng-binding">Total Sales</div>
+                                                        <div class="description-stats ng-binding">AED {{
+                                                            alldata.sales?.total | number: '.0-2'
+                                                            }}</div> -->
+                                                    </div><i class="chart-icon i-person"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="chart-wrapper mt-3 mx-3" style="height:30px;">
+                                            <canvas baseChart class="chart">
+                                            </canvas>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="nbh text-white rounded" style="height: 104px;">
+                                        <div class="card-body pb-0" style="padding-top: 30px;">
+                                            <button type="button" class="btn btn-transparent p-0 float-right">
+                                                <i class="icon-location-pin"></i>
+                                            </button>
+                                            <div class="panel-body"
+                                                ng-transclude="">
+                                                <div class="pie-chart-item ng-scope">
+                                                    <div class="description">
+                                                        <div>Order Sales: AED {{ alldata.sales?.order_sales | number: '.0-2'}}</div>
+                                                        <div *ngIf="alldata?.restaurant_order_count?.length > 0">
+                                                            Subscriptions: {{ alldata.sales?.subscription_sales | number: '.0-2' }}
+                                                        </div>
+                                                        <!-- <div class="ng-binding">Order Sales</div>
+                                                        <div class="description-stats ng-binding">AED {{
+                                                            alldata.sales?.order_sales }} </div> -->
+                                                    </div><i class="chart-icon i-person"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="chart-wrapper mt-3 mx-3" style="height:30px;">
+                                            <canvas baseChart class="chart">
+                                            </canvas>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="nbh  text-white rounded" style="height: 104px;">
+                                        <div class="card-body pb-0" style="padding-top: 30px;">
+                                            <button type="button" class="btn btn-transparent p-0 float-right">
+                                                <i class="icon-location-pin"></i>
+                                            </button>
+
+                                            <div class="panel-body"
+                                                ng-transclude="">
+                                                <div class="pie-chart-item ng-scope">
+                                                    <div class="description">
+                                                        <div class="ng-binding">Commission</div>
+                                                        <div class="description-stats ng-binding">AED {{
+                                                            alldata.total_commission | number: '.0-2'}}</div>
+                                                    </div><i class="chart-icon i-person"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="chart-wrapper mt-3 mx-3" style="height:30px;">
+                                            <canvas baseChart class="chart">
+                                            </canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="text-white nbh rounded" style="height: 104px;">
+                                        <div class="card-body pb-0" style="padding-top: 30px;">
+                                            <button type="button" class="btn btn-transparent p-0 float-right">
+                                                <i class="icon-location-pin"></i>
+                                            </button>
+                                            <!-- <div class="text-value">7</div> -->
+                                            <!-- <div> Tax Collected</div> -->
+
+                                            <div class="panel-body"
+                                                ng-transclude="">
+                                                <div class="pie-chart-item ng-scope">
+                                                    <div class="description">
+                                                        <div class="ng-binding">Delivery Charges</div>
+                                                        <div class="description-stats ng-binding">AED {{
+                                                            alldata.total_delivery_charge | number: '.0-2' }}</div>
+                                                    </div><i class="chart-icon i-person"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="chart-wrapper mt-3 mx-3" style="height:30px;">
+                                            <canvas baseChart class="chart">
+                                            </canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-2 ml-1 mr-1 row">
+                                <div class="col-md-3">
+                                    <div class=" text-white nbh rounded" style="height: 104px;">
+                                        <div class="card-body pb-0" style="padding-top: 30px;">
+                                            <button type="button" class="btn btn-transparent p-0 float-right">
+                                                <i class="icon-location-pin"></i>
+                                            </button>
+                                            <!-- <div class="text-value">7</div> -->
+
+                                            <div class="panel-body"
+                                                ng-transclude="">
+                                                <div class="pie-chart-item ng-scope">
+                                                    <div class="description">
+                                                        <div class="ng-binding">Tax Collected</div>
+                                                        <div class="description-stats ng-binding">AED {{
+                                                            alldata.total_tax | number: '.0-2'
+                                                            }}
+                                                        </div>
+                                                    </div><i class="chart-icon i-person"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="chart-wrapper mt-3 mx-3" style="height:30px;">
+                                            <canvas baseChart class="chart">
+                                            </canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="text-white nbh rounded" style="height: 104px;">
+                                        <div class="card-body pb-0" style="padding-top: 30px;">
+                                            <button type="button" class="btn btn-transparent p-0 float-right">
+                                                <i class="icon-location-pin"></i>
+                                            </button>
+                                            <div class="panel-body"
+                                                ng-transclude="">
+                                                <div class="pie-chart-item ng-scope">
+                                                    <div class="description">
+                                                        <div class="ng-binding">Refund</div>
+                                                        <div class="description-stats ng-binding">AED {{
+                                                            alldata.total_refund | number: '.0-2' }} </div>
+                                                    </div><i class="chart-icon i-person"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="chart-wrapper mt-3 mx-3" style="height:30px;">
+                                            <canvas baseChart class="chart">
+                                            </canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="nbh text-white rounded" style="height: 104px;">
+                                        <div class="card-body pb-0" style="padding-top: 30px;">
+                                            <button type="button" class="btn btn-transparent p-0 float-right">
+                                                <i class="icon-location-pin"></i>
+                                            </button>
+                                            <div class="panel-body"
+                                                ng-transclude="">
+                                                <div class="pie-chart-item ng-scope">
+                                                    <div class="description">
+                                                        <div>Placed Order: {{ alldata.total_placed_orders | number: '.0-2' }}</div>
+                                                        <div>Delivered Ordered: {{ alldata.delivered_orders_count | number: '.0-2' }}
+                                                        </div>
+                                                        <div> </div>
+                                                    </div><i class="chart-icon i-person"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="chart-wrapper mt-3 mx-3" style="height:30px;">
+                                            <canvas baseChart class="chart">
+                                            </canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="nbh text-white rounded" style="height: 104px;">
+                                        <div class="card-body pb-0" style="padding-top: 30px;">
+                                            <button type="button" class="btn btn-transparent p-0 float-right">
+                                                <i class="icon-location-pin"></i>
+                                            </button>
+                                            <div class="panel-body"
+                                                ng-transclude="">
+                                                <div class="pie-chart-item ng-scope">
+                                                    <div class="description">
+                                                        <div class="ng-binding">Distinct Customer</div>
+                                                        <div class="description-stats ng-binding"> {{
+                                                            alldata.count_of_customer_placed_order | number: '.0-2' }} </div>
+                                                    </div><i class="chart-icon i-person"></i>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="chart-wrapper mt-3 mx-3" style="height:30px;">
+                                            <canvas baseChart class="chart">
+                                            </canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" *ngIf="RoleName === 'Helpdesk'">
+                    <div class="col-md-12">
+                        <div style="text-align: center;" class="mt-2 animated fadeIn">
+                            <div class="mt-2 ml-1 mr-1 row">
+                                <div class="col-md-3">
+                                    <div class=" text-white nbh rounded" style="height: 104px;">
+                                        <div class="card-body pb-0" style="padding-top: 30px;">
+                                            <button type="button" class="btn btn-transparent p-0 float-right">
+                                                <i class="icon-location-pin"></i>
+                                            </button>
+                                            <!-- <div class="text-value">7</div> -->
+
+                                            <div class="panel-body"
+                                                ng-transclude="">
+                                                <div class="pie-chart-item ng-scope">
+                                                    <div class="description">
+                                                        <div class="ng-binding">Placed Order</div>
+                                                        <div class="description-stats ng-binding">
+                                                            {{ alldata.total_placed_orders | number: '.0-2' }}
+                                                        </div>
+                                                    </div><i class="chart-icon i-person"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="chart-wrapper mt-3 mx-3" style="height:30px;">
+                                            <canvas baseChart class="chart">
+                                            </canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="text-white nbh rounded" style="height: 104px;">
+                                        <div class="card-body pb-0" style="padding-top: 30px;">
+                                            <button type="button" class="btn btn-transparent p-0 float-right">
+                                                <i class="icon-location-pin"></i>
+                                            </button>
+                                            <div class="panel-body"
+                                                ng-transclude="">
+                                                <div class="pie-chart-item ng-scope">
+                                                    <div class="description">
+                                                        <div class="ng-binding">Delivered Ordered</div>
+                                                        <div class="description-stats ng-binding">
+                                                            {{ alldata.no_of_successful_orders | number: '.0-2' }}
+                                                        </div>
+                                                    </div><i class="chart-icon i-person"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="chart-wrapper mt-3 mx-3" style="height:30px;">
+                                            <canvas baseChart class="chart">
+                                            </canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="nbh text-white rounded" style="height: 104px;">
+                                        <div class="card-body pb-0" style="padding-top: 30px;">
+                                            <button type="button" class="btn btn-transparent p-0 float-right">
+                                                <i class="icon-location-pin"></i>
+                                            </button>
+                                            <div class="panel-body"
+                                                ng-transclude="">
+                                                <div class="pie-chart-item ng-scope">
+                                                    <div class="description">
+                                                        <div class="ng-binding">Distinct Customer </div>
+                                                        <div class="description-stats ng-binding">
+                                                            {{ alldata.count_of_customer_placed_order | number: '.0-2' }}
+                                                        </div>
+                                                    </div><i class="chart-icon i-person"></i>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="chart-wrapper mt-3 mx-3" style="height:30px;">
+                                            <canvas baseChart class="chart">
+                                            </canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="nbh text-white rounded" style="height: 104px;">
+                                        <div class="card-body pb-0" style="padding-top: 30px;">
+                                            <button type="button" class="btn btn-transparent p-0 float-right">
+                                                <i class="icon-location-pin"></i>
+                                            </button>
+                                            <div class="panel-body"
+                                                ng-transclude="">
+                                                <div class="pie-chart-item ng-scope">
+                                                    <div class="description">
+                                                        <div class="ng-binding">Pending Ticket</div>
+                                                        <div class="description-stats ng-binding">
+                                                            {{alldata?.pending_tickets_count| number: '.0-2' }}
+                                                        </div>
+                                                    </div><i class="chart-icon i-person"></i>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="chart-wrapper mt-3 mx-3" style="height:30px;">
+                                            <canvas baseChart class="chart">
+                                            </canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-4 mb-4">
+                    <div class="col-md-4" *ngIf="alldata?.restaurant_order_count?.length > 0">
+                        <div class="card chart-border">
+                            <div class="col-md-12 grid-margin head-chart">
+                                <div class="d-flex justify-content-between flex-wrap">
+                                    <div class="d-flex align-items-end flex-wrap">
+                                        <div class="mr-md-3 mr-xl-5">
+                                            <!-- <h4>Top 10 Restaurant</h4> -->
+                                            <ul class="nav nav-tabs" role="tablist" style="width: 323px; border: none;">
+                                                <li class="nav-item active" style="margin-bottom: -6px;">
+                                                    <a class="nav-link active border" data-toggle="tab"
+                                                        href="#TopRestaurant" role="tab">
+                                                        <h5> Top 10 Restaurants</h5>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item" style="margin-bottom: -6px;">
+                                                    <a class="nav-link border" data-toggle="tab" href="#TopCluster"
+                                                        role="tab">
+                                                        <h5> Top 10 Bowls </h5>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-content" style="width: 100%; margin-top: -15px; height: 264px;">
+                                <div class="tab-pane active" id="TopRestaurant" role="tabpanel">
+                                    <div class="card-body top-scroll">
+                                        <div class="table-responsive">
+                                            <table class="table table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="top-trand head-color">
+                                                            Name
+                                                        </th>
+                                                        <th class="top-trand">
+                                                            Order Count
+                                                        </th>
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngFor="let restaurant of alldata?.restaurant_order_count">
+                                                        <td class="td-trand">
+                                                            <a style="color: #24415d"
+                                                                [routerLink]="['/restaurants','restdetail', restaurant.id]">
+                                                                {{restaurant.name}}
+                                                            </a>
+                                                        </td>
+                                                        <td class="td-trand">
+                                                            {{restaurant.count}}
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="TopCluster" role="tabpanel">
+                                    <div class="card-body top-scroll">
+                                        <div class="table-responsive">
+                                            <table class="table table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="top-trand head-color">
+                                                            Restaurant
+                                                        </th>
+                                                        <th class="top-trand head-color">
+                                                            Order
+                                                        </th>
+                                                        <th class="top-trand">
+                                                            Count
+                                                        </th>
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngFor="let order of alldata?.item_order_count">
+                                                        <td class="head-color td-trand">
+                                                            {{order.restaurant_name}}
+                                                        </td>
+                                                        <td class="head-color td-trand">
+                                                            {{order.name}}
+                                                        </td>
+                                                        <td class="td-trand">
+                                                            {{order.count}}
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4" *ngIf="alldata?.restaurant_order_count?.length === 0">
+                        <div class="card chart-border">
+                            <div class="col-md-12 grid-margin head-chart">
+                                <div class="d-flex justify-content-between flex-wrap">
+                                    <div class="d-flex align-items-end flex-wrap">
+                                        <div class="mr-md-3 mr-xl-5">
+                                            <!-- <h4>Top 10 Restaurant</h4> -->
+                                            <ul class="nav nav-tabs" role="tablist" style="width: 323px; border: none;">
+                                                <li class="nav-item" style="margin-bottom: -6px;">
+                                                    <a class="nav-link border" data-toggle="tab" href="#TopCluster"
+                                                        role="tab">
+                                                        <h5> Top 10 Bowls </h5>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-content" style="width: 100%; margin-top: -15px; height: 264px;">
+                                <div class="tab-pane active" id="TopCluster" role="tabpanel">
+                                    <div class="card-body top-scroll">
+                                        <div class="table-responsive">
+                                            <table class="table table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="top-trand head-color">
+                                                            Restaurant
+                                                        </th>
+                                                        <th class="top-trand head-color">
+                                                            Order
+                                                        </th>
+                                                        <th class="top-trand">
+                                                            Count
+                                                        </th>
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngFor="let order of alldata?.item_order_count">
+                                                        <td class="head-color td-trand">
+                                                            {{order.restaurant_name}}
+                                                        </td>
+                                                        <td class="head-color td-trand">
+                                                            {{order.name}}
+                                                        </td>
+                                                        <td class="td-trand">
+                                                            {{order.count}}
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card pt-2 chart-border">
+                            <div class="col-md-12 head-chart">
+                                <div class="d-flex justify-content-between flex-wrap">
+                                    <div class="d-flex align-items-end flex-wrap">
+                                        <div class="mr-md-3 mr-xl-5">
+                                            <h5>Top 10 Clusters</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body top-scroll">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th class="top-trand head-color">
+                                                    Name
+                                                </th>
+                                                <th class="top-trand">
+                                                    Order Count
+                                                </th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let cluster of alldata?.cluster_order_count">
+                                                <td class="td-trand">
+                                                    <a style="color: #24415d" [routerLink]="['/clusters']">
+                                                        {{cluster.name}}
+                                                    </a>
+                                                </td>
+                                                <td class="td-trand">
+                                                    {{cluster.count}}
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card pt-2 chart-border">
+                            <div class="col-md-12 head-chart">
+                                <div class="d-flex justify-content-between flex-wrap">
+                                    <div class="d-flex align-items-end flex-wrap">
+                                        <div class="mr-md-3 mr-xl-5">
+                                            <h5>Top 10 Customers</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body top-scroll">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th class="top-trand head-color">
+                                                    Name
+                                                </th>
+                                                <th class="top-trand">
+                                                    Order Amount
+                                                </th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let customer of alldata?.customer_order_count">
+                                                <td class="td-trand">
+                                                    <a style="color: #24415d" [routerLink]="['/customers','profile', customer.id]">
+                                                        {{customer.name}}
+                                                    </a>
+                                                </td>
+                                                <td class="td-trand">
+                                                    {{customer.order_amount | number: '.0-2'}}
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-2 row">
+                    <div class="col-md-4">
+                        <!-- <div class="container"> -->
+                        <div class="chart-border">
+                            <h4 class="head-chart">Cuisine Chart</h4>
+                            <chartPie [RestaurantChart]="RestaurantChart"></chartPie>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="chart-border">
+                            <h4 class="head-chart">Order Amount Stats </h4>
+                            <chart-order-amount [ChartOrderAmount]="ChartOrderAmount"></chart-order-amount>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="chart-border">
+                            <h4 class="head-chart">Order Stats </h4>
+                            <chart-order-count [ChartOrderCount]="ChartOrderCount"></chart-order-count>
+                        </div>
+                    </div>
+
+                    <!-- <div class="col-md-4">
+                        <div class="chart-border">
+                           
+                            <h4 class="head-chart">Restaurants</h4>
+                            <donutchartPie [BreakFastData]="BreakFastData" [SnacksData]="SnacksData"
+                                [LunchData]="LunchData" [DinnerData]="DinnerData" [LateNightData]="LateNightData">
+                            </donutchartPie>
+                        </div>
+                    </div> -->
+
+
+
+                </div>
+                <div class="mt-4 row">
+                    <div class="col-md-6">
+                        <div class="chart-border">
+                            <h4 class="head-chart">Order Status</h4>
+                            <ChartPieCuisine [RestaurantCuisineChart]="RestaurantCuisineChart"></ChartPieCuisine>
+                        </div>
+                    </div>
+                    <div class="col-md-6" *ngIf="RoleName === 'Admin' || RoleName === 'Finance' || UserName === 'Super Admin'">
+                        <div class="chart-border">
+                            <h4 class="head-chart">Sales</h4>
+                            <chart [SalesChart]="SalesChart"></chart>
+                        </div>
+                    </div>
+
+                    <!-- <div class="col-md-4">
+                        <div class="card pt-2">
+                            <div class="col-md-12 grid-margin">
+                                <div class="d-flex justify-content-between flex-wrap">
+                                    <div class="d-flex align-items-end flex-wrap">
+                                        <div class="mr-md-3 mr-xl-5">
+                                            <h4>Top 10 Clusters</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body top-scroll" style="height: 340px;">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th class="top-trand">
+                                                    Name
+                                                </th>
+                                                <th class="top-trand">
+                                                    Count
+                                                </th>
+                                                
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let cluster of alldata?.cluster_order_count">
+                                                <td>
+                                                   {{cluster.name}}
+                                                </td>
+                                                <td>
+                                                    {{cluster.count}}
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+
+            
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<div #epltable class="card" style="display: none;">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead class="thead-dark">
+
+                    <tr>
+                        <th>
+                            Title
+                        </th>
+                        <th>
+                            {{ExportData?.restaurant}}
+                        </th>
+                    </tr>
+                    <tr></tr>
+
+                    <tr>
+                        <th>
+                            Cuisine
+                        </th>
+                        <th>
+                            {{ExportData?.cuisine}}
+                        </th>
+                    </tr>
+                    <tr></tr>
+
+                    <tr>
+                        <th>
+                            Time Period
+                        </th>
+                        <th>
+                            {{ExportData?.time_period.from | date}}
+                        </th>
+                        <th>
+                            To
+                        </th>
+                        <th>
+                            {{ExportData?.time_period.to | date}}
+                        </th>
+                    </tr>
+                    <tr></tr>
+
+                    <tr *ngIf="UserName === 'admin' || UserName === 'bowlhouse_finance' || UserName === 'Super Admin'">
+                        <th>
+                            Total Sales
+                        </th>
+                        <th>
+                            AED {{ExportData?.total_sales | number: '.0-2'}}
+                        </th>
+                        <th></th>
+                        <th *ngIf="ExportData?.restaurant_order_count?.length > 0">
+                            Renewal Subscriptions
+                        </th>
+                        <th *ngIf="ExportData?.restaurant_order_count?.length > 0">
+                            {{ ExportData.subscription_renewal_count | number: '.0-2' }}
+                        </th>
+                        <th></th>
+                        <th>
+                            Order Sales
+                        </th>
+                        <th>
+                            AED {{ExportData?.order_sales | number: '.0-2'}}
+                        </th>
+                        <th></th>
+                        <th *ngIf="ExportData?.restaurant_order_count?.length > 0">
+                            Subscriptions
+                        </th>
+                        <th *ngIf="ExportData?.restaurant_order_count?.length > 0">
+                            {{ExportData?.subscription_sales | number: '.0-2'}}
+                        </th>
+                        <th></th>
+                        <th>
+                            Commission
+                        </th>
+                        <th>
+                            AED {{ExportData?.total_commission | number: '.0-2'}}
+                        </th>
+                        <th></th>
+                        <th>
+                            Delivery Charges
+                        </th>
+                        <th>
+                            AED {{ExportData?.total_delivery_charge | number: '.0-2'}}
+                        </th>
+                        <th></th>
+                    </tr>
+                    <tr></tr>
+
+                    <tr *ngIf="UserName === 'admin' || UserName === 'bowlhouse_finance' || UserName === 'Super Admin'">
+                        <th>
+                            Tax Collected
+                        </th>
+                        <th>
+                            AED {{ExportData?.total_tax | number: '.0-2'}}
+                        </th>
+                        <th></th>
+                        <th>
+                            Refund
+                        </th>
+                        <th>
+                            {{ExportData?.total_refund | number: '.0-2'}}
+                        </th>
+                        <th></th>
+                        <th>
+                            Placed Order
+                        </th>
+                        <th>
+                            {{ExportData?.total_placed_orders | number: '.0-2'}}
+                        </th>
+                        <th></th>
+                        <th>
+                            Delivered Ordered
+                        </th>
+                        <th>
+                            {{ExportData?.delivered_orders_count | number: '.0-2'}}
+                        </th>
+                        <th></th>
+                        <th>
+                            Distinct Customer
+                        </th>
+                        <th>
+                            {{ExportData?.count_of_customer_placed_order | number: '.0-2'}}
+                        </th>
+                        <th></th>
+                    </tr>
+                    <tr></tr>
+                    <tr></tr>
+
+                    <tr>
+                        <th></th>
+                        <th>
+                            Break Fast
+                        </th>
+                        <th>
+                            Lunch
+                        </th>
+                        <th>
+                            Snacks
+                        </th>
+                        <th>
+                            Dinner
+                        </th>
+                        <th>
+                            Late Night
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>Total Orders</th>
+                        <th>
+                            {{ExportData?.sales.breakfast.count}}
+                        </th>
+                        <th>
+                            {{ExportData?.sales.lunch.count}}
+                        </th>
+                        <th>
+                            {{ExportData?.sales.snacks.count}}
+                        </th>
+                        <th>
+                            {{ExportData?.sales.dinner.count}}
+                        </th>
+                        <th>
+                            {{ExportData?.sales.late_night.count}}
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>Sales (AED)</th>
+                        <th>
+                            {{ExportData?.sales.breakfast.amount}}
+                        </th>
+                        <th>
+                            {{ExportData?.sales.lunch.amount}}
+                        </th>
+                        <th>
+                            {{ExportData?.sales.snacks.amount}}
+                        </th>
+                        <th>
+                            {{ExportData?.sales.dinner.amount}}
+                        </th>
+                        <th>
+                            {{ExportData?.sales.late_night.amount}}
+                        </th>
+                    </tr>
+                    <tr></tr>
+                    <tr></tr>
+
+                    <tr>
+                        <th></th>
+                        <th>
+                            Delivered
+                        </th>
+                        <th>
+                            Cancelled By Customers
+                        </th>
+                        <th>
+                            Cancelled By Restaurant
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>Order Status</th>
+                        <th>
+                            {{ExportData?.order_status_DELIVERED_count}}
+                        </th>
+                        <th>
+                            {{ExportData?.cancelled_orders_by_customers}}
+                        </th>
+                        <th>
+                            {{ExportData?.cancelled_orders_by_restaurants}}
+                        </th>
+                    </tr>
+                    <tr></tr>
+                    <tr></tr>
+
+                    <tr>
+                        <th>Total sales vs time</th>
+                    </tr>
+
+                    <tr *ngFor="let times of ExportData?.sales.sales_vs_time">
+                        <th>{{times.from | date}}</th>
+                        <th>To</th>
+                        <th>{{times.to | date}}</th>
+                        <th>AED {{times.amount}}</th>
+                    </tr>
+                    <tr></tr>
+                    <tr></tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div #epltable1 class="card" style="display: none;">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead class="thead-dark">
+
+                    <tr>
+                        <th>
+                            Total Orders
+                        </th>
+                    </tr>
+                    <tr></tr>
+
+                    <tr>
+                        <th>
+                            #
+                        </th>
+                        <th>
+                            Order Id
+                        </th>
+                        <th>
+                            Order Date
+                        </th>
+                        <th>
+                            Restaurant Name
+                        </th>
+                        <th>
+                            Customer Name
+                        </th>
+                        <th>
+                            Total Amount
+                        </th>
+                        <!-- <th>
+                            Amount To Restaurant
+                        </th> -->
+                        <th>
+                            Delivery Charges
+                        </th>
+                        <th>
+                            Commission
+                        </th>
+                        <th>
+                            Status
+                        </th>
+                        <th>
+                            Payment Status
+                        </th>
+                        <th>
+                            Customer Subscriptions
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of ExportData?.orders; let i=index">
+                        <td>
+                            {{i+1}}
+                        </td>
+                        <td>
+                            {{item.id}}
+                        </td>
+                        <td>
+                            {{item.created_date | date}}
+                        </td>
+                        <td>
+                            {{item.restaurant.name}}
+                        </td>
+                        <td>
+                            {{item.customer.name}}
+                        </td>
+                        <td>
+                            {{item.total_amount}}
+                        </td>
+                        <!-- <td>Amount To Restaurant</td> -->
+                        <td>{{item.delivery_charge}}</td>
+                        <td>AED 1</td>
+                        <td>{{item.status[0].status.name}}</td>
+                        <td>{{item?.payment_detail[0].status.name}}</td>
+                        <td>{{item.customer.is_subscribed}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal" id="ExportExcelModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Export To Excel</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <select (change)="IsRestChangeExport($event)"
+                            class="btn-sm btn-secondary" style="width: 220px;
+                            margin-bottom: 20px;">
+                            <option [ngValue]="undefined" hidden>Filter Restaurant</option>
+                            <option value="undefined">All</option>
+                            <option *ngFor="let item of category" [value]="item.id">
+                                {{ item.name }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <select (change)="ExportDaysFilter($event)" class="btn-sm btn-secondary"
+                        style="width: 200px;">
+                            <option selected value="undefined">Filter Days</option>
+                            <option value="7">Last 7 days</option>
+                            <option value="15">Last 15 days</option>
+                            <option value="30">Last 30 days</option>
+                            <option value="6">Last 6 months</option>
+                            <option value="1">Last 1 year</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <ejs-daterangepicker id='daterangepicker' placeholder='Fiter by date range' [startDate]='start'
+                            [endDate]='end' (change)="ExportIsRangeDate($event)">
+                        </ejs-daterangepicker>
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-md-12 text-center">
+                        <button class="btn-sm btn btn-secondary ml-2" [disabled]="loading"
+                        style="padding: 10px; width: 150px;" (click)="exportToExcel()">
+                        Excel Download </button>
+                        <img src="../../../../../../assets/images/loader.gif" *ngIf="loading">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

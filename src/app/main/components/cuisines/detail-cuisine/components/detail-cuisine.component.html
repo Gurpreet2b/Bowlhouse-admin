@@ -1,0 +1,205 @@
+<div class="row">
+    <div *ngIf="loading" class="dot-opacity-loader">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+    <div class="col-md-12" *ngIf="CuisineDetails !== undefined">
+        <div class="card col-md-12 p-2 ml-0.5 pb-3">
+            <div class="row" *ngIf="CuisineDetails.action === 'add'">
+                <div class="col-md-6">
+                    <div style="text-align:start;" class="card-imgage">
+                        <img src="{{CuisineDetails.picture}}" alt="Picture">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card-body" style="padding: 0;">
+                        <div class="card-card rest-border">
+                            <div class="card-custom">
+                                <div style="padding: 16px" class="card-description">
+                                    <div class="label-name text-center" style="font-size: 25px;">Cuisine New Details</div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <div class="label-name">Cuisine</div>
+                                            <div>{{CuisineDetails.name}}</div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <div class="label-name">Requested User</div>
+                                            <div>{{CuisineDetails.user.username}}</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <div class="label-name">Created Date</div>
+                                            <div>{{CuisineDetails.created_date | date}}</div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <div class="label-name">Updated Date</div>
+                                            <div>{{CuisineDetails.updated_date | date }}</div>
+                                        </div>
+                                    </div>
+
+                                     <div class="row mt-2">
+                                        <div class="col-md-2">
+                                            <button class="btn btn-primary btn-sm"
+                                                [routerLink]="['/restaurant-approvals']">
+                                                Back
+                                            </button>
+                                        </div>
+                                        <div class="col-md-2 mr-3" *ngIf="CuisineDetails?.approved_status === 'UNAPPROVED'">
+                                            <button class="btn btn-success btn-sm" (click)="IsApproval()">Approve</button>
+                                        </div>
+                                        <div class="col-md-2" *ngIf="CuisineDetails?.approved_status === 'UNAPPROVED'">
+                                            <button class="btn btn-danger btn-sm"
+                                            data-toggle="modal" data-target="#DiscardModal">Discard</button>
+                                        </div>
+                                        
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" *ngIf="CuisineDetails.action === 'edit'">
+                <div class="col-md-6">
+                    <div style="text-align:start;" class="card-imgage">
+                        <img src="{{CuisineDetails.picture}}" alt="Picture">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card-body" style="padding: 0;">
+                        <div class="card-card rest-border">
+                            <div class="card-custom">
+                                <div style="padding: 16px" class="card-description">
+                                    <div class="label-name text-center" style="font-size: 25px;">Cuisine New Details</div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <div class="label-name">Cuisine</div>
+                                            <div [ngClass]="{'Highlight1': CuisineDetails?.name !== CuisinePreviousDetails?.name}">
+                                                {{CuisineDetails.name}}
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <div class="label-name">Requested User</div>
+                                            <div>
+                                                {{CuisineDetails.user.username}}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <div class="label-name">Created Date</div>
+                                            <div [ngClass]="{'Highlight1': CuisineDetails?.created_date !== CuisinePreviousDetails?.created_date}">
+                                                {{CuisineDetails.created_date | date}}
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <div class="label-name">Updated Date</div>
+                                            <div [ngClass]="{'Highlight1': CuisineDetails?.updated_date !== CuisinePreviousDetails?.updated_date}">
+                                                {{CuisineDetails.updated_date | date}}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                     <div class="row mt-2">
+                                        <div class="col-md-2">
+                                            <button class="btn btn-primary btn-sm"
+                                                [routerLink]="['/restaurant-approvals']">
+                                                Back
+                                            </button>
+                                        </div>
+                                        <div class="col-md-2 mr-3" *ngIf="CuisineDetails?.approved_status === 'UNAPPROVED'">
+                                            <button class="btn btn-success btn-sm" (click)="IsApproval()">Approve</button>
+                                        </div>
+                                        <div class="col-md-2" *ngIf="CuisineDetails?.approved_status === 'UNAPPROVED'">
+                                            <button class="btn btn-danger btn-sm"
+                                            data-toggle="modal" data-target="#DiscardModal">Discard</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12" *ngIf="CuisinePreviousDetails !== undefined">
+        <div class="card col-md-12 p-2 ml-0.5 pb-3" *ngIf="CuisineDetails?.action === 'edit'">
+            <div class="row">
+                <div class="col-md-6">
+                    <div style="text-align:start;" class="card-imgage">
+                        <img src="{{CuisinePreviousDetails.picture}}" alt="Picture">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card-body" style="padding: 0;">
+                        <div class="card-card rest-border">
+                            <div class="card-custom">
+                                <div style="padding: 16px" class="card-description">
+                                    <div class="label-name text-center" style="font-size: 25px;">Cuisine Previous Details</div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <div class="label-name">Cuisine</div>
+                                            <div>{{CuisinePreviousDetails.name}}</div>
+                                        </div>
+                                        <!-- <div class="col-md-6 mb-3">
+                                            <div class="label-name">Contact Person</div>
+                                            <div>{{CuisinePreviousDetails.user.username}}</div>
+                                        </div> -->
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <div class="label-name">Created Date</div>
+                                            <div>{{CuisinePreviousDetails.created_date | date}}</div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <div class="label-name">Updated Date</div>
+                                            <div>{{CuisinePreviousDetails.updated_date | date }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="DiscardModal">
+    <div class="modal-dialog" style="margin: 40px 380px;">
+        <div class="modal-content" style="width: 500px;">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Reason for Cuisine discard</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="">Comment</label>
+                            <textarea type="text" [(ngModel)]="comment" [ngModelOptions]="{standalone: true}"
+                                class="form-control disable" placeholder="Enter Comment">
+                            </textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-dark btn-sm"
+                    data-dismiss="modal">Close</button>
+                    <button class="btn btn-secondary btn-sm" (click)="IsDiscard()">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

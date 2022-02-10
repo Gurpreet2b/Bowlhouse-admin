@@ -1,0 +1,787 @@
+<div class="row">
+    <ul class="nav nav-tabs" role="tablist" style="border-bottom: none;">
+        <li class="nav-item active">
+            <a class="nav-link active" data-toggle="tab" href="#RestaurantApproval" role="tab"
+            (click)="IsRestaurantApproval()">Restaurant Approval
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#MenuApproval" role="tab"
+            (click)="IsMenuApproval()">Menu Approval
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#MasterItem" role="tab"
+            (click)="IsMasterApproval()">Master Items
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#coupon" role="tab"
+            (click)="IsCouponsApproval()">Coupons
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#offer" role="tab"
+            (click)="IsOffersApproval()">Offer Flash Cards
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#restaurantOffer" role="tab"
+            (click)="IsRestaurantOffersApproval()">Restaurant Offers
+            </a>
+        </li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content" style="border-top: 2px solid #ececec;  width: 100%;">
+        <div class="tab-pane active" id="RestaurantApproval" role="tabpanel">
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <div *ngIf="loading" class="dot-opacity-loader">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                        <!-- <img src="../../../../../../assets/images/loader.gif" *ngIf="loading"> -->
+                        <table class="table table-hover">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>
+                                        Restaurant Name
+                                    </th>
+                                    <th>
+                                        User
+                                    </th>
+                                    <th>
+                                        Status
+                                    </th>
+                                    <th *ngIf="IsUserName === 'admin'">
+                                        Action
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr
+                                    *ngFor="let restaurant of RestaurantApprovals | paginate: { id:'first', itemsPerPage: 10, currentPage: currentPage, totalItems: totalItemsRest }; let i=index">
+                                    <td>
+                                        {{restaurant.name}}
+                                    </td>
+                                    <td>
+                                        {{restaurant.user.username}}
+                                    </td>
+                                    <td>
+                                        <span *ngIf="restaurant.approved_status !== 'REJECTED'">
+                                            {{restaurant.approved_status}}
+                                        </span>
+                                        <span *ngIf="restaurant.approved_status === 'REJECTED'"
+                                        title="{{restaurant.discard_message}}" style="cursor: pointer;">
+                                            {{restaurant.approved_status}}
+                                        </span>
+                                    </td>
+                                    <td *ngIf="IsUserName === 'admin'">
+                                        <a [routerLink]="['/restaurants','restdetail', restaurant.id, 'approval']">
+                                            {{restaurant.action}}
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr *ngIf="RestaurantApprovals.length === 0">
+                                    No Record Found!
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="row" style="width: 100%">
+                            <div class="col-md-11">
+                                <pagination-controls (pageChange)="onPageChange($event, '1')" id="first"></pagination-controls>
+                            </div>
+                            <div class="col-md-1" style="margin-top: 30px;">
+                                <select id="PerPage" class="form-control" (change)="onPageChange($event, '2')">
+                                    <option *ngFor="let item of PageTotalNumber" [value]="item">
+                                        {{ item }}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane" id="MenuApproval" role="tabpanel">
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <div *ngIf="loading" class="dot-opacity-loader">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                        <!-- <img src="../../../../../../assets/images/loader.gif" *ngIf="loading"> -->
+                        <table class="table table-hover">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>
+                                        Restaurant Name
+                                    </th>
+                                    <th>
+                                        Food Name
+                                    </th>
+                                    <th>
+                                        User
+                                    </th>
+                                    <th>
+                                        Status
+                                    </th>
+                                    <th *ngIf="IsUserName === 'admin'">
+                                        Action
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr
+                                    *ngFor="let menu of MenuApprovals | paginate: { id:'second', itemsPerPage: 10, currentPage: currentPageMenu, totalItems: totalMenuItems }; let i=index">
+                                    <td>
+                                        {{menu.restaurant.name}}
+                                    </td>
+                                    <td>
+                                        {{menu.name}}
+                                    </td>
+                                    <td>
+                                        {{menu.user.username}}
+                                    </td>
+                                    <td>
+                                        <span *ngIf="menu.approved_status !== 'REJECTED'">
+                                            {{menu.approved_status}}
+                                        </span>
+                                        <span *ngIf="menu.approved_status === 'REJECTED'"
+                                        title="{{menu.discard_message}}" style="cursor: pointer;">
+                                            {{menu.approved_status}}
+                                        </span>
+                                    </td>
+                                    <td *ngIf="IsUserName === 'admin'">
+                                        <a [routerLink]="['/Information', menu.id]">
+                                            {{menu.action}}
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr *ngIf="MenuApprovals.length === 0">
+                                    No Record Found!
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="row" style="width: 100%">
+                            <div class="col-md-11">
+                                <pagination-controls (pageChange)="onPageChangeMenu($event, '1')" id="second"></pagination-controls>
+                            </div>
+                            <div class="col-md-1" style="margin-top: 30px;">
+                                <select id="PerPage" class="form-control" (change)="onPageChangeMenu($event, '2')">
+                                    <option *ngFor="let itemMenu of PageTotalNumberMenu" [value]="itemMenu">
+                                        {{ itemMenu }}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane" id="MasterItem" role="tabpanel">
+            <div class="card">
+                <div class="card-body p-0">
+                    <div class="table-responsive" style="display: contents;">
+                        <div *ngIf="loading" class="dot-opacity-loader">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+
+                        <div class="row">
+                            <ul class="nav nav-tabs" role="tablist" style="border-bottom: none;">
+                                <li class="nav-item active">
+                                    <a class="nav-link active" data-toggle="tab" href="#Cuisines" role="tab"
+                                    (click)="IsMasterApproval()">Cuisines
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#Clusters" role="tab"
+                                    (click)="IsClustersApproval()">Clusters
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#FoodCat" role="tab"
+                                    (click)="IsFoodCategoryApproval()">Food Category
+                                    </a>
+                                </li>
+                            </ul>
+                            <div class="tab-content" style="border-top: 2px solid #ececec;  width: 100%;">
+                                <div class="tab-pane active" id="Cuisines" role="tabpanel">
+                                    <div class="col-md-12">
+                                        <table class="table table-hover">
+                                            <thead class="thead-dark">
+                                                <tr>
+                                                    <th>
+                                                        Cuisine
+                                                    </th>
+                                                    <th>
+                                                        User
+                                                    </th>
+                                                    <th>
+                                                        Status
+                                                    </th>
+                                                    <th *ngIf="IsUserName === 'admin'">
+                                                        Action
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr
+                                                    *ngFor="let cuisine of CuisineApprovals | paginate: { id:'third', itemsPerPage: 10, currentPage: currentPageCuisine, totalItems: totalItemsCuisine }; let i=index">
+                                                    <td>
+                                                        {{cuisine.name}}
+                                                    </td>
+                                                    <td>
+                                                        {{cuisine.user.username}}
+                                                    </td>
+                                                    <td>
+                                                        <span *ngIf="cuisine.approved_status !== 'REJECTED'">
+                                                            {{cuisine.approved_status}}
+                                                        </span>
+                                                        <span *ngIf="cuisine.approved_status === 'REJECTED'"
+                                                        title="{{cuisine.discard_message}}" style="cursor: pointer;">
+                                                            {{cuisine.approved_status}}
+                                                        </span>
+                                                    </td>
+                                                    <td *ngIf="IsUserName === 'admin'">
+                                                        <a [routerLink]="['/cuisines/information', cuisine.id]">
+                                                            {{cuisine.action}}
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                <tr *ngIf="CuisineApprovals.length === 0">
+                                                    No Record Found!
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <div class="row" style="width: 100%">
+                                            <div class="col-md-11">
+                                                <pagination-controls (pageChange)="onPageChangeCuisine($event, '1')" id="third"></pagination-controls>
+                                            </div>
+                                            <div class="col-md-1" style="margin-top: 30px;">
+                                                <select id="PerPage" class="form-control" (change)="onPageChangeCuisine($event, '2')">
+                                                    <option *ngFor="let itemcuisine of PageTotalNumberCuisine" [value]="itemcuisine">
+                                                        {{ itemcuisine }}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="Clusters" role="tabpanel">
+                                    <div class="col-md-12">
+                                        <table class="table table-hover">
+                                            <thead class="thead-dark">
+                                                <tr>
+                                                    <th>
+                                                        Cluster
+                                                    </th>
+                                                    <th>
+                                                        User
+                                                    </th>
+                                                    <th>
+                                                        Status
+                                                    </th>
+                                                    <th *ngIf="IsUserName === 'admin'">
+                                                        Action
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr
+                                                    *ngFor="let cluster of ClusterApprovals | paginate: { id:'forth', itemsPerPage: 10, currentPage: currentPageCluster, totalItems: totalItemsCluster }; let i=index">
+                                                    <td>
+                                                        {{cluster.name}}
+                                                    </td>
+                                                    <td>
+                                                        {{cluster.user.username}}
+                                                    </td>
+                                                    <td>
+                                                        <span *ngIf="cluster.approved_status !== 'REJECTED'">
+                                                            {{cluster.approved_status}}
+                                                        </span>
+                                                        <span *ngIf="cluster.approved_status === 'REJECTED'"
+                                                        title="{{cluster.discard_message}}" style="cursor: pointer;">
+                                                            {{cluster.approved_status}}
+                                                        </span>
+                                                    </td>
+                                                    <td *ngIf="IsUserName === 'admin'">
+                                                        <a [routerLink]="['/clusters/information', cluster.id]">
+                                                            {{cluster.action}}
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                <tr *ngIf="ClusterApprovals.length === 0">
+                                                    No Record Found!
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <div class="row" style="width: 100%">
+                                            <div class="col-md-11">
+                                                <pagination-controls (pageChange)="onPageChangeCluster($event, '1')" id="forth" ></pagination-controls>
+                                            </div>
+                                            <div class="col-md-1" style="margin-top: 30px;">
+                                                <select id="PerPage" class="form-control" (change)="onPageChangeCluster($event, '2')">
+                                                    <option *ngFor="let itemCluster of PageTotalNumberCluster" [value]="itemCluster">
+                                                        {{ itemCluster }}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="FoodCat" role="tabpanel">
+                                    <div class="col-md-12">
+                                        <table class="table table-hover">
+                                            <thead class="thead-dark">
+                                                <tr>
+                                                    <th>
+                                                        Food Name
+                                                    </th>
+                                                    <th>
+                                                        User
+                                                    </th>
+                                                    <th>
+                                                        Status
+                                                    </th>
+                                                    <th *ngIf="IsUserName === 'admin'">
+                                                        Action
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr
+                                                    *ngFor="let foodCat of FoodCatApprovals | paginate: { id:'fifth', itemsPerPage: 10, currentPage: currentPageFoodCat, totalItems: totalItemsFoodCat }; let i=index">
+                                                    <td>
+                                                        {{foodCat.name}}
+                                                    </td>
+                                                    <td>
+                                                        {{foodCat.user.username}}
+                                                    </td>
+                                                    <td>
+                                                        <span *ngIf="foodCat.approved_status !== 'REJECTED'">
+                                                            {{foodCat.approved_status}}
+                                                        </span>
+                                                        <span *ngIf="foodCat.approved_status === 'REJECTED'"
+                                                        title="{{foodCat.discard_message}}" style="cursor: pointer;">
+                                                            {{foodCat.approved_status}}
+                                                        </span>
+                                                    </td>
+                                                    <td *ngIf="IsUserName === 'admin'">
+                                                        <span (click)="IsApproval(foodCat.id)" class="green" style="cursor: pointer;"> Approve </span> / 
+                                                        <span data-toggle="modal" data-target="#DiscardModal"
+                                                        (click)="IsSelectDiscard(foodCat.id)" class="required" style="cursor: pointer;"> Discard </span>
+                                                    </td>
+                                                </tr>
+                                                <tr *ngIf="FoodCatApprovals.length === 0">
+                                                    No Record Found!
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <div class="row" style="width: 100%">
+                                            <div class="col-md-11">
+                                                <pagination-controls (pageChange)="onPageChangeFoodCat($event, '1')" id="fifth"></pagination-controls>
+                                            </div>
+                                            <div class="col-md-1" style="margin-top: 30px;">
+                                                <select id="PerPage" class="form-control" (change)="onPageChangeFoodCat($event, '2')">
+                                                    <option *ngFor="let itemCategory of PageTotalNumberCategory" [value]="itemCategory">
+                                                        {{ itemCategory }}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane" id="coupon" role="tabpanel">
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <div *ngIf="loading" class="dot-opacity-loader">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                        <!-- <div class="row">
+                            <div class="col-md-12">
+                                <ul class="nav nav-tabs" role="tablist" style="border-bottom: none; width: 735px;">
+                                    <li class="nav-item active">
+                                        <a class="nav-link active" data-toggle="tab" role="tab">Today
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" role="tab">Last 7 days
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" role="tab">Last 30 days
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" role="tab">Date Range
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div> -->
+
+                            <div class="row mb-2">
+                                <div class="col-md-4">
+                                    <ejs-daterangepicker id='daterangepicker' placeholder='Filter by date range' [startDate]='start'
+                                        [endDate]='end' (change)="IsRangeDate($event)">
+                                    </ejs-daterangepicker>
+                                </div>
+                                <div class="col-md-2">
+                                    <form class="form-inline">
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <select (change)="lastDays($event)"
+                                                    class="btn-sm btn-secondary">
+                                                    <option selected value="undefined">Filter Days</option>
+                                                    <option value="15">Last 15 days</option>
+                                                    <option value="30">Last 30 days</option>
+                                                    <option value="6">Last 6 months</option>
+                                                    <option value="1">Last 1 year</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="col-md-4">    
+                                    <form style="margin-left: -22px;" class="form-inline">
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <select placeholder="Status"  class="btn-sm btn-secondary"
+                                                (change)="IsStatusChange($event)">
+                                                    <option selected value="undefined">Select Status</option>
+                                                    <option value="	APPROVED">APPROVED</option>
+                                                    <option value="UNAPPROVED">UNAPPROVED</option>
+                                                    <option value="REJECTED">REJECTED</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+                        <!-- <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-3 grid-margin">
+                                    <ejs-daterangepicker id='daterangepicker' placeholder='Filter by date range' [startDate]='start'
+                                        [endDate]='end'>
+                                    </ejs-daterangepicker>
+                                </div>
+                            </div>
+                        </div> -->
+                        <!-- <img src="../../../../../../assets/images/loader.gif" *ngIf="loading"> -->
+                        <table class="table table-hover">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>
+                                        Picture
+                                    </th>
+                                    <th>
+                                        Coupon Code
+                                    </th>
+                                   
+                                    <th>
+                                        Value
+                                    </th>
+                                    <th>
+                                        UserName
+                                    </th>
+                                    <th>
+                                        Status
+                                    </th>
+                                    <th *ngIf="IsUserName === 'admin'">
+                                        Action
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr
+                                    *ngFor="let coupon of CouponApprovals | paginate: { id:'sixth', itemsPerPage: 10, currentPage: currentPageCoupon, totalItems: totalItemsCoupon }; let i=index">
+                                    <td>
+                                        <img [src]="coupon.image" alt="profile" style="height: 26px; width: 26px;">
+                                    </td>
+                                    <td>
+                                        {{coupon.coupon_code}}
+                                    </td>
+                                    
+                                    <td>
+                                        {{coupon.value}}
+                                    </td>
+                                    <td>
+                                        {{coupon.created_by.username}}
+                                    </td>
+                                    <td>
+                                        <span *ngIf="coupon.status !== 'REJECTED'">
+                                            {{coupon.status}}
+                                        </span>
+                                        <span *ngIf="coupon.status === 'REJECTED'"
+                                        title="{{coupon.discard_message}}" style="cursor: pointer;">
+                                            {{coupon.status}}
+                                        </span>
+                                    </td>
+                                    <td *ngIf="IsUserName === 'admin'">
+                                        <a *ngIf="coupon.status !== 'REJECTED'"
+                                         [routerLink]="['/coupon/coupon-detail', coupon.id]">
+                                            {{coupon.action}}
+                                        </a>
+                                        <span *ngIf="coupon.status === 'REJECTED'">
+                                            {{coupon.action}}
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr *ngIf="CouponApprovals.length === 0">
+                                    No Record Found!
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="row" style="width: 100%">
+                            <div class="col-md-11">
+                                <pagination-controls (pageChange)="onPageChangeCoupon($event, '1')" id="sixth"></pagination-controls>
+                            </div>
+                            <div class="col-md-1" style="margin-top: 30px;">
+                                <select class="form-control" (change)="onPageChangeCoupon($event, '2')">
+                                    <option *ngFor="let item of PageTotalNumberCoupon" [value]="item">
+                                        {{ item }}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane" id="restaurantOffer" role="tabpanel">
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <div *ngIf="loading" class="dot-opacity-loader">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                        <!-- <img src="../../../../../../assets/images/loader.gif" *ngIf="loading"> -->
+                        <table class="table table-hover">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>
+                                        Picture
+                                    </th>
+                                    <th>
+                                        Restaurant
+                                    </th>
+                                    <th>
+                                        Type
+                                    </th>
+                                    <th>
+                                        Discount
+                                    </th>
+                                    <th>
+                                        UserName
+                                    </th>
+                                    <th>
+                                        Status
+                                    </th>
+                                    <th *ngIf="IsUserName === 'admin'">
+                                        Action
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr
+                                    *ngFor="let restOffer of RestOfferApprovals | paginate: { id:'seven', itemsPerPage: 10, currentPage: currentPageRestOffer, totalItems: totalItemsRestOffer }; let i=index">
+                                    <td>
+                                        <img [src]="restOffer.image" alt="profile" style="height: 26px; width: 26px;">
+                                    </td>
+                                    <td>
+                                        {{restOffer.restaurant?.name}}
+                                    </td>
+                                    <td>
+                                        {{restOffer.type}}
+                                    </td>
+                                    <td>
+                                        {{restOffer.value}}
+                                    </td>
+                                    <td>
+                                        {{restOffer.created_by.username}}
+                                    </td>
+                                    <td>
+                                        <span *ngIf="restOffer.status !== 'REJECTED'">
+                                            {{restOffer.status}}
+                                        </span>
+                                        <span *ngIf="restOffer.status === 'REJECTED'"
+                                        title="{{restOffer.discard_message}}" style="cursor: pointer;">
+                                            {{restOffer.status}}
+                                        </span>
+                                    </td>
+                                    <td *ngIf="IsUserName === 'admin'">
+                                        <a *ngIf="restOffer.status !== 'REJECTED'"
+                                        [routerLink]="['/coupon/coupon-detail', restOffer.id]">
+                                            {{restOffer.action}}
+                                        </a>
+                                        <span *ngIf="restOffer.status === 'REJECTED'">
+                                            {{restOffer.action}}
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr *ngIf="RestOfferApprovals.length === 0">
+                                    No Record Found!
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="row" style="width: 100%">
+                            <div class="col-md-11">
+                                <pagination-controls (pageChange)="onPageChangeRestOffer($event, '1')" id="seven"></pagination-controls>
+                            </div>
+                            <div class="col-md-1" style="margin-top: 30px;">
+                                <select id="PerPage" class="form-control" (change)="onPageChangeRestOffer($event, '2')">
+                                    <option *ngFor="let item of PageTotalRestOffer" [value]="item">
+                                        {{ item }}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane" id="offer" role="tabpanel">
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <div *ngIf="loading" class="dot-opacity-loader">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                        <!-- <img src="../../../../../../assets/images/loader.gif" *ngIf="loading"> -->
+                        <table class="table table-hover">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>
+                                        Picture
+                                    </th>
+                                    <th>
+                                        Name
+                                    </th>
+                                    <th>
+                                        Lower Limit
+                                    </th>
+                                    <th>
+                                        Upper Limit
+                                    </th>
+                                    <th>
+                                        Status
+                                    </th>
+                                    <th *ngIf="IsUserName === 'admin'">
+                                        Action
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr
+                                    *ngFor="let offer of OfferApprovals | paginate: { id:'eight', itemsPerPage: 10, currentPage: currentPageOffer, totalItems: totalItemsOffer }; let i=index">
+                                    <td>
+                                        <img [src]="offer.image" alt="profile" style="height: 26px; width: 26px;">
+                                    </td>
+                                    <td>
+                                        {{offer.name}}
+                                    </td>
+                                    
+                                    <td>
+                                        {{offer.lower_limit}}
+                                    </td>
+                                    <td>
+                                        {{offer.upper_limit}}
+                                    </td>
+                                    <td>
+                                        <span *ngIf="offer.status !== 'REJECTED'">
+                                            {{offer.status}}
+                                        </span>
+                                        <span *ngIf="offer.status === 'REJECTED'"
+                                        title="{{offer.discard_message}}" style="cursor: pointer;">
+                                            {{offer.status}}
+                                        </span>
+                                    </td>
+                                    <td *ngIf="IsUserName === 'admin'">
+                                        <a [routerLink]="['/offer/offer-detail', offer.id]">
+                                            {{offer.action}}
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr *ngIf="OfferApprovals.length === 0">
+                                    No Record Found!
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="row" style="width: 100%">
+                            <div class="col-md-11">
+                                <pagination-controls (pageChange)="onPageChangeOffer($event, '1')" id="eight"></pagination-controls>
+                            </div>
+                            <div class="col-md-1" style="margin-top: 30px;">
+                                <select id="PerPage" class="form-control" (change)="onPageChangeOffer($event, '2')">
+                                    <option *ngFor="let item of PageTotalFlashOffer" [value]="item">
+                                        {{ item }}
+                                    </option> 
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal" id="DiscardModal">
+    <div class="modal-dialog" style="margin: 40px 380px;">
+        <div class="modal-content" style="width: 500px;">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Reason for Food Category discard</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="">Comment</label>
+                            <textarea type="text" [(ngModel)]="comment" [ngModelOptions]="{standalone: true}"
+                                class="form-control disable" placeholder="Enter Comment">
+                            </textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-dark btn-sm"
+                    data-dismiss="modal">Close</button>
+                    <button class="btn btn-secondary btn-sm" (click)="IsDiscard()">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

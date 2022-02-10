@@ -1,0 +1,236 @@
+<!-- <div class="card style mr-2 ml-2 pt-2">
+  <div class="col-md-12">
+    <div class="d-flex justify-content-between flex-wrap">
+      <div class="d-flex align-items-end flex-wrap">
+        <div class="mr-md-3 mr-xl-5">
+          <h3>Register New Restaurant</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->
+<nav aria-label="breadcrumb">
+  <ol class="ml-2 mr-2 breadcrumb no-pad">
+    <li class="breadcrumb-item"><a [routerLink]="['../']" href="javascript:void(0)">Restaurants</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Register new restaurant</li>
+  </ol>
+</nav>
+
+<div class="card ml-2 mr-2 mb-2">
+  <div class="card-body ml-2 mr-2">
+    <form [formGroup]="form" (submit)="onSubmit()">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="">Restaurant Name <span class="required">*</span></label>
+            <input placeholder="Enter restaurant name" type="text" class="form-control" formControlName="name" required>
+            <div *ngIf="form.controls['name'].invalid && (form.controls['name'].dirty || form.controls['name'].touched)"
+              class="alert1">
+              <div *ngIf="form.controls['name'].errors.required">
+                Please enter restaurant name.
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="">Contact Person <span class="required">*</span></label>
+            <input placeholder="Enter contact person" type="text" class="form-control" formControlName="contact_person"
+              required>
+            <div *ngIf="form.controls['contact_person'].invalid && (form.controls['contact_person'].dirty || form.controls['contact_person'].touched)"
+              class="alert1">
+              <div *ngIf="form.controls['contact_person'].errors.required">
+                Please enter contact person name.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="">Mobile <span class="required">*</span></label>
+            <input placeholder="Enter mobile number" type="number" class="form-control" formControlName="mobile" required>
+            <div *ngIf="form.controls['mobile'].invalid && (form.controls['mobile'].dirty || form.controls['mobile'].touched)"
+              class="alert1">
+              <div *ngIf="form.controls['mobile'].errors.required">
+                Please enter mobile number.
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="">Email <span class="required">*</span></label>
+            <input placeholder="Enter email" type="email" class="form-control" formControlName="email" required>
+            <div *ngIf="form.controls['email'].invalid && (form.controls['email'].dirty || form.controls['email'].touched)"
+              class="alert1">
+              <div *ngIf="form.controls['email'].errors.required">
+                Please enter email.
+              </div>
+              <div *ngIf="form.controls.email.errors.email">Email must be a valid email address</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="">Latitude <span class="required">*</span></label>
+            <input placeholder="Enter latitude" type="number" class="form-control" formControlName="latitude" required>
+            <div *ngIf="form.controls['latitude'].invalid && (form.controls['latitude'].dirty || form.controls['latitude'].touched)"
+              class="alert1">
+              <div *ngIf="form.controls['latitude'].errors.required">
+                Please enter latitude.
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="">Longitude <span class="required">*</span></label>
+            <input placeholder="Enter longitude" type="number" class="form-control" formControlName="longitude" required>
+            <div *ngIf="form.controls['longitude'].invalid && (form.controls['longitude'].dirty || form.controls['longitude'].touched)"
+              class="alert1">
+              <div *ngIf="form.controls['longitude'].errors.required">
+                Please enter longitude.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="">Owner Name <span class="required">*</span></label>
+            <input placeholder="Enter owner name" type="text" class="form-control" formControlName="owner_name" required>
+            <div *ngIf="form.controls['owner_name'].invalid && (form.controls['owner_name'].dirty || form.controls['owner_name'].touched)"
+              class="alert1">
+              <div *ngIf="form.controls['owner_name'].errors.required">
+                Please enter owner name.
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="">Cluster <span class="required">*</span></label>
+            <select formControlName="cluster" class="form-control" name="" required>
+              <option value="">Select Cluster</option>
+              <option *ngFor="let item of ClusterList" [value]="item.id">
+                {{ item.name }}
+              </option>
+            </select>
+            <div *ngIf="form.controls['cluster'].invalid && (form.controls['cluster'].dirty || form.controls['cluster'].touched)"
+              class="alert1">
+              <div *ngIf="form.controls['cluster'].errors.required">
+                Please select cluster.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="">Address <span class="required">*</span></label>
+            <textarea placeholder="Enter address here" name="" id="" cols="10" rows="5" class="form-control"
+              formControlName="address"></textarea>
+            <div *ngIf="form.controls['address'].invalid && (form.controls['address'].dirty || form.controls['address'].touched)"
+              class="alert1">
+              <div *ngIf="form.controls['address'].errors.required">
+                Please enter address.
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="">Cuisine <span class="required">*</span></label>
+            <select formControlName="cuisine" class="form-control" name="" required>
+              <option value="">Select Cuisine</option>
+              <option *ngFor="let item of cuisine" [value]="item.name">
+                {{ item.name }}
+              </option>
+            </select>
+            <div *ngIf="form.controls['cuisine'].invalid && (form.controls['cuisine'].dirty || form.controls['cuisine'].touched)"
+              class="alert1">
+              <div *ngIf="form.controls['cuisine'].errors.required">
+                Please select cuisine.
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="">Rating</label>
+            <input placeholder="Enter Rating" type="number" min="0" max="5" class="form-control" formControlName="rating">
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-3">
+          <div class="form-group">
+            <label for="">Opening Time <span class="required">*</span></label>
+            <ngb-timepicker formControlName="opening_time"></ngb-timepicker>
+            <div *ngIf="form.controls['opening_time'].invalid && (form.controls['opening_time'].dirty || form.controls['opening_time'].touched)"
+              class="alert1">
+              <div *ngIf="form.controls['opening_time'].errors.required">
+                Please choose restaurant opening time.
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label for="">Closing Time <span class="required">*</span></label>
+            <ngb-timepicker formControlName="closing_time"></ngb-timepicker>
+            <div *ngIf="form.controls['closing_time'].invalid && (form.controls['closing_time'].dirty || form.controls['closing_time'].touched)"
+              class="alert1">
+              <div *ngIf="form.controls['closing_time'].errors.required">
+                Please choose restaurant closing time.
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- </div>
+      <div class="row"> -->
+        <!-- <div class="col-md-6">
+          <div class="form-group">
+            <label for="">Cuisine <span class="required">*</span></label>
+            <select formControlName="cuisine" class="form-control" name="" required>
+              <option value="">Select Cuisine</option>
+              <option *ngFor="let item of cuisine" [value]="item.id">
+                {{ item.name }}
+              </option>
+            </select>
+          </div>
+        </div> -->
+        <!-- <div class="col-md-3"></div> -->
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="">Profile Picture <span class="required">*</span></label>
+            <div>
+              <input type="file" id="profile_pic" accept="image/*" formControlName="profile_pic" (change)="onSelectFile($event)"
+                required>
+              <div *ngIf="form.controls['profile_pic'].invalid && (form.controls['profile_pic'].dirty || form.controls['profile_pic'].touched)"
+                class="alert1">
+                <div *ngIf="form.controls['profile_pic'].errors.required">
+                  Please upload restaurant profile picture.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group text-right">
+            <button type="submit" class="btn btn-secondary btn-sm">Save</button>
+            <img src="../../../../../../assets/images/loader.gif" *ngIf="loading">
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<!-- <br> -->

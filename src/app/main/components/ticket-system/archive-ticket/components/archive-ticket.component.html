@@ -1,0 +1,149 @@
+
+<div class="card pt-2">
+    <div class="col-md-12 grid-margin">
+        <div class="row">
+            <div class="col-md-5">
+                <ejs-daterangepicker id='daterangepicker' placeholder='Fiter by date range' [startDate]='start'
+                    [endDate]='end' (change)="IsRangeDate($event)">
+                </ejs-daterangepicker>
+            </div>
+            <div class="col-md-3">
+                <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
+                    <div class="input-group" style="margin-left: 30px">
+                        <div class="form-outline">
+                            <input id="search-input" formControlName="search" placeholder="Search here" type="search"
+                                id="form" class="form-control" style="padding: 17.7px; width: 210px;" />
+                        </div>
+                        <button type="submit" class="btn-secondary">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <div *ngIf="loading" class="dot-opacity-loader">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <table class="table table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>
+                            #
+                        </th>
+                        <th>
+                            Ticket Id
+                        </th>
+                        <th>
+                            Order Id
+                        </th>
+                        <th>
+                            Created Date
+                        </th>
+                        <th>
+                            Assigned To
+                        </th>
+                        <th>
+                            Subject
+                        </th>
+                        <th>
+                            Status
+                        </th>
+                        <!-- <th class="text-center">
+                            Action
+                        </th> -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr
+                        *ngFor="let ticket of TicketSystemList | paginate: { itemsPerPage: 10, currentPage: currentPage, totalItems: totalItems }; let i=index">
+                        <td>
+                            {{ 10 * (currentPage-1) + i+1 }}
+                        </td>
+                        <td>
+                            <span>{{ticket.id}}</span>
+                        </td>
+                        <td>
+                            <span *ngIf="ticket.order !== '0'">{{ticket.order}}</span>
+                            <span *ngIf="ticket.order === '0'" style="color: red;">Not Provided</span>
+                        </td>
+                        <td>
+                            {{ticket.created_date | date}}
+                        </td>
+                        <td>
+                            {{ticket.user.username}}
+                        </td>
+                        <td>
+                            {{ticket.topic}}
+                        </td>
+                        <td >
+                            <span *ngIf="ticket.status === 'INITIATED'"><a
+                                    style="color:green;">{{ticket.status}}</a></span>
+                            <span *ngIf="ticket.status === 'DONE'"><a
+                                    style="color: rgb(36, 212, 13);">{{ticket.status}}</a></span>
+                            <span *ngIf="ticket.status === 'PENDING'"><a
+                                    style="color: orangered;">{{ticket.status}}</a></span>
+                        </td>
+                        
+                        
+                    </tr>
+                    <tr *ngIf="TicketSystemList.length === 0">
+                        No Record Found!
+                    </tr>
+                </tbody>
+            </table>
+            <pagination-controls (pageChange)="onPageChange($event)"></pagination-controls>
+        </div>
+    </div>
+</div>
+
+<!-- <div class="modal" id="EditTicketModal">
+    <div class="modal-dialog" style="margin: 40px 105px;">
+        <div class="modal-content" style="width: 1140px;">
+            <div class="modal-header">
+                <h4 class="modal-title">View Ticket</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                <app-edit-ticket [TicketId]="TicketId" (valueChange)='ValueChanged($event)'></app-edit-ticket>
+            </div>
+
+        </div>
+    </div>
+</div> -->
+
+<!-- <div class="modal" id="ChangeStatusModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Change Status</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <select class="form-control" [(ngModel)]="Status" [ngModelOptions]="{standalone: true}">
+                            <option value="undefined" selected>Change Status</option>
+                            <option value="PENDING">Pending</option>
+                            <option value="INITIATED">Initiated</option>
+                            <option value="DONE">Done</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-dark btn-sm" data-dismiss="modal">Close</button>
+                    <button class="btn btn-secondary btn-sm" (click)="OnStatusChange()">Save</button>
+                    <img src="../../../../../../assets/images/loader.gif" *ngIf="loading">
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->

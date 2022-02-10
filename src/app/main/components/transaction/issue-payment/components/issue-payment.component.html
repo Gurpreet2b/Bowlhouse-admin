@@ -1,0 +1,132 @@
+<!-- <div class="card style pt-2">
+    <div class="col-md-12 grid-margin">
+        <div class="d-flex justify-content-between flex-wrap">
+            <div class="d-flex align-items-end flex-wrap">
+                <div class="mr-md-3 mr-xl-5">
+                    <h3>BowlHouse Transactions To Restaurants</h3>
+                </div>
+            </div>
+            <div class="d-flex justify-content-between align-items-end flex-wrap">
+                <button (click)="exportToExcel()" class="btn-sm btn btn-secondary">Export To Excel</button>
+            </div>
+        </div>
+    </div>
+</div> -->
+<div class="card">
+    <div class="col-md-12 grid-margin">
+        <div class="d-flex justify-content-between flex-wrap">
+            <div class="col-md-4">
+                <ejs-daterangepicker id='daterangepicker' placeholder='Fiter by date range' [startDate]='start'
+                    [endDate]='end' (change)="IsRangeDate($event)">
+                </ejs-daterangepicker>
+            </div>
+            <div class="d-flex justify-content-between align-items-end flex-wrap">
+                <form class="form-inline">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <select [(ngModel)]="restaurant" [ngModelOptions]="{standalone: true}"
+                                (change)="IsRestChange($event)" class="btn-sm btn btn-secondary">
+                                <option [ngValue]="undefined" hidden>Filter Restaurant</option>
+                                <option value="undefined" selected>All</option>
+                                <option *ngFor="let item of category" [value]="item.id">
+                                    {{ item.name }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+                <form style="margin-left: 2px;" class="form-inline">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <select placeholder="Status" [(ngModel)]="status" [ngModelOptions]="{standalone: true}"
+                                (change)="IsStatusChange($event)" class="btn-sm btn btn-secondary">
+                                <option value="undefined" selected>Filter Status</option>
+                                <option value="PAID">Paid</option>
+                                <option value="UNPAID">Unpaid</option>
+                                <option value="INITIATED">Initiated</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+                <button (click)="exportToExcel()" class="btn-sm btn btn-secondary ml-1" 
+                style="padding: 10px;">Export To Excel</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div #epltable class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <div *ngIf="loading" class="dot-opacity-loader">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <!-- <img src="../../../../../../assets/images/loader.gif" *ngIf="loading"> -->
+            <table class="table table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>
+                            #
+                        </th>
+                        <th>
+                            Paid To(Restaurant Name)
+                        </th>
+                        <th>
+                            Create Date
+                        </th>
+                        <th>
+                            Transaction Id
+                        </th>
+                        <th>
+                            Total Amount
+                        </th>
+                        <th>
+                            Status
+                        </th>
+                        <th *ngIf="IsUserName !== 'bowlhouse_helpdesk'">
+                            Action
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr
+                        *ngFor="let customer of customers | paginate: { itemsPerPage: 10, currentPage: currentPage, totalItems: totalItems }; let i=index">
+                        <td>
+                            {{ 10 * (currentPage-1) + i+1 }}
+                        </td>
+                        <td>
+                            {{customer.restaurant_name}}
+                        </td>
+                        <td>
+                            {{customer.created_date | date}}
+                        </td>
+                        <td>
+                            {{customer.id}}
+                        </td>
+                        <td>
+                            AED {{customer.total_amount  | number: '.0-2'}}
+                        </td>
+                        <td>
+                            <span *ngIf="customer.status === 'UNPAID'"><a
+                                    style="color: red;">{{customer.status}}</a></span>
+                            <span *ngIf="customer.status === 'PAID'" style="color: green;"><a>
+                                    {{customer.status}}</a></span>
+                            <span *ngIf="customer.status === 'INITIATED'"><a style="color: orange;">
+                                    {{customer.status}}</a></span>
+
+
+                        </td>
+                        <td *ngIf="IsUserName !== 'bowlhouse_helpdesk'">
+                            <button [routerLink]="['/transactions', 'orderlist' ,customer.id]" type="button"
+                                class="btn btn-sm btn-secondary">
+                                Detail
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <pagination-controls (pageChange)="onPageChange($event)"></pagination-controls>
+        </div>
+    </div>
+</div>

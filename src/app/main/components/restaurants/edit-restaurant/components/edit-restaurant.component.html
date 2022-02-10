@@ -1,0 +1,140 @@
+<!-- <div class="card style pt-2">
+  <div class="col-md-12">
+    <div class="d-flex justify-content-between flex-wrap">
+      <div class="d-flex align-items-end flex-wrap">
+        <div class="mr-md-3 mr-xl-5">
+          <div *ngIf="row !== undefined" class="mr-md-3 mr-xl-5">
+            <h3>Edit - {{row.name}} </h3>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->
+<nav aria-label="breadcrumb">
+  <ol class="ml-2 breadcrumb no-pad">
+    <li class="breadcrumb-item"><a [routerLink]="['/restaurant-approvals']" href="javascript:void(0)">Restaurant</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Edit Restaurant</li>
+  </ol>
+</nav>
+
+<div class="card mb-2">
+  <div class="ml-2 mr-2 card-body">
+      <form [formGroup]="form" (submit)="onSubmit()">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="">Restaurant Name <span class="required">*</span></label>
+              <input type="text" class="form-control" formControlName="name" >
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="">Contact Person <span class="required">*</span></label>
+              <input type="text" class="form-control" formControlName="contact_person">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="">Mobile <span class="required">*</span></label>
+              <input type="number" class="form-control" formControlName="mobile" >
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="">Email <span class="required">*</span></label>
+              <input type="email" class="form-control" formControlName="email" >
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="">Owner Name <span class="required">*</span></label>
+              <input placeholder="Enter owner name" type="text" class="form-control" formControlName="owner_name">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="">Cluster <span class="required">*</span></label>
+              <select formControlName="cluster" class="form-control" name="" required>
+                <option value="">Select Cluster</option>
+                <option *ngFor="let item of ClusterList" [value]="item.id">
+                  {{ item.name }}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="">Address <span class="required">*</span></label>
+              <textarea name="" id="" cols="10" rows="5" class="form-control" formControlName="address"></textarea>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+                <label for="">Cuisine </label>
+                <select formControlName="cuisine" class="form-control" name="" >
+                    <option value="">Select Cuisine</option>
+                    <option *ngFor="let item of cuisines" [value]="item.name">
+                        {{ item.name }}
+                    </option>
+                </select>
+            </div>
+            <div class="form-group">
+              <label for="">Rating</label>
+              <input placeholder="Enter Rating" type="number" min="0" max="5" class="form-control" formControlName="rating">
+            </div>
+        </div>
+        </div>
+        
+        <div class="row">
+          <div class="col-md-3">
+            <div class="form-group">
+              <label for="">Opening Time <span class="required">*</span></label>
+              <ngb-timepicker formControlName="opening_time"></ngb-timepicker>
+              <div *ngIf="form.controls['opening_time'].invalid && (form.controls['opening_time'].dirty || form.controls['opening_time'].touched)"
+                class="alert1">
+                <div *ngIf="form.controls['opening_time'].errors.required">
+                  Please choose restaurant opening time.
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label for="">Closing Time <span class="required">*</span></label>
+              <ngb-timepicker formControlName="closing_time"></ngb-timepicker>
+              <div *ngIf="form.controls['closing_time'].invalid && (form.controls['closing_time'].dirty || form.controls['closing_time'].touched)"
+                class="alert1">
+                <div *ngIf="form.controls['closing_time'].errors.required">
+                  Please choose restaurant closing time.
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="">Profile Picture </label>
+              <div>
+                <input type="file" id="profile_pic" accept="image/*" formControlName="profile_pic"
+                  (change)="onSelectFile($event)" >
+              </div>
+              <img *ngIf="ImgPath" style="width: 30px; height: 30px;" src="{{ImgPath}}" />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group text-right">
+              <button type="submit" class="btn btn-secondary btn-sm">Update</button>
+            </div>
+          </div>
+        </div>
+      </form>
+  </div>
+</div>

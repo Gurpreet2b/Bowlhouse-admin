@@ -1,0 +1,147 @@
+<div class="modal-content" style="width: 900px; margin-left: -180px;
+margin-top: -2px;">
+    <div class="modal-header">
+        <h4 *ngIf="detail" class="modal-title">Payment Detail</h4>
+        <button type="button" class="close" aria-label="Close" (click)="onDismiss()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div>
+        <div class="card-body">
+            <table style="text-align: center;" class="table table-hover">
+                <thead class="thead-dark">
+                   
+                    <tr>
+                        
+                        <th>
+                            Order Id
+                        </th>
+                        <th style="width: 108px;">
+                            Order Date
+                        </th>
+                        <th style="width: 85px;">
+                            Amount
+                        </th>
+                        <th>
+                            Commission
+                        </th>
+                        <th>
+                            VAT
+                        </th>
+                        <th>
+                            Delivery Charge
+                        </th>
+                        <th>
+                            Amount Pay
+                        </th>
+                        <th>
+                            Status
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- <tr>
+                        <td>
+                            AED {{PaymentData.total_payable_amount | number: '.0-2'}}
+                        </td>
+                        <td>
+                            {{PaymentData.IsCheckData.length}}
+                        </td>
+                        <td>
+                        AED  {{PaymentData.commission | number: '.0-2'}}
+                        </td>
+                        <td>
+                            {{PaymentData.tax_percent | number: '.0-2'}}
+                        </td>
+                        <td>
+                        AED  {{PaymentData.delivery_charge | number: '.0-2'}}
+                        </td>
+                    </tr> -->
+                    <tr *ngFor="let customer of PaymentData.IsCheckData; let i=index">
+                        <td>
+                            {{customer.order.id}}
+                        </td>
+                        <td>
+                            {{customer.created_date | date}}
+                        </td>
+                        <td>
+                            AED {{customer.order_amount | number: '.0-2'}}
+                        </td>
+                        <td>
+                            AED {{customer.order.commission | number: '.0-2'}}
+                        </td>
+                        <td>
+                            AED {{customer.order.tax_amount | number: '.0-2'}}
+                        </td>
+                        <td>
+                            AED {{customer.order.delivery_charge | number: '.0-2'}}
+                        </td>
+                        <td>
+                            AED {{customer.payable_amount | number: '.0-2'}}
+                        </td>
+                        <td>
+                            <span *ngIf="customer.payment_status === 'UNPAID'"><a
+                                    style="color: red;">{{customer.payment_status}}</a></span>
+                            <span *ngIf="customer.payment_status === 'PAID'" style="color: green;"><a>
+                                    {{customer.payment_status}}</a></span>
+                            <span *ngIf="customer.payment_status === 'INITIATED'"><a style="color: orange;">
+                                    {{customer.payment_status}}</a></span>
+                        </td>
+                    </tr>
+                    <!-- <tr style="font-weight: bold;">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        
+                        <td>
+                            {{PaymentData.IsCheckData.length}}
+                        </td>
+                        <td>
+                            AED  {{PaymentData.commission | number: '.0-2'}}
+                        </td>
+                        <td>
+                            {{PaymentData.tax_percent | number: '.0-2'}}
+                        </td>
+                        <td>
+                            AED  {{PaymentData.delivery_charge | number: '.0-2'}}
+                        </td>
+                        <td>
+                            AED {{PaymentData.total_payable_amount | number: '.0-2'}}
+                        </td>
+                        <td></td>
+                    </tr> -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+        </div>
+        <div class="col-md-4">
+            <p>
+                Total Amount: AED {{PaymentData.total_amount | number: '.0-2'}}
+            </p>
+            <p>
+                Total Amount To Pay: AED {{PaymentData.total_payable_amount | number: '.0-2'}}
+            </p>
+            <p>
+                Total Orders: {{PaymentData.IsCheckData.length}}
+            </p>
+            
+            <p>
+                Commission: AED {{PaymentData.commission | number: '.0-2'}}
+            </p>
+            <p>
+                VAT: {{PaymentData.tax_percent | number: '.0-2'}} %
+            </p>
+            <p>
+                Delivery Charge: AED  {{PaymentData.delivery_charge | number: '.0-2'}}
+            </p>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark btn-sm" (click)="onDismiss()">Close</button>
+        <button class="btn btn-secondary btn-sm" (click)="onSubmit()">Pay</button>
+        <img src="../../../../../../assets/images/loader.gif" *ngIf="loading">
+    </div>
+</div>

@@ -1,0 +1,38 @@
+<div class="modal-header">
+    <h4 class="modal-title">Initiate Refund Amount</h4>
+    <button type="button" class="close" aria-label="Close" (click)="onDismiss()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div>
+    <div class="card-body">
+        <table style="text-align: center;" class="table table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th>
+                        Total Amount
+                    </th>
+                    <th>
+                        Total Orders
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        AED {{PaymentData.refundable_amount}}
+                    </td>
+                    <td>
+                        {{PaymentData.IsCheckData.length}}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark btn-sm" (click)="onDismiss()">Close</button>
+    <button class="btn btn-secondary btn-sm" (click)="onSubmit()">Initiate</button>
+    <img src="../../../../../../assets/images/loader.gif" *ngIf="loading">
+</div>

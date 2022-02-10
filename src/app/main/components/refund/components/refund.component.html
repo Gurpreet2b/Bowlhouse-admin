@@ -1,0 +1,184 @@
+<!-- <div class="card style pt-2">
+    <div class="col-md-12">
+        <div class="d-flex justify-content-between flex-wrap">
+            <div class="d-flex align-items-end flex-wrap">
+                <div class="mr-md-3 mr-xl-5">
+                    <h3>Refund Management</h3>
+                </div>
+            </div>
+            <div class="d-flex justify-content-between align-items-end flex-wrap">
+                <button (click)="exportToExcel()" class="btn-sm btn btn-secondary">Export To Excel</button>
+            </div>
+        </div>
+    </div>
+</div> -->
+<div class="card">
+    <div class="col-md-12 grid-margin">
+        <div class="d-flex justify-content-between flex-wrap">
+            <div class="col-md-4">
+                <ejs-daterangepicker id='daterangepicker' placeholder='Filter by date range' [startDate]='start'
+                    [endDate]='end' (change)="IsRangeDate($event)">
+                </ejs-daterangepicker>
+            </div>
+            <div class="d-flex justify-content-between align-items-end flex-wrap">
+                <form class="form-inline ml-2">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <select [(ngModel)]="restaurant" [ngModelOptions]="{standalone: true}"
+                                (change)="IsRestChange($event)" class="btn-sm btn btn-secondary">
+                                <option [ngValue]="undefined" hidden>Filter Restaurant</option>
+                                <option value="undefined">All</option>
+                                <option *ngFor="let item of category" [value]="item.id">
+                                    {{ item.name }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+                <form class="form-inline ml-2">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <select placeholder="Status" [(ngModel)]="status" [ngModelOptions]="{standalone: true}"
+                                (change)="IsStatusChange($event)" class="btn-sm btn-secondary">
+                                <option selected value="undefined">Filter Status</option>
+                                <option value="SUCCESS">Success</option>
+                                <option value="PENDING">Pending</option>
+                                <option value="INITIATED">Initiated</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+                <button (click)="exportToExcel()" class="btn-sm btn btn-secondary  ml-2" style="padding: 10px;">Export To Excel</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card" #epltable>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <div *ngIf="loading" class="dot-opacity-loader">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                        <div class="col-md-12 grid-margin">
+                            <div class="d-flex justify-content-between flex-wrap">
+                                <div class="d-flex align-items-end flex-wrap">
+                                </div>
+                                <div class="d-flex justify-content-between align-items-end flex-wrap">
+                                    <h5  *ngIf="TotalSum > 0">Total Amount : AED {{TotalSum}}</h5>&nbsp;&nbsp;
+                                    <button type="submit" (click)="onCreate()" class="btn btn-secondary btn-sm"
+                                    *ngIf="TotalSum > 0">Initiate Payment</button>
+                                </div>
+                            </div>
+                        </div>
+                    <table class="table table-hover">
+                        <thead class="thead-dark">
+                            <tr>
+                                <!-- <th>
+                                    #
+                                </th> -->
+                                <th>
+                                    Order Id
+                                </th>
+                                <th>
+                                    Order Date
+                                </th>
+                                <th>
+                                    Status 
+                                </th>
+
+                                <th>
+                                    Restaurant
+                                </th>
+                                <th>
+                                    Refund Amount
+                                </th>
+                                <th>
+                                   Customer 
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr
+                                *ngFor="let customer of customers | paginate: { itemsPerPage: 10, currentPage: currentPage, totalItems: totalItems }; let i=index">
+                                <!-- <td>
+                                    <span class="table-active"><input
+                                            type="checkbox" (change)="IsCalculation(customer)"
+                                            [(ngModel)]="customer.isCheck" name="isCheck" id="customer.id" /></span>
+                                </td> -->
+                                <td>
+                                    {{customer.order.id}} <i (click)="collapse.toggle()" [attr.aria-expanded]="!isCollapsed"
+                                    aria-controls="collapseExample" class="mdi mdi-chevron-down">
+                                  
+                                </i> 
+                                <div #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed">
+                                    <div class="card-description" style="border: white;">
+                                        <div class="card-body">
+                                            <p>
+                                                Item Name: {{customer.order.inorder[0].item_name}} <br>
+                                                Item Price:  {{customer.order.inorder[0].item_price}}<br>
+                                                Item Quantity: {{customer.order.inorder[0].item_quantity}}<br>
+                                                <span style="color: #24415d;">Total {{customer.order.no_of_items }}  Items</span> 
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                </td>
+                                <td>
+                                    {{customer.order.created_date | date}}
+                                </td>
+                                <td>
+                                    <span *ngIf="customer.status === 'REFUND'"><a
+                                        style="color: orange;">{{customer.status}}</a></span>
+                                <span *ngIf="customer.status === 'DECLINED'"><a
+                                        style="color: brown;">{{customer.status}}</a></span>
+                                <span *ngIf="customer.status === 'INITIATED'"><a
+                                    style="color:rgb(36, 212, 13);">{{customer.status}}</a></span>
+                                <span *ngIf="customer.status === 'PAID_ON_DELIVERY'"><a
+                                        style="color:green;">{{customer.status}}</a></span>
+                                <span *ngIf="customer.status === 'SUCCESS_REVIEW'"><a
+                                        style="color: rgb(36, 212, 13);">{{customer.status}}</a></span>
+                                <span *ngIf="customer.status === 'CANCELLED'"><a
+                                        style="color: rgb(212, 13, 13);">{{customer.status}}</a></span>
+                                <span *ngIf="customer.status === 'SUCCESS'"><a
+                                        style="color: rgb(36, 212, 13);">{{customer.status}}</a></span>
+                                <span *ngIf="customer.status === 'PENDING'"><a
+                                        style="color: orangered;">{{customer.status}}</a></span>
+                                </td>
+                                <td>
+                                    {{customer.order.restaurant.name}}
+                                </td>
+                                <td>
+                                   AED {{customer.refundable_amount}}
+                                </td>
+                                <td>
+                                    {{customer.customer.name}} <i (click)="collapse.toggle()" [attr.aria-expanded]="!isCollapsed"
+                                    aria-controls="collapseExample" class="mdi mdi-chevron-down">
+                                  
+                                </i> 
+                                <div #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed">
+                                    <div class="card-description" style="border: white;">
+                                        <div class="card-body">
+                                            <p>
+                                               Item Name: {{customer.order.inorder[0].item_name}} <br>
+                                               Item Price:  {{customer.order.inorder[0].item_price}}<br>
+                                               Item Quantity: {{customer.order.inorder[0].item_quantity}}
+                                                
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                        
+                    </table>
+                    <pagination-controls (pageChange)="onPageChange($event)"></pagination-controls>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

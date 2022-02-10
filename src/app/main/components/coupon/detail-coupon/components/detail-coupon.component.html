@@ -1,0 +1,462 @@
+<div class="card style pt-2">
+    <div class="col-md-12 grid-margin">
+        <div class="d-flex justify-content-between flex-wrap">
+            <div class="d-flex align-items-end flex-wrap">
+                <div class="mr-md-3 mr-xl-5">
+                    <h3>Coupon Details</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<nav aria-label="breadcrumb">
+    <ol class="ml-2 breadcrumb no-pad">
+        <li class="breadcrumb-item">
+            <a [routerLink]="['/restaurant-approvals']">Back</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page" (click)="IsApproval()"
+        style="color: green; cursor: pointer;" *ngIf="CouponDetails?.status === 'UNAPPROVED'">Approve</li>
+        <li class="breadcrumb-item active" aria-current="page" data-toggle="modal" data-target="#DiscardModal"
+        style="color: orange; cursor: pointer;" *ngIf="CouponDetails?.status === 'UNAPPROVED'">Discard</li>
+    </ol>
+</nav>
+
+<div class="row">
+    <div *ngIf="loading" class="dot-opacity-loader">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+    <div class="col-md-12">
+        <div class="card mb-2 col-md-12">
+            <div *ngIf="CouponDetails !== undefined" class="card-body">
+                <div class="row">
+                    <div class="col-md-12 grid-margin">
+                        <div class="d-flex justify-content-between flex-wrap">
+                            <div class="d-flex align-items-end flex-wrap">
+                                <nav aria-label="breadcrumb">
+                                    <h4 class="text-secondary">Coupon New Details </h4>
+                                </nav>
+                                <span style="margin: 7px 115px;"><b>Note: </b>The things which are updated are highlighted in bold letters.</span>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-end flex-wrap">
+                                <p class="badge-outline-warning">{{CouponDetails.status}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" *ngIf="CouponDetails.action === 'add'">
+                    <div class="col-md-4">
+                        <img class="detail-img" src="{{CouponDetails.image}}" alt="Picture">
+                    </div>
+                    <div class="col-md-4 m p-4">
+                        <p>
+                            Coupon Code: {{CouponDetails.coupon_code}}
+                        </p>
+                        <p>
+                            Order Min Value: {{CouponDetails.order_min_value}}
+                        </p>
+                        <p>
+                            Value: {{CouponDetails.value}}
+                        </p>
+                        <p>
+                            Limit: {{CouponDetails.limit}}
+                        </p>
+                        <p>
+                            Start Date: {{CouponDetails.start_from | date}}, {{CouponDetails.start_from | date:'shortTime'}}
+                        </p>
+                        <p>
+                            Description: {{CouponDetails.description}}
+                        </p>
+                    </div>
+                    <div class="col-md-4 p-4">
+                        <p>
+                            Title: {{CouponDetails.title}}
+                        </p>
+                        <p>
+                            Type: {{CouponDetails.type}}
+                        </p>
+                        <p>
+                            Created Date: {{CouponDetails.created_date | date}}, {{CouponDetails.created_date | date:'shortTime'}}
+                        </p>
+                        <p>
+                            Value Limit: {{CouponDetails.value_limit}}
+                        </p>
+                        <p>
+                            End Date: {{CouponDetails.valid_upto | date}}, {{CouponDetails.valid_upto | date:'shortTime'}}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="row" *ngIf="CouponDetails.action === 'edit'">
+                    <div class="col-md-4">
+                        <img class="detail-img" src="{{CouponDetails.image}}" alt="Picture">
+                    </div>
+                    <div class="col-md-4 m p-4">
+                        <p>
+                            Coupon Code: <span [ngClass]="{'Highlight': CouponDetails?.coupon_code !== CouponPreviousDetails?.coupon_code}">
+                                {{CouponDetails.coupon_code}}
+                            </span> 
+                        </p>
+                        <p>
+                            Order Min Value: 
+                            <span [ngClass]="{'Highlight': CouponDetails?.order_min_value !== CouponPreviousDetails?.order_min_value}">
+                                {{CouponDetails.order_min_value}}
+                            </span>
+                        </p>
+                        <p>
+                            Value: 
+                            <span [ngClass]="{'Highlight': CouponDetails?.type !== CouponPreviousDetails?.type}">
+                                {{CouponDetails.value}}
+                            </span>
+                        </p>
+                        <p>
+                            Limit: 
+                            <span [ngClass]="{'Highlight': CouponDetails?.limit !== CouponPreviousDetails?.limit}">
+                                {{CouponDetails.limit}}
+                            </span>
+                        </p>
+                        <p>
+                            Start Date: 
+                            <span [ngClass]="{'Highlight': CouponDetails?.start_from !== CouponPreviousDetails?.start_from}">
+                                {{CouponDetails.start_from | date}}, {{CouponDetails.start_from | date:'shortTime'}}
+                            </span>
+                        </p>
+                        <p>
+                            Description: 
+                            <span [ngClass]="{'Highlight': CouponDetails?.description !== CouponPreviousDetails?.description}">
+                                {{CouponDetails.description}}
+                            </span>
+                        </p>
+                    </div>
+                    <div class="col-md-4 p-4">
+                        <p>
+                            Title: 
+                            <span [ngClass]="{'Highlight': CouponDetails?.title !== CouponPreviousDetails?.title}">
+                                {{CouponDetails.title}}
+                            </span>
+                        </p>
+                        <p>
+                            Type: 
+                            <span [ngClass]="{'Highlight': CouponDetails?.type !== CouponPreviousDetails?.type}">
+                                {{CouponDetails.type}}
+                            </span>
+                        </p>
+                        
+                        <p>
+                            Created Date: 
+                            <span [ngClass]="{'Highlight': CouponDetails?.created_date !== CouponPreviousDetails?.created_date}">
+                                {{CouponDetails.created_date | date}}, {{CouponDetails.created_date | date:'shortTime'}}
+                            </span>
+                        </p>
+                        <p>
+                            Value Limit: 
+                            <span [ngClass]="{'Highlight': CouponDetails?.value_limit !== CouponPreviousDetails?.value_limit}">
+                                {{CouponDetails.value_limit}}
+                            </span>
+                        </p>
+                        <p>
+                            End Date: 
+                            <span [ngClass]="{'Highlight': CouponDetails?.valid_upto !== CouponPreviousDetails?.valid_upto}">
+                                {{CouponDetails.valid_upto | date}}, {{CouponDetails.valid_upto | date:'shortTime'}}
+                            </span>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="row"> 
+                    <div class="col-md-6">
+                        <h4 class="text-secondary">Customer List</h4>
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th>
+                                            Name
+                                        </th>
+                                        <th>
+                                            Email
+                                        </th>
+                                        <th>
+                                            Mobile
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let customer of CouponDetails.customer_list">
+                                        <td>
+                                            <span *ngIf="customer.name">
+                                                {{customer.name}}
+                                            </span>
+                                            <span  *ngIf="!customer.name" style="color: red;">
+                                                Not Provided
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span *ngIf="customer.email">
+                                                {{customer.email}}
+                                            </span>
+                                            <span  *ngIf="!customer.email" style="color: red;">
+                                                Not Provided
+                                            </span>
+                                        </td>
+                                        <td>
+                                            {{customer.Mobile}}
+                                        </td>
+                                    </tr>
+                                    <tr *ngIf="CouponDetails.customer_list.length === 0">
+                                        No Record Found!
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <hr>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <h4 class="text-secondary">Restaurant List</h4>
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th>
+                                            Restaurant Name
+                                        </th>
+                                        <th>
+                                            Mobile
+                                        </th>
+                                        <th>
+                                            Cluster Name
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let rest of CouponDetails.restaurant_list">
+                                        <td>
+                                            <span *ngIf="rest.name">
+                                                {{rest.name}}
+                                            </span>
+                                            <span  *ngIf="!rest.name" style="color: red;">
+                                                Not Provided
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span *ngIf="rest.mobile">
+                                                {{rest.mobile}}
+                                            </span>
+                                            <span  *ngIf="!rest.mobile" style="color: red;">
+                                                Not Provided
+                                            </span>
+                                        </td>
+                                        <td>
+                                            {{rest.cluster_name}}
+                                        </td>
+                                    </tr>
+                                    <tr *ngIf="CouponDetails.restaurant_list.length === 0">
+                                        No Record Found!
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <hr>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card mb-2 col-md-12">
+            <div *ngIf="CouponPreviousDetails !== undefined" class="card-body">
+                <div class="row">
+                    <div class="col-md-12 grid-margin">
+                        <div class="d-flex justify-content-between flex-wrap">
+                            <div class="d-flex align-items-end flex-wrap">
+                                <nav aria-label="breadcrumb">
+                                    <h4 class="text-secondary">Coupon Previous Details </h4>
+                                </nav>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-end flex-wrap">
+                                <p class="badge-outline-warning">{{CouponPreviousDetails.status}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <img class="detail-img" src="{{CouponPreviousDetails.image}}" alt="Picture">
+                    </div>
+                    <div class="col-md-4 m p-4">
+                        <p>
+                            Coupon Code: {{CouponPreviousDetails.coupon_code}}
+                        </p>
+                        <p>
+                            Order Min Value: {{CouponPreviousDetails.order_min_value}}
+                        </p>
+                        <p>
+                            Value: {{CouponPreviousDetails.value}}
+                        </p>
+                        <p>
+                            Limit: {{CouponPreviousDetails.limit}}
+                        </p>
+                        <p>
+                            Start Date: {{CouponPreviousDetails.start_from | date}}, {{CouponPreviousDetails.start_from | date:'shortTime'}}
+                        </p>
+                        <p>
+                            Description: {{CouponPreviousDetails.description}}
+                        </p>
+                    </div>
+                    <div class="col-md-4 p-4">
+                        <p>
+                            Title: {{CouponPreviousDetails.title}}
+                        </p>
+                        <p>
+                            Type: {{CouponPreviousDetails.type}}
+                        </p>
+                        <p>
+                            Created Date: {{CouponPreviousDetails.created_date | date}}, {{CouponPreviousDetails.created_date | date:'shortTime'}}
+                        </p>
+                        <p>
+                            Value Limit: {{CouponPreviousDetails.value_limit}}
+                        </p>
+                        <p>
+                            End Date: {{CouponPreviousDetails.valid_upto | date}}, {{CouponPreviousDetails.valid_upto | date:'shortTime'}}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="row"> 
+                    <div class="col-md-6">
+                        <h4 class="text-secondary">Customer List</h4>
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th>
+                                            Name
+                                        </th>
+                                        <th>
+                                            Email
+                                        </th>
+                                        <th>
+                                            Mobile
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let customer of CouponPreviousDetails.customer_list">
+                                        <td>
+                                            <span *ngIf="customer.name">
+                                                {{customer.name}}
+                                            </span>
+                                            <span  *ngIf="!customer.name" style="color: red;">
+                                                Not Provided
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span *ngIf="customer.email">
+                                                {{customer.email}}
+                                            </span>
+                                            <span  *ngIf="!customer.email" style="color: red;">
+                                                Not Provided
+                                            </span>
+                                        </td>
+                                        <td>
+                                            {{customer.Mobile}}
+                                        </td>
+                                    </tr>
+                                    <tr *ngIf="CouponPreviousDetails.customer_list.length === 0">
+                                        No Record Found!
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <hr>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <h4 class="text-secondary">Restaurant List</h4>
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th>
+                                            Restaurant Name
+                                        </th>
+                                        <th>
+                                            Mobile
+                                        </th>
+                                        <th>
+                                            Cluster Name
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let Prerest of CouponPreviousDetails.restaurant_list">
+                                        <td>
+                                            <span *ngIf="Prerest.name">
+                                                {{Prerest.name}}
+                                            </span>
+                                            <span  *ngIf="!Prerest.name" style="color: red;">
+                                                Not Provided
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span *ngIf="Prerest.mobile">
+                                                {{Prerest.mobile}}
+                                            </span>
+                                            <span  *ngIf="!Prerest.mobile" style="color: red;">
+                                                Not Provided
+                                            </span>
+                                        </td>
+                                        <td>
+                                            {{Prerest.cluster_name}}
+                                        </td>
+                                    </tr>
+                                    <tr *ngIf="CouponPreviousDetails.restaurant_list.length === 0">
+                                        No Record Found!
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <hr>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="DiscardModal">
+    <div class="modal-dialog" style="margin: 40px 380px;">
+        <div class="modal-content" style="width: 500px;">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Reason for coupon discard</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="">Comment</label>
+                            <textarea type="text" [(ngModel)]="comment" [ngModelOptions]="{standalone: true}"
+                                class="form-control disable" placeholder="Enter Comment">
+                            </textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-dark btn-sm"
+                    data-dismiss="modal">Close</button>
+                    <button class="btn btn-secondary btn-sm" (click)="IsDiscard()">Create</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

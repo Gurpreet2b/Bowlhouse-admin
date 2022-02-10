@@ -1,0 +1,24 @@
+<form action="" [formGroup]="form">
+    <div class="">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="">Group Name <span class="required">*</span></label>
+                    <input type="text" formControlName="group_name" class="form-control" placeholder="Enter Group Name"
+                        ngbAutofocus>
+                    <div *ngIf="form.controls['group_name'].invalid && (form.controls['group_name'].dirty || form.controls['group_name'].touched)"
+                        class="alert1">
+                        <div *ngIf="form.controls['group_name'].errors.required">
+                            Please Enter Group Name.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark btn-sm" (click)="onDismiss()">Close</button>
+        <button class="btn btn-secondary btn-sm" (click)="onSubmit()">Create</button>
+    </div>
+</form>

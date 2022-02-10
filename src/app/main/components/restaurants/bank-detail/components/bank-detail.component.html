@@ -1,0 +1,141 @@
+<div class="card pt-2 style">
+    <div class="col-md-12">
+        <div class="d-flex justify-content-between flex-wrap">
+            <div class="d-flex align-items-end flex-wrap">
+                <div class="mr-md-3 mr-xl-5">
+                    <h3>Add Bank Detail - #{{this.restaurant_id}}</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card style pt-2">
+    <div class="col-md-12 grid-margin">
+        <div class="d-flex justify-content-between flex-wrap">
+            <div class="d-flex justify-content-between align-items-end flex-wrap">
+                <button class="btn btn-secondary btn-sm ml-2 mt-2 mt-xl-0 view-img" [routerLink]="['/restaurants', 'restdetail' ,restaurant_id]">
+                    Information</button>
+                <button class="btn btn-sm btn-secondary ml-2 mt-2 mt-xl-0 view-img" [routerLink]="['/restaurants', 'menu' ,restaurant_id]">
+                    Menu Item
+                </button>
+                <button class="btn btn-secondary btn-sm ml-2 mt-2 mt-xl-0 view-img" [routerLink]="['/restaurants', 'history' ,restaurant_id]">
+                    Order History
+                </button>
+                <button class="btn btn-sm btn-secondary ml-2 mt-2 mt-xl-0 view-img" [routerLink]="['/restaurants', 'historytransaction' ,restaurant_id]">
+                    Order Transactions
+                </button>
+                <button class="btn btn-secondary btn-sm ml-2 mt-2 mt-xl-0 view-img" [routerLink]="['/transactions', 'paymentdetail' ,restaurant_id]">
+                    Issue Payment
+                </button>
+                <!-- <button class="btn btn-sm btn-secondary ml-2 mt-2 mt-xl-0 view-img" [routerLink]="['/restaurants', 'bankdetail' ,restaurant_id]">
+                    Bank Detail
+                </button> -->
+                <button class="btn btn-sm btn-secondary ml-2 mt-2 mt-xl-0 view-img" [routerLink]="['/restaurants', 'boughtServices' ,restaurant_id]">
+                    Bought Services
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+    
+
+<nav aria-label="breadcrumb">
+    <ol class="ml-2 breadcrumb no-pad">
+        <li class="breadcrumb-item"><a [routerLink]="['/restaurants/restdetail/', this.restaurant_id]"
+                href="javascript:void(0)">Restaurant</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Add bank detail</li>
+    </ol>
+</nav>
+
+<div class="card">
+    <div class="card-body">
+        <form [formGroup]="form" (submit)="onSubmit()">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="">Bank Name <span class="required">*</span></label>
+                        <input placeholder="Enter bank name" type="text" class="form-control"
+                            formControlName="bank_name" required>
+                            <div *ngIf="form.controls['bank_name'].invalid && (form.controls['bank_name'].dirty || form.controls['bank_name'].touched)"
+                            class="alert1">
+                            <div *ngIf="form.controls['bank_name'].errors.required">
+                              Please enter bank name.
+                            </div>
+                          </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="">Account Holder Name <span class="required">*</span></label>
+                        <input placeholder="Enter account holder name" type="text" class="form-control"
+                            formControlName="account_holder_name" required>
+                            <div *ngIf="form.controls['account_holder_name'].invalid && (form.controls['account_holder_name'].dirty || form.controls['account_holder_name'].touched)"
+                            class="alert1">
+                            <div *ngIf="form.controls['account_holder_name'].errors.required">
+                              Please enter account holder name.
+                            </div>
+                          </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="">IFSC Code <span class="required">*</span></label>
+                        <input type="text" placeholder="Enter IFSC code" class="form-control"
+                            formControlName="ifsc_code" required>
+                            <div *ngIf="form.controls['ifsc_code'].invalid && (form.controls['ifsc_code'].dirty || form.controls['ifsc_code'].touched)"
+                            class="alert1">
+                            <div *ngIf="form.controls['ifsc_code'].errors.required">
+                              Please enter IFSC code.
+                            </div>
+                          </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="">Account Number <span class="required">*</span></label>
+                        <input type="text" placeholder="Enter account number" class="form-control"
+                            formControlName="account_number" required>
+                            <div *ngIf="form.controls['account_number'].invalid && (form.controls['account_number'].dirty || form.controls['account_number'].touched)"
+                            class="alert1">
+                            <div *ngIf="form.controls['account_number'].errors.required">
+                              Please enter account number.
+                            </div>
+                          </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="">Bank Address <span class="required">*</span></label>
+                        <textarea placeholder="Enter bank address" type="text" class="form-control"
+                            formControlName="bank_address" required></textarea>
+                            <div *ngIf="form.controls['bank_address'].invalid && (form.controls['bank_address'].dirty || form.controls['bank_address'].touched)"
+                            class="alert1">
+                            <div *ngIf="form.controls['bank_address'].errors.required">
+                              Please enter bank address.
+                            </div>
+                          </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-11">
+                    <div class="form-group text-right">
+                        <button type="submit" class="btn btn-secondary btn-sm"
+                        [routerLink]="['/restaurants', 'restdetail' ,restaurant_id]">Back</button>
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <div class="form-group text-right">
+                        <button type="submit" class="btn btn-sm btn-secondary">Save</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

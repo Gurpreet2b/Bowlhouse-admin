@@ -1,0 +1,298 @@
+<div class="row m-1">
+    <div class="col-md-10">
+        <a  class="btn btn-secondary btn-sm" style="display: inline-flex;"
+             [routerLink]="['/restaurant-approvals']" href="javascript:void(0)">
+             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-return-left" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5z"/>
+              </svg> Back</a>
+    </div>
+    <!-- <div class="col-md-1" style="text-align: right;">
+        <button class="btn btn-secondary btn-sm" [routerLink]="['/restaurants','menu', MenuDetails.restaurant.id,MenuDetails.id, 'edit']">Edit</button>
+    </div> -->
+    <div class="col-md-1" style="text-align: right;" *ngIf="MenuDetails?.approved_status === 'UNAPPROVED'">
+        <button class="btn btn-success btn-sm" (click)="IsApproval()">Approve</button>
+    </div>
+    <div class="col-md-1" style="text-align: right;" *ngIf="MenuDetails?.approved_status === 'UNAPPROVED'">
+        <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#DiscardModal">Discard</button>
+    </div>
+</div>
+
+<div class="row">
+    <div *ngIf="loading" class="dot-opacity-loader">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+    <div class="col-md-12" *ngIf="MenuDetails !== undefined">
+        <div class="card col-md-12 p-2 ml-0.5 pb-3">
+            <div class="row" *ngIf="MenuDetails.action === 'add'">
+                <div class="col-md-6">
+                    <div style="text-align:start;" class="card-imgage">
+                        <img *ngIf="MenuDetails.picture" src="{{MenuDetails.picture}}" alt="Picture">
+                        <span *ngIf="!MenuDetails.picture" style="color: red;">No Image</span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card-body" style="padding: 0;">
+                        <div class="card-card rest-border">
+                            <div class="card-custom">
+                                <div style="padding: 16px" class="card-description">
+                                    <div class="label-name text-center" style="font-size: 25px;">Menu New Details</div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-2">
+                                            <div class="label-name">Restaurant Name</div>
+                                            <div>{{MenuDetails.restaurant.name}}</div>
+                                        </div>
+                                        <div class="col-md-6 mb-2">
+                                            <div class="label-name">Food</div>
+                                            <div>{{MenuDetails.name}}</div>
+                                        </div>
+                                        
+                                    </div>
+
+                                    <div class="row">
+                                        <!-- <div class="col-md-6 mb-2">
+                                            <div class="label-name">Contact Person</div>
+                                            <div>{{MenuDetails.user.username}}</div>
+                                        </div> -->
+                                        <div class="col-md-6 mb-2">
+                                            <div class="label-name">Cuisine</div>
+                                            <div>{{MenuDetails.cuisine.name}}</div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="label-name">Category</div>
+                                            <div>{{MenuDetails.category.name}}</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6 mb-2">
+                                            <div class="label-name">Price</div>
+                                            <div>{{MenuDetails.price}}</div>
+                                        </div>
+                                        <div class="col-md-6 mb-2">
+                                            <div class="label-name">Available</div>
+                                            <div>{{MenuDetails.isAvailable}}</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        
+                                        <div class="col-md-6 mb-2">
+                                            <div class="label-name">Discount</div>
+                                            <div>{{MenuDetails.discount}}</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12 mb-2">
+                                            <div class="label-name">Address</div>
+                                            <div>{{MenuDetails.restaurant.address}}</div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" *ngIf="MenuDetails.action === 'edit'">
+                <div class="col-md-6">
+                    <div style="text-align:start;" class="card-imgage">
+                        <img *ngIf="MenuDetails.picture" src="{{MenuDetails.picture}}" alt="Picture">
+                        <span *ngIf="!MenuDetails.picture" style="color: red;">No Image</span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card-body" style="padding: 0;">
+                        <div class="card-card rest-border">
+                            <div class="card-custom">
+                                <div style="padding: 16px" class="card-description">
+                                    <div class="label-name text-center" style="font-size: 25px;">Menu New Details</div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-2">
+                                            <div class="label-name">Restaurant Name</div>
+                                            <div [ngClass]="{'Highlight1': MenuDetails?.restaurant.name !== MenuPreviousDetails?.restaurant.name}">
+                                                {{MenuDetails.restaurant.name}}
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-2">
+                                            <div class="label-name">Food</div>
+                                            <div [ngClass]="{'Highlight1': MenuDetails?.name !== MenuPreviousDetails?.name}">
+                                                {{MenuDetails.name}}
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+
+                                    <div class="row">
+                                        <!-- <div class="col-md-6 mb-2">
+                                            <div class="label-name">Contact Person</div>
+                                            <div>{{MenuDetails.user.username}}</div>
+                                        </div> -->
+                                        <div class="col-md-6 mb-2">
+                                            <div class="label-name">Cuisine</div>
+                                            <div [ngClass]="{'Highlight1': MenuDetails?.cuisine.name !== MenuPreviousDetails?.cuisine.name}">
+                                                {{MenuDetails.cuisine.name}}
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="label-name">Category</div>
+                                            <div [ngClass]="{'Highlight1': MenuDetails?.category.name !== MenuPreviousDetails?.category.name}">
+                                                {{MenuDetails.category.name}}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6 mb-2">
+                                            <div class="label-name">Price</div>
+                                            <div [ngClass]="{'Highlight1': MenuDetails?.price !== MenuPreviousDetails?.price}">
+                                                {{MenuDetails.price}}
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-2">
+                                            <div class="label-name">Available</div>
+                                            <div [ngClass]="{'Highlight1': MenuDetails?.isAvailable !== MenuPreviousDetails?.isAvailable}">
+                                                {{MenuDetails.isAvailable}}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6 mb-2">
+                                            <div class="label-name">Discount</div>
+                                            <div [ngClass]="{'Highlight1': MenuDetails?.discount !== MenuPreviousDetails?.discount}">
+                                                {{MenuDetails.discount}}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12 mb-2">
+                                            <div class="label-name">Address</div>
+                                            <div [ngClass]="{'Highlight1': MenuDetails?.restaurant.address !== MenuPreviousDetails?.restaurant.address}">
+                                                {{MenuDetails.restaurant.address}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-12" *ngIf="MenuPreviousDetails !== undefined">
+        <div class="card col-md-12 p-2 ml-0.5 pb-3" *ngIf="MenuDetails?.action === 'edit'">
+            <div class="row">
+                <div class="col-md-6">
+                    <div style="text-align:start;" class="card-imgage">
+                        <img *ngIf="MenuPreviousDetails.picture" src="{{MenuPreviousDetails.picture}}" alt="Picture">
+                        <span *ngIf="!MenuPreviousDetails.picture" style="color: red;">No Image</span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card-body" style="padding: 0;">
+                        <div class="card-card rest-border">
+                            <div class="card-custom">
+                                <div style="padding: 16px" class="card-description">
+                                    <div class="label-name text-center" style="font-size: 25px;">Menu Previous Details</div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-2">
+                                            <div class="label-name">Restaurant Name</div>
+                                            <div>{{MenuPreviousDetails.restaurant.name}}</div>
+                                        </div>
+                                        <div class="col-md-6 mb-2">
+                                            <div class="label-name">Food</div>
+                                            <div>{{MenuPreviousDetails.name}}</div>
+                                        </div>
+                                        
+                                    </div>
+
+                                    <div class="row">
+                                        <!-- <div class="col-md-6 mb-2">
+                                            <div class="label-name">Contact Person</div>
+                                            <div>{{MenuPreviousDetails.user.username}}</div>
+                                        </div> -->
+                                        <div class="col-md-6 mb-2">
+                                            <div class="label-name">Cuisine</div>
+                                            <div>{{MenuPreviousDetails.cuisine.name}}</div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="label-name">Category</div>
+                                            <div>{{MenuPreviousDetails.category.name}}</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6 mb-2">
+                                            <div class="label-name">Price</div>
+                                            <div>{{MenuPreviousDetails.price}}</div>
+                                        </div>
+                                        <div class="col-md-6 mb-2">
+                                            <div class="label-name">Available</div>
+                                            <div>{{MenuPreviousDetails.isAvailable}}</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        
+                                        <div class="col-md-6 mb-2">
+                                            <div class="label-name">Discount</div>
+                                            <div>{{MenuPreviousDetails.discount}}</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12 mb-2">
+                                            <div class="label-name">Address</div>
+                                            <div>{{MenuPreviousDetails.restaurant.address}}</div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="DiscardModal">
+    <div class="modal-dialog" style="margin: 40px 380px;">
+        <div class="modal-content" style="width: 500px;">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Reason for Food Menu discard</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="">Comment</label>
+                            <textarea type="text" [(ngModel)]="comment" [ngModelOptions]="{standalone: true}"
+                                class="form-control disable" placeholder="Enter Comment">
+                            </textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-dark btn-sm"
+                    data-dismiss="modal">Close</button>
+                    <button class="btn btn-secondary btn-sm" (click)="IsDiscard()">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

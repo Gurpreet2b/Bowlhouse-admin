@@ -1,0 +1,101 @@
+<form action="" [formGroup]="form">
+    <div class="">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="">Position <span class="required">*</span></label>
+                    <select class="form-control" formControlName="position">
+                        <option value="" selected>Select position</option>
+                        <option value="1">position 1</option>
+                        <option value="2">position 2</option>
+                        <option value="3">position 3</option>
+                        <option value="4">position 4</option>
+                        <option value="5">position 5</option>
+                        <option value="6">position 6</option>
+                        <option value="7">position 7</option>
+                        <option value="8">position 8</option>
+                        <option value="9">position 9</option>
+                        <option value="10">position 10</option>
+                        <option value="11">position 11</option>
+                        <option value="12">position 12</option>
+                        <!-- <option *ngFor="let item of PositionList" [value]="item">
+                            {{'Position' + ' ' + item }}
+                        </option> -->
+                    </select>
+                    <!-- <input type="number" formControlName="position" class="form-control"
+                        placeholder="Enter Position"> -->
+                    <div *ngIf="form.controls['position'].invalid && (form.controls['position'].dirty || form.controls['position'].touched)"
+                        class="alert1">
+                        <div *ngIf="form.controls['position'].errors.required">
+                            Please Enter Position.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="">Paid Amount <span class="required">*</span></label>
+                    <input type="number" formControlName="paid_amount" class="form-control" placeholder="Enter Paid Amount"
+                        ngbAutofocus>
+                    <div *ngIf="form.controls['paid_amount'].invalid && (form.controls['paid_amount'].dirty || form.controls['paid_amount'].touched)"
+                        class="alert1">
+                        <div *ngIf="form.controls['paid_amount'].errors.required">
+                            Please Enter Paid Amount.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for=""> Restaurant <span class="required">*</span></label>
+                    <select class="form-control" formControlName="restaurant">
+                        <option value="" selected>Select Restaurant</option>
+                        <option value="undefined">All</option>
+                        <option *ngFor="let item of RestaurantsList" [value]="item.id">
+                             {{ item.name }}
+                        </option>
+                    </select>
+                    <div *ngIf="form.controls['restaurant'].invalid && (form.controls['restaurant'].dirty || form.controls['restaurant'].touched)"
+                    class="alert1">
+                        <div *ngIf="form.controls['restaurant'].errors.required">
+                            Please Enter Restaurant.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="">From Date <span class="required">*</span></label>
+                    <input type="date" formControlName="from" class="form-control" placeholder="Enter From date">
+                    <div *ngIf="form.controls['from'].invalid && (form.controls['from'].dirty || form.controls['from'].touched)"
+                    class="alert1">
+                        <div *ngIf="form.controls['from'].errors.required">
+                            Please Enter From Date.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="">To Date <span class="required">*</span></label>
+                    <input type="date" formControlName="to" class="form-control" placeholder="Enter To date">
+                    <div *ngIf="form.controls['to'].invalid && (form.controls['to'].dirty || form.controls['to'].touched)"
+                    class="alert1">
+                        <div *ngIf="form.controls['to'].errors.required">
+                            Please Enter To Date.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark btn-sm" (click)="onDismiss()">Close</button>
+        <button class="btn btn-secondary btn-sm" (click)="onSubmit()">Create</button>
+        <!-- <img src="../../../../../../assets/images/loader.gif" *ngIf="loading"> -->
+    </div>
+</form>

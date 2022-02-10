@@ -1,0 +1,518 @@
+<div class="card style">
+    <div class="col-md-12">
+        <div class="d-flex justify-content-between flex-wrap">
+            <div class="d-flex align-items-end flex-wrap">
+                <div *ngIf="restaurants !== undefined" class="mr-md-3 mr-xl-5">
+                    <!-- <h3>{{restaurants.name}} - Restaurant Detail </h3> -->
+                </div>
+            </div>
+            <div *ngIf="restaurants !== undefined" class="d-flex justify-content-between align-items-end flex-wrap">
+                <!-- <button class="btn btn-secondary btn-sm mt-xl-0"
+                    [routerLink]="['/restaurants', 'menu' ,restaurants.id]">
+                    View Menu Items</button> -->
+                
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card style pt-2" *ngIf="ApproveValue !== 'approval'">
+    <div class="col-md-12 grid-margin">
+        <div class="d-flex justify-content-between flex-wrap">
+            <div class="d-flex justify-content-between align-items-end flex-wrap">
+                <button class="btn btn-secondary btn-sm ml-2 mt-2 mt-xl-0 view-img" [routerLink]="['/restaurants', 'restdetail' ,restaurant_id]">
+                    Information</button>
+                <button class="btn btn-sm btn-secondary ml-2 mt-2 mt-xl-0 view-img" [routerLink]="['/restaurants', 'menu' ,restaurant_id]">
+                    Menu Item
+                </button>
+                <button class="btn btn-secondary btn-sm ml-2 mt-2 mt-xl-0 view-img" [routerLink]="['/restaurants', 'history' ,restaurant_id]">
+                    Order History
+                </button>
+                <button class="btn btn-sm btn-secondary ml-2 mt-2 mt-xl-0 view-img" [routerLink]="['/restaurants', 'historytransaction' ,restaurant_id]">
+                    Order Transactions
+                </button>
+                <button class="btn btn-secondary btn-sm ml-2 mt-2 mt-xl-0 view-img" [routerLink]="['/transactions', 'paymentdetail' ,restaurant_id]">
+                    Issue Payment
+                </button>
+                <button class="btn btn-sm btn-secondary ml-2 mt-2 mt-xl-0 view-img" data-toggle="modal" data-target="#myModal">
+                    Bank Detail
+                </button>
+                <button class="btn btn-sm btn-secondary ml-2 mt-2 mt-xl-0 view-img" [routerLink]="['/restaurants', 'boughtServices' ,restaurant_id]">
+                    Bought Services
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <nav aria-label="breadcrumb">
+    <ol class="ml-2 breadcrumb no-pad"> -->
+    <div class="row m-1">
+        <div class="col-md-1">
+            <a *ngIf="ApproveValue === 'approval'"  class="btn btn-secondary btn-sm" style="display: inline-flex;"
+             [routerLink]="['/restaurant-approvals']" href="javascript:void(0)">
+             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-return-left" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5z"/>
+              </svg> Back</a>
+             <a *ngIf="ApproveValue !== 'approval'"  class="btn btn-secondary btn-sm" style="display: inline-flex;"
+             [routerLink]="['/restaurants']" href="javascript:void(0)">
+             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-return-left" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5z"/>
+              </svg> Back</a>
+        </div>
+        <div class="col-md-8 mt-0">
+            <!-- / Restaurant Detail  -->
+        </div>
+        <div class="col-md-3" style="text-align: right;" *ngIf="ApproveValue !== 'approval'">
+            <button class="btn btn-secondary btn-sm" [routerLink]="['/restaurants', 'edit' ,restaurant_id]">Edit</button>
+        </div>
+        <!-- <div class="col-md-1" style="text-align: right;" *ngIf="ApproveValue === 'approval'">
+            <button class="btn btn-secondary btn-sm" [routerLink]="['/restaurants', 'edit' ,restaurant_id]">Edit</button>
+        </div> -->
+        <div class="col-md-2" style="text-align: right;" *ngIf="restaurants?.approved_status === 'UNAPPROVED'">
+            <button class="btn btn-success btn-sm" (click)="IsApproval()">Approve</button>
+        </div>
+        <div class="col-md-1" style="text-align: right;" *ngIf="restaurants?.approved_status === 'UNAPPROVED'">
+            <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#DiscardModal">Discard</button>
+        </div>
+    </div>
+    <!-- </ol>
+</nav> -->
+
+<div class="row">
+    <div *ngIf="loading" class="dot-opacity-loader">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+    <div class="col-md-12" *ngIf="restaurantPrevious !== undefined">
+        <div class="card col-md-12 p-2 ml-0.5 pb-3" *ngIf="ApproveValue !== 'approval'">
+            <div class="row">
+                <div class="col-md-6">
+                    <div style="text-align:start;" class="card-imgage">
+                        <img src="{{restaurantPrevious.profile_pic}}" alt="Picture">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card-body" style="padding: 0;">
+                        <div class="card-card rest-border">
+                            <div class="card-custom">
+                                <div style="padding: 16px" class="card-description">
+                                    <!-- <div class="label-name text-center">Restaurant Details</div> -->
+                                    <div class="row">
+                                        <div class="col-md-6 mb-2">
+                                            <div class="label-name">Restaurant Name</div>
+                                            <div>{{restaurantPrevious.name}}</div>
+                                            <div>({{restaurantPrevious.id}})</div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <ngx-stars [size]="2" [readonly]="true" [color]="'#fd4'" [initialStars]="restaurantPrevious.rating"></ngx-stars>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6 mb-2">
+                                            <div class="label-name">Cuisine</div>
+                                            <div>{{restaurantPrevious.cuisine}}</div>
+                                        </div>
+                                        <div class="col-md-6 mb-2">
+                                            <div class="label-name">Contact Person</div>
+                                            <div>{{restaurantPrevious.contact_person}}</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6 mb-2">
+                                            <div class="label-name">Email</div>
+                                            <div>{{restaurantPrevious.email}}</div>
+                                        </div>
+                                        <div class="col-md-6 mb-2">
+                                            <div class="label-name">Mobile Number</div>
+                                            <div>{{restaurantPrevious.mobile}}</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6 mb-2">
+                                            <div class="label-name">Opening Time</div>
+                                            <div>{{restaurantPrevious.opening_time}}</div>
+                                        </div>
+                                        <div class="col-md-6 mb-2">
+                                            <div class="label-name">Closing Time</div>
+                                            <div>{{restaurantPrevious.closing_time}}</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12 mb-2">
+                                            <div class="label-name">Address</div>
+                                            <div>{{restaurantPrevious.address}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-12" *ngIf="restaurants !== undefined">
+        <div class="card col-md-12 p-2 ml-0.5 pb-3" *ngIf="ApproveValue === 'approval'">
+            <div class="row" *ngIf="restaurants.action === 'add'">
+                <div class="col-md-6">
+                    <div class="card-body" style="padding: 0;">
+                        <div class="card-card rest-border">
+                            <div class="card-custom">
+                                <div style="padding: 6px" class="card-description">
+                                    <div class="label-name text-center" style="font-size: 25px;">Restaurant New Details</div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-2">
+                                            <div class="label-name">Restaurant Name</div>
+                                            <div>{{restaurants.name}}</div>
+                                            <div>({{restaurants.id}})</div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <ngx-stars [size]="2" [readonly]="true" [color]="'#fd4'" [initialStars]="restaurants.rating"></ngx-stars>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6 mb-2">
+                                            <div class="label-name">Cuisine</div>
+                                            <div>{{restaurants.cuisine}}</div>
+                                        </div>
+                                        <div class="col-md-6 mb-2">
+                                            <div class="label-name">Contact Person</div>
+                                            <div>{{restaurants.contact_person}}</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6 mb-2">
+                                            <div class="label-name">Email</div>
+                                            <div>{{restaurants.email}}</div>
+                                        </div>
+                                        <div class="col-md-6 mb-2">
+                                            <div class="label-name">Mobile Number</div>
+                                            <div>{{restaurants.mobile}}</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6 mb-2">
+                                            <div class="label-name">Opening Time</div>
+                                            <div>{{restaurants.opening_time}}</div>
+                                        </div>
+                                        <div class="col-md-6 mb-2">
+                                            <div class="label-name">Closing Time</div>
+                                            <div>{{restaurants.closing_time}}</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12 mb-2">
+                                            <div class="label-name">Address</div>
+                                            <div>{{restaurants.address}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div style="text-align:start;" class="card-imgage">
+                        <img src="{{restaurants.profile_pic}}" alt="Picture">
+                    </div>
+                </div>
+            </div>
+            <div class="row" *ngIf="restaurants.action === 'edit'">
+                <div class="col-md-6">
+                    <div style="text-align:start;" class="card-imgage">
+                        <img src="{{restaurants.profile_pic}}" alt="Picture">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card-body" style="padding: 0;">
+                        <div class="card-card rest-border">
+                            <div class="card-custom">
+                                <div style="padding: 6px" class="card-description">
+                                    <div class="label-name text-center" style="font-size: 25px;">Restaurant New Details</div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-2">
+                                            <div class="label-name">Restaurant Name</div>
+                                            <div [ngClass]="{'Highlight1': restaurants?.name !== restaurantPrevious?.name}">
+                                                {{restaurants.name}}
+                                            </div>
+                                            <div>({{restaurants.id}})</div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <ngx-stars [size]="2" [readonly]="true" [color]="'#fd4'" [initialStars]="restaurants.rating"></ngx-stars>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6 mb-2">
+                                            <div class="label-name">Cuisine</div>
+                                            <div [ngClass]="{'Highlight1': restaurants?.cuisine !== restaurantPrevious?.cuisine}">
+                                                {{restaurants.cuisine}}
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-2">
+                                            <div class="label-name">Contact Person</div>
+                                            <div [ngClass]="{'Highlight1': restaurants?.contact_person !== restaurantPrevious?.contact_person}">
+                                                {{restaurants.contact_person}}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6 mb-2">
+                                            <div class="label-name">Email</div>
+                                            <div [ngClass]="{'Highlight1': restaurants?.email !== restaurantPrevious?.email}">
+                                                {{restaurants.email}}
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-2">
+                                            <div class="label-name">Mobile Number</div>
+                                            <div [ngClass]="{'Highlight1': restaurants?.mobile !== restaurantPrevious?.mobile}">
+                                                {{restaurants.mobile}}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6 mb-2">
+                                            <div class="label-name">Opening Time</div>
+                                            <div [ngClass]="{'Highlight1': restaurants?.opening_time !== restaurantPrevious?.opening_time}">
+                                                {{restaurants.opening_time}}
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-2">
+                                            <div class="label-name">Closing Time</div>
+                                            <div [ngClass]="{'Highlight1': restaurants?.closing_time !== restaurantPrevious?.closing_time}">
+                                                {{restaurants.closing_time}}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12 mb-2">
+                                            <div class="label-name">Address</div>
+                                            <div [ngClass]="{'Highlight1': restaurants?.address !== restaurantPrevious?.address}">
+                                                {{restaurants.address}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-12" *ngIf="restaurantPrevious !== undefined">
+        <div class="card col-md-12 p-2 ml-0.5 pb-3" *ngIf="restaurants?.action === 'edit'">
+            <div class="row">
+                <div class="col-md-6">
+                    <div style="text-align:start;" class="card-imgage">
+                        <img src="{{restaurantPrevious.profile_pic}}" alt="Picture">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card-body" style="padding: 0;">
+                        <div class="card-card rest-border">
+                            <div class="card-custom">
+                                <div style="padding: 6px" class="card-description">
+                                    <div class="label-name text-center" style="font-size: 25px;">Restaurant Previous Details</div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-2">
+                                            <div class="label-name">Restaurant Name</div>
+                                            <div>{{restaurantPrevious.name}}</div>
+                                            <div>({{restaurantPrevious.id}})</div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <ngx-stars [size]="2" [readonly]="true" [color]="'#fd4'" [initialStars]="restaurantPrevious.rating"></ngx-stars>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6 mb-2">
+                                            <div class="label-name">Cuisine</div>
+                                            <div>{{restaurantPrevious.cuisine}}</div>
+                                        </div>
+                                        <div class="col-md-6 mb-2">
+                                            <div class="label-name">Contact Person</div>
+                                            <div>{{restaurantPrevious.contact_person}}</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6 mb-2">
+                                            <div class="label-name">Email</div>
+                                            <div>{{restaurantPrevious.email}}</div>
+                                        </div>
+                                        <div class="col-md-6 mb-2">
+                                            <div class="label-name">Mobile Number</div>
+                                            <div>{{restaurantPrevious.mobile}}</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6 mb-2">
+                                            <div class="label-name">Opening Time</div>
+                                            <div>{{restaurantPrevious.opening_time}}</div>
+                                        </div>
+                                        <div class="col-md-6 mb-2">
+                                            <div class="label-name">Closing Time</div>
+                                            <div>{{restaurantPrevious.closing_time}}</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12 mb-2">
+                                            <div class="label-name">Address</div>
+                                            <div>{{restaurantPrevious.address}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- The Modal -->
+    <div class="modal fade" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header" style="padding: 10px 26px;">
+                    <h4 class="modal-title">Bank Details</h4>
+                    <button type="button" class="close" data-dismiss="modal" style="padding: 2rem 1rem;">&times;</button>
+                </div>
+                <!-- Modal body -->
+                <div class="modal-body" style="background-color: #F8F8FF;">
+                    <div class="col-md-12" *ngIf="detail !== undefined">
+                        <!-- <div class="card col-md-12 p-2 ml-0.5"> -->
+                            
+                            <!-- <div class="card-body"> -->
+                                <!-- <div class="card-card">
+                                    <div class="card-custom"> -->
+                                        <div class="card-description desc">
+                                            <div style="text-align:end;">
+                                                <button class="btn btn-secondary btn-sm" data-dismiss="modal" *ngIf="detail.length !== 0"
+                                                [routerLink]="['/restaurants', 'editbank' ,restaurantPrevious?.id]">Edit</button>
+                                            </div>
+                                            <div style="text-align:end;">
+                                            <button *ngIf="detail.length === 0" data-dismiss="modal" class="btn btn-sm btn-secondary ml-2 mt-2 mt-xl-0" 
+                                            [routerLink]="['/restaurants', 'bankdetail' ,restaurantPrevious?.id]">
+                                                Add Bank Detail</button>
+                                            </div>
+                                            <!-- <h5>Bank Name: {{detail.bank_name}}</h5>
+                                            <h5>Account Holder: {{detail.account_holder_name}}</h5>
+                                            <p>Account Number: {{detail.account_number}}<br>IFSC Code: {{detail.ifsc_code}}<br> Bank
+                                                Address: {{detail.bank_address}} </p> -->
+                                        </div>
+
+                                        <dl class="dl-horizontal hours-list">
+                                            <div class="row">
+                                                <dt class="opentime">Bank Name:</dt>
+                                                <dd style="margin-left: 34px">{{detail.bank_name}}</dd>
+                                            </div>
+                                            <div class="row">
+                                                <dt class="opentime">Account Holder:</dt>
+                                                <dd style="margin-left: 8px">{{detail.account_holder_name}}</dd>
+                                            </div>
+                                            <div class="row">
+                                                <dt class="opentime">Account Number:</dt>
+                                                <dd>{{detail.account_number}}</dd>
+                                            </div>
+                                            <div class="row">
+                                                <dt class="opentime">Swift and IFSC Code:</dt>
+                                                <dd style="margin-left: -21px;">{{detail.ifsc_code}}</dd>
+                                            </div>
+                                            <div class="row">
+                                                <dt class="opentime">Bank Address:</dt>
+                                                <dd style="margin-left: 20px">{{detail.bank_address}}</dd>
+                                            </div>
+                                        </dl>
+                
+                                    </div>
+                                <!-- </div>
+                            </div> -->
+                        <!-- </div>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- <div class="col-md-5">
+        <div class="card col-md-12 p-3 ml-0.5">
+            <div *ngIf="detail !== undefined">
+                <span *ngIf="detail.length !== 0">
+                    <div class="col-md-12">
+                        <div class="d-flex justify-content-between flex-wrap">
+                            <div class="d-flex align-items-end flex-wrap">
+                                <div *ngIf="restaurants !== undefined" class="mr-md-3 mr-xl-5">
+                                    <h6>Bank Detail </h6>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-end flex-wrap">
+                                <button class="btn btn-secondary ml-2 btn-sm mt-xl-0"
+                                    [routerLink]="['/restaurants', 'editbank' ,restaurants.id]"> Edit</button>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <p>Bank Name: {{detail.bank_name}}</p>
+                    <p>Account Holder: {{detail.account_holder_name}}</p>
+                    <p>Account Number: {{detail.account_number}}</p>
+                    <p>IFSC Code: {{detail.ifsc_code}} </p>
+                    <p>Bank Address: {{detail.bank_address}}</p>
+                </span>
+                <span *ngIf="detail.length === 0">Please provide bank details!</span>
+            </div>
+        </div>
+    </div> -->
+</div>
+
+<div class="modal" id="DiscardModal">
+    <div class="modal-dialog" style="margin: 40px 380px;">
+        <div class="modal-content" style="width: 500px;">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Reason for Restaurant discard</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="">Comment</label>
+                            <textarea type="text" [(ngModel)]="comment" [ngModelOptions]="{standalone: true}"
+                                class="form-control disable" placeholder="Enter Comment">
+                            </textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-dark btn-sm"
+                    data-dismiss="modal">Close</button>
+                    <button class="btn btn-secondary btn-sm" (click)="IsDiscard()">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

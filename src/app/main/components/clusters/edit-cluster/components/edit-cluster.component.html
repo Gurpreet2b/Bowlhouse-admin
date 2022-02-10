@@ -1,0 +1,45 @@
+<form action="" [formGroup]="form">
+    <div class="modal-header">
+        <h4 class="modal-title">Edit Cluster</h4>
+        <button type="button" class="close" aria-label="Close" (click)="onDismiss()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="">Cluster <span class="required">*</span></label>
+                    <input type="text" formControlName="name" class="form-control" placeholder="Enter cluster name">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="">Latitude </label>
+                    <input type="number" formControlName="latitude" class="form-control" placeholder="Enter Latitude">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="">Longitude</label>
+                    <input type="number" formControlName="longitude" class="form-control" placeholder="Enter Longitude">
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="">Cluster Pic<span class="required">*</span></label>
+                    <div>
+                        <input type="file" id="picture" accept="image/*" formControlName="picture"
+                            (change)="onSelectFile($event)">
+                    </div>
+                    <img *ngIf="ImgPath" style="width: 30px; height: 30px;" src="{{ImgPath}}" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark btn-sm" (click)="onDismiss()">Close</button>
+        <button class="btn btn-secondary btn-sm"  (click)="onSubmit()">Update</button>
+       
+    </div>
+</form>

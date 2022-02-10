@@ -1,0 +1,77 @@
+<div class="card style pt-2">
+    <div class="col-md-12">
+        <div class="d-flex justify-content-between flex-wrap">
+            <div class="d-flex align-items-end flex-wrap">
+                <div class="mr-md-3 mr-xl-5">
+                    <h3>Edit Bank Detail - {{name.restaurant_name}}</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<nav aria-label="breadcrumb">
+    <ol class="ml-2 breadcrumb no-pad">
+        <li class="breadcrumb-item"><a [routerLink]="['/restaurants/restdetail/', this.restaurant_id]"
+                href="javascript:void(0)">Restaurant</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Edit bank detail</li>
+    </ol>
+</nav>
+
+<div class="card">
+    <div class="ml-2 mr-2 card-body">
+        <form [formGroup]="form" (submit)="onSubmit()">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="">Bank Name <span class="required">*</span></label>
+                        <input type="text" class="form-control" formControlName="bank_name" required>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="">Account Holder Name <span class="required">*</span></label>
+                        <input type="text" class="form-control" formControlName="account_holder_name" required>
+                    </div>
+                </div>
+            </div>
+         
+
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="">Swift And IFSC Code <span class="required">*</span></label>
+                        <input type="text" class="form-control" formControlName="ifsc_code" required>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="">Account Number <span class="required">*</span></label>
+                        <input type="text" class="form-control" formControlName="account_number" required>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="">Bank Address <span class="required">*</span></label>
+                        <textarea type="text" class="form-control" formControlName="bank_address" required></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-11">
+                    <div class="form-group text-right">
+                        <button type="submit" class="btn btn-secondary btn-sm"
+                        [routerLink]="['/restaurants', 'restdetail' ,restaurant_id]">Back</button>
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <div class="form-group text-right">
+                        <button type="submit" class="btn btn-secondary btn-sm">Save</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
