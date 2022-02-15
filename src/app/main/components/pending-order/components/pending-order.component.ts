@@ -25,6 +25,7 @@ export class PendingOrderComponent implements OnInit {
   public ClusterList: any = [];
   ClusterId: any;
   RestaurantId: any;
+  public DriverDetail: any;
 
   form = new FormGroup({
     search: new FormControl(''),
@@ -51,6 +52,10 @@ export class PendingOrderComponent implements OnInit {
       const responseData = res;
       this.RestaurantList = responseData.data.restaurant;
     })
+  }
+
+  IsDriverData(driver: any){
+    this.DriverDetail = driver;
   }
 
   IsRestChange(event: any) {

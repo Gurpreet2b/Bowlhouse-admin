@@ -5,9 +5,9 @@
 export const environment = {
   production: false,
   //apiUrl: 'v1/sysadmin'
-  // apiUrl: 'http://2bofficedubai.ddns.net:8000/v1/sysadmin'
+  apiUrl: 'http://2bofficedubai.ddns.net:8000/v1/sysadmin'
   // apiUrl: 'http://172.30.11.20:80/v1/sysadmin'
-  apiUrl: 'https://api.thebowlhouse.ae/v1/sysadmin',
+  // apiUrl: 'https://api.thebowlhouse.ae/v1/sysadmin',
 };
 
 /*

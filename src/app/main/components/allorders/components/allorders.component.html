@@ -118,48 +118,60 @@
                         <th>
                             Tax
                         </th>
-                        <th>
+                        <th style="width: 85px;">
                             Delivery
                         </th>
                         <th>
+                            Driver
+                        </th>
+                        <th style="width: 120px;">
                             Status
                         </th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr [routerLink]="['/customers', 'detail' ,customer.id]" style="cursor: pointer;"
-                        *ngFor="let customer of customers | paginate: { itemsPerPage: 10, currentPage: currentPage, totalItems: totalItems }; let i=index">
-                        <td>
+                    <tr *ngFor="let customer of customers | paginate: { itemsPerPage: 10, currentPage: currentPage, totalItems: totalItems }; let i=index">
+                        <td [routerLink]="['/customers', 'detail' ,customer.id]" style="cursor: pointer;">
                             {{ 10 * (currentPage-1) + i+1 }}
                         </td>
-                        <td>
+                        <td [routerLink]="['/customers', 'detail' ,customer.id]" style="cursor: pointer;">
                             {{customer.id}}
                         </td>
-                        <td>
+                        <td [routerLink]="['/customers', 'detail' ,customer.id]" style="cursor: pointer;">
                             {{customer.created_date | date}}, {{customer.created_date | date:'shortTime'}}
                         </td>
-                        <td>
+                        <td [routerLink]="['/customers', 'detail' ,customer.id]" style="cursor: pointer;">
                             {{customer.restaurant.name}}
                         </td>
-                        <td>
+                        <td [routerLink]="['/customers', 'detail' ,customer.id]" style="cursor: pointer;">
                             {{customer.customer.name}}
                         </td>
                         <!-- <td>
                             {{customer.address}}
                         </td> -->
-                        <td>
+                        <td [routerLink]="['/customers', 'detail' ,customer.id]" style="cursor: pointer;">
                             {{customer.customer.Mobile}}
                         </td>
-                        <td>
+                        <td [routerLink]="['/customers', 'detail' ,customer.id]" style="cursor: pointer;">
                             AED {{customer.total_amount | number: '.0-2'}}
                         </td>
-                        <td>
+                        <td [routerLink]="['/customers', 'detail' ,customer.id]" style="cursor: pointer;">
                             {{customer.tax | number: '.0-2'}}
                         </td>
-                        <td>
+                        <td [routerLink]="['/customers', 'detail' ,customer.id]" style="cursor: pointer; text-align: center;">
                             {{customer.delivery_charge}}
                         </td>
                         <td>
+                            <span *ngIf="customer.driver_allocated === true" data-toggle="modal" data-target="#DriverModal">
+                                <img src="../../../../../../assets/images/driver.png"
+                                style="width: 27px; height: 27px; cursor: pointer;" (click)="IsDriverData(customer.driver_details)">
+                            </span>
+                            <span *ngIf="customer.driver_allocated === false">
+                                <img src="../../../../../../assets/images/driver.png"
+                                style="width: 27px; height: 27px; cursor: not-allowed;">
+                            </span>
+                        </td>
+                        <td [routerLink]="['/customers', 'detail' ,customer.id]" style="cursor: pointer;">
                             <span *ngIf="customer.status[0].status.name === 'CANCELLED BY BOWLHOUSE'"><a
                                     style="color: red;">{{customer.status[0].status.name}}</a></span>
                             <span *ngIf="customer.status[0].status.name === 'CANCELLED BY CUSTOMER'"
@@ -351,6 +363,40 @@
                     </tr>
                 </tbody>
             </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="DriverModal">
+    <div class="modal-dialog" style="margin: 40px 380px;">
+        <div class="modal-content" style="width: 500px;">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Driver Details</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card mb-2 col-md-12">
+                            <div class="card-body">
+                                <img src="../../../../../../assets/images/profile.png" class="driver-img" />
+                                <!-- <span style="display: flex;"> -->
+                                    <p>Order ID: {{DriverDetail?.order}} </p>
+                                    <!-- <img src="../../../../../../assets/images/profile.png" class="driver-img" />
+                                </span> -->
+                                <p>Name: {{DriverDetail?.name}} </p>
+                                <p>Mobile: {{DriverDetail?.phone}} </p>
+                                <p>Age: {{DriverDetail?.age}} </p>
+                                <p>Created Date: {{DriverDetail?.created_date}} </p>
+                                <hr>
+                                <a href="DriverDetail?.tracking_url" target="_blank">{{DriverDetail?.tracking_url}}</a>
+                            </div>
+                        </div>
+                    </div>
+            </div>
         </div>
     </div>
 </div>

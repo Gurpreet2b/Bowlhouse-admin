@@ -1,23 +1,23 @@
 <div class="row">
     <ul class="nav nav-tabs" role="tablist" style="border-bottom: none;">
         <li class="nav-item active">
-            <a class="nav-link active" data-toggle="tab" href="#Pending" role="tab" (click)="PendingOrder('PLACED')">Pending Order
+            <a class="nav-link active" data-toggle="tab" href="#Pending" role="tab" (click)="PendingOrder('PLACED')">Pending Orders
             </a>
         </li>
         <!-- <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#Placed" role="tab" (click)="PlacedOrder()">Placed Order
+            <a class="nav-link" data-toggle="tab" href="#Placed" role="tab" (click)="PlacedOrder()">Placed Orders
             </a>
         </li> -->
         <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#Accepted" role="tab" (click)="AcceptedOrder('ACCEPTED')">Accepted Order
+            <a class="nav-link" data-toggle="tab" href="#Accepted" role="tab" (click)="AcceptedOrder('ACCEPTED')">Accepted Orders
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#Ready" role="tab" (click)="ReadyOrder('READY')">Ready Order
+            <a class="nav-link" data-toggle="tab" href="#Ready" role="tab" (click)="ReadyOrder('READY')">Ready Orders
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#Pickup" role="tab" (click)="PickupOrder('PICKEDUP')">PickedUp Order
+            <a class="nav-link" data-toggle="tab" href="#Pickup" role="tab" (click)="PickupOrder('PICKEDUP')">PickedUp Orders
             </a>
         </li>
     </ul>
@@ -77,7 +77,7 @@
                                         Id
                                     </th>
                                     <th>
-                                        Date
+                                        Order Placed At
                                     </th>
                                     <th>
                                         Restaurant
@@ -95,7 +95,7 @@
                                         Status
                                     </th>
                                      <th>
-                                        Order Time
+                                        Time Lapse
                                     </th>
                                     <th>
                                         Alert
@@ -308,7 +308,7 @@
                                         Id
                                     </th>
                                     <th>
-                                        Date
+                                        Order Accepted At
                                     </th>
                                     <th>
                                         Restaurant
@@ -326,7 +326,7 @@
                                         Status
                                     </th>
                                      <th>
-                                        Order Time
+                                        Time Lapse
                                     </th>
                                     <th>
                                         Alert
@@ -424,7 +424,7 @@
                                         Id
                                     </th>
                                     <th>
-                                        Date
+                                        Order Ready At
                                     </th>
                                     <th>
                                         Restaurant
@@ -441,8 +441,11 @@
                                     <th>
                                         Status
                                     </th>
+                                    <th>
+                                        Driver
+                                    </th>
                                      <th>
-                                        Order Time
+                                        Time Lapse
                                     </th>
                                     <th>
                                         Alert
@@ -450,40 +453,50 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr [routerLink]="['/customers', 'detail' ,customer.id]" style="cursor: pointer;"
+                                <tr 
                                  *ngFor="let customer of customers | paginate: { itemsPerPage: 10, currentPage: currentPage, totalItems: totalItems }; let i=index">
-                                    <td>
+                                    <td [routerLink]="['/customers', 'detail' ,customer.id]" style="cursor: pointer;">
                                         {{ 10 * (currentPage-1) + i+1 }}
                                     </td>
-                                    <td>
+                                    <td [routerLink]="['/customers', 'detail' ,customer.id]" style="cursor: pointer;">
                                         {{customer.id}}
                                     </td>
-                                    <td>
+                                    <td [routerLink]="['/customers', 'detail' ,customer.id]" style="cursor: pointer;">
                                         {{customer.created_date | date}}, {{customer.created_date | date: 'shortTime'}}
                                     </td>
-                                    <td>
+                                    <td [routerLink]="['/customers', 'detail' ,customer.id]" style="cursor: pointer;">
                                         {{customer.restaurant.name}}
                                     </td>
-                                    <td>
+                                    <td [routerLink]="['/customers', 'detail' ,customer.id]" style="cursor: pointer;">
                                         {{customer.restaurant.mobile}}
                                     </td>
-                                    <td>
+                                    <td [routerLink]="['/customers', 'detail' ,customer.id]" style="cursor: pointer;">
                                         {{customer.customer.name}}
                                     </td>
                                     
-                                    <td>
+                                    <td [routerLink]="['/customers', 'detail' ,customer.id]" style="cursor: pointer;">
                                         AED {{customer.total_amount | number: '.0-2'}}
                                     </td>
                                     
-                                    <td>
+                                    <td [routerLink]="['/customers', 'detail' ,customer.id]" style="cursor: pointer;">
                                         <span style="color: green;"><a>
                                                 {{customer.status[0].status.name}}</a>
                                         </span>
                                     </td>
                                     <td>
+                                        <span *ngIf="customer.driver_allocated === true" data-toggle="modal" data-target="#PendingDriverModal">
+                                            <img src="../../../../../../assets/images/driver.png"
+                                            style="width: 27px; height: 27px; cursor: pointer;" (click)="IsDriverData(customer.driver_details)">
+                                        </span>
+                                        <span *ngIf="customer.driver_allocated === false">
+                                            <img src="../../../../../../assets/images/driver.png"
+                                            style="width: 27px; height: 27px; cursor: not-allowed;">
+                                        </span>
+                                    </td>
+                                    <td [routerLink]="['/customers', 'detail' ,customer.id]" style="cursor: pointer;">
                                         {{(customer.ordered_time_in_sec / 60) | number: '.0-2'}}Mins
                                     </td>
-                                    <td>
+                                    <td [routerLink]="['/customers', 'detail' ,customer.id]" style="cursor: pointer;">
                                         <span *ngIf="customer.ordered_time_in_sec > 3600  else elseBlock1">
                                             <img src="/assets/images/red-alert.gif" alt="Alert" style="width: 25px; height: 25px;">
                                         </span>
@@ -540,7 +553,7 @@
                                         Id
                                     </th>
                                     <th>
-                                        Date
+                                        Order Pickedup At
                                     </th>
                                     <th>
                                         Restaurant
@@ -557,8 +570,11 @@
                                     <th>
                                         Status
                                     </th>
+                                    <th>
+                                        Driver
+                                    </th>
                                      <th>
-                                        Order Time
+                                        Time Lapse
                                     </th>
                                     <th>
                                         Alert
@@ -566,40 +582,50 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr [routerLink]="['/customers', 'detail' ,customer.id]" style="cursor: pointer;"
+                                <tr 
                                  *ngFor="let customer of customers | paginate: { itemsPerPage: 10, currentPage: currentPage, totalItems: totalItems }; let i=index">
-                                    <td>
+                                    <td [routerLink]="['/customers', 'detail' ,customer.id]" style="cursor: pointer;">
                                         {{ 10 * (currentPage-1) + i+1 }}
                                     </td>
-                                    <td>
+                                    <td [routerLink]="['/customers', 'detail' ,customer.id]" style="cursor: pointer;">
                                         {{customer.id}}
                                     </td>
-                                    <td>
+                                    <td [routerLink]="['/customers', 'detail' ,customer.id]" style="cursor: pointer;">
                                         {{customer.created_date | date}}, {{customer.created_date | date: 'shortTime'}}
                                     </td>
-                                    <td>
+                                    <td [routerLink]="['/customers', 'detail' ,customer.id]" style="cursor: pointer;">
                                         {{customer.restaurant.name}}
                                     </td>
-                                    <td>
+                                    <td [routerLink]="['/customers', 'detail' ,customer.id]" style="cursor: pointer;">
                                         {{customer.restaurant.mobile}}
                                     </td>
-                                    <td>
+                                    <td [routerLink]="['/customers', 'detail' ,customer.id]" style="cursor: pointer;">
                                         {{customer.customer.name}}
                                     </td>
                                     
-                                    <td>
+                                    <td [routerLink]="['/customers', 'detail' ,customer.id]" style="cursor: pointer;">
                                         AED {{customer.total_amount | number: '.0-2'}}
                                     </td>
                                     
-                                    <td>
+                                    <td [routerLink]="['/customers', 'detail' ,customer.id]" style="cursor: pointer;">
                                         <span style="color: green;"><a>
                                                 {{customer.status[0].status.name}}</a>
                                         </span>
                                     </td>
                                     <td>
+                                        <span *ngIf="customer.driver_allocated === true" data-toggle="modal" data-target="#PendingDriverModal">
+                                            <img src="../../../../../../assets/images/driver.png"
+                                            style="width: 27px; height: 27px; cursor: pointer;" (click)="IsDriverData(customer.driver_details)">
+                                        </span>
+                                        <span *ngIf="customer.driver_allocated === false">
+                                            <img src="../../../../../../assets/images/driver.png"
+                                            style="width: 27px; height: 27px; cursor: not-allowed;">
+                                        </span>
+                                    </td>
+                                    <td [routerLink]="['/customers', 'detail' ,customer.id]" style="cursor: pointer;">
                                         {{(customer.ordered_time_in_sec / 60) | number: '.0-2'}}Mins
                                     </td>
-                                    <td>
+                                    <td [routerLink]="['/customers', 'detail' ,customer.id]" style="cursor: pointer;">
                                         <span *ngIf="customer.ordered_time_in_sec > 7200  else elseBlock1">
                                             <img src="/assets/images/red-alert.gif" alt="Alert" style="width: 25px; height: 25px;">
                                         </span>
@@ -639,3 +665,36 @@
     </div>
 </div>
 
+<div class="modal" id="PendingDriverModal">
+    <div class="modal-dialog" style="margin: 40px 380px;">
+        <div class="modal-content" style="width: 500px;">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Driver Details</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card mb-2 col-md-12">
+                            <div class="card-body">
+                                <img src="../../../../../../assets/images/profile.png" class="driver-img" />
+                                <!-- <span style="display: flex;"> -->
+                                    <p>Order ID: {{DriverDetail?.order}} </p>
+                                    <!-- <img src="../../../../../../assets/images/profile.png" class="driver-img" />
+                                </span> -->
+                                <p>Name: {{DriverDetail?.name}} </p>
+                                <p>Mobile: {{DriverDetail?.phone}} </p>
+                                <p>Age: {{DriverDetail?.age}} </p>
+                                <p>Created Date: {{DriverDetail?.created_date}} </p>
+                                <hr>
+                                <a href="DriverDetail?.tracking_url" target="_blank">{{DriverDetail?.tracking_url}}</a>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -34,6 +34,7 @@ export class AllordersComponent implements OnInit {
   statuslist: any = [];
   public start: any;
   public end: any;
+  public DriverDetail: any;
 
   // date = this.dtPipe.transform(new Date(), 'yyyy-MM-dd');
   form = new FormGroup({
@@ -66,6 +67,10 @@ export class AllordersComponent implements OnInit {
       const responseData = res;
       this.statuslist = responseData.data.order_status_catalog;
     })
+  }
+
+  IsDriverData(driver: any){
+    this.DriverDetail = driver;
   }
 
   IsRangeDate(event: any) {
