@@ -21,6 +21,7 @@ export class CreateChatComponent implements OnInit {
   @Input() ChatId: any;
   customerId: any;
   ChatBot: any;
+  UserList: any = [];
 
   form = new FormGroup({
     topic: new FormControl('', [Validators.required]),
@@ -39,10 +40,22 @@ export class CreateChatComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.getUserList();
   }
 
   ngOnChanges(){
     this.getTicket();
+  }
+
+  private getUserList() {
+    this.http.get('users/', null).subscribe((res: any) => {
+      if (res.status === true) {
+        const responseData = res;
+        this.UserList = responseData.data.users;
+      } else{
+        this.toastr.error(res.error);
+      }
+    });
   }
 
   ImgPath: any;

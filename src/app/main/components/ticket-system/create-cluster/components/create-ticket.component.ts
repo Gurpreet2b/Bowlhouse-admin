@@ -18,6 +18,7 @@ export class CreateTicketComponent implements OnInit {
   public loading = false;
   IsType: any;
   @Output() valueChange = new EventEmitter();
+  UserList: any = [];
 
   form = new FormGroup({
     topic: new FormControl('', [Validators.required]),
@@ -36,6 +37,18 @@ export class CreateTicketComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.getUserList();
+  }
+
+  private getUserList() {
+    this.http.get('users/', null).subscribe((res: any) => {
+      if (res.status === true) {
+        const responseData = res;
+        this.UserList = responseData.data.users;
+      } else{
+        this.toastr.error(res.error);
+      }
+    });
   }
 
   IsTypeChange(event: any){

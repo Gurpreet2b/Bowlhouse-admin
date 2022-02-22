@@ -45,6 +45,13 @@ export class RestaurantsApprovalsComponent implements OnInit {
   public end: any;
   from: any;
   to: any;
+  IsActiveRestaurant: any = true;
+  IsActiveMenu: any = '';
+  IsActiveMaster: any = '';
+  IsActiveCoupons: any = '';
+  IsActiveOffers: any = '';
+  IsActiveRestaurantOffers: any = '';
+
 
   constructor(
     private http: HttpService,
@@ -55,14 +62,35 @@ export class RestaurantsApprovalsComponent implements OnInit {
   ngOnInit(): void {
     this.authService.SetRestaurantName('Approval System - Helpdesk');
     this.IsUserName = this.authService.getUserName();
+    let notification = this.activeRoute.snapshot.params['restaurant'] || 0;
     this.getApproval(1);
-    // this.getMenuApproval(1);
-    // this.getCouponApproval(1);
-    // this.getCuisineApproval(1);
-    // this.getClustersApproval(1);
-    // this.getFoodCatApproval(1);
-    // this.getOfferApproval(1);
-    // this.getRestOfferApproval(1);
+    if(notification === 'restaurant') {
+      this.IsActiveRestaurant = true;
+      this.IsRestaurantApproval();
+    } else if (notification === 'menu') {
+      this.IsActiveRestaurant = '';
+      this.IsActiveMenu = true;
+      this.IsMenuApproval();
+    } else if (notification === 'master') {
+      this.IsActiveRestaurant = '';
+      this.IsActiveMaster = true;
+      this.IsMasterApproval();
+    } else if (notification === 'coupons') {
+      this.IsActiveRestaurant = '';
+      this.IsActiveCoupons = true;
+      this.IsCouponsApproval();
+    } else if (notification === 'offers') {
+      this.IsActiveRestaurant = '';
+      this.IsActiveOffers = true;
+      this.IsOffersApproval();
+    } else if (notification === 'restaurantOffers') {
+      this.IsActiveRestaurant = '';
+      this.IsActiveRestaurantOffers = true;
+      this.IsRestaurantOffersApproval();
+    } else {
+      this.IsActiveRestaurant = true;
+      this.IsRestaurantApproval();
+    }
   }
 
   IsRestaurantApproval(){

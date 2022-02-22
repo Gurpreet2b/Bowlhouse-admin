@@ -36,13 +36,13 @@
             </li>
         </ul>
         <ul class="navbar-nav navbar-nav-right">
-            <li class="nav-item dropdown mr-1">
-                <!-- <a class="nav-link count-indicator dropdown-toggle d-flex justify-content-center align-items-center"
+            <!-- <li class="nav-item dropdown mr-1">
+                <a class="nav-link count-indicator dropdown-toggle d-flex justify-content-center align-items-center"
                     id="messageDropdown" href="#" data-toggle="dropdown">
                     <i class="mdi mdi-message-text mx-0"></i>
                     <span class="count"></span>
-                </a> -->
-                <!-- <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list"
+                </a>
+                <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list"
                     aria-labelledby="messageDropdown">
                     <p class="mb-0 font-weight-normal float-left dropdown-header">Messages</p>
                     <a class="dropdown-item preview-item">
@@ -81,18 +81,29 @@
                             </p>
                         </div>
                     </a>
-                </div> -->
-            </li>
+                </div>
+            </li> -->
             <li class="nav-item dropdown mr-4">
-                <!-- <a class="nav-link count-indicator dropdown-toggle d-flex align-items-center justify-content-center notification-dropdown"
+                <a class="nav-link count-indicator dropdown-toggle d-flex align-items-center justify-content-center notification-dropdown"
                     id="notificationDropdown" href="#" data-toggle="dropdown">
-                    <i class="mdi mdi-bell mx-0"></i>
-                    <span class="count"></span>
-                </a> -->
-                <!-- <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list"
+                    <i class="mdi mdi-bell mx-0" style="color: #fff;"></i>
+                    <!-- <span class="count">4</span> -->
+                    <sup class="notify">{{NotificationList.length}}</sup>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list scrolling"
                     aria-labelledby="notificationDropdown">
                     <p class="mb-0 font-weight-normal float-left dropdown-header">Notifications</p>
-                    <a class="dropdown-item preview-item">
+
+                    <a class="dropdown-item preview-item" *ngFor="let notification of NotificationList">
+                        <div class="preview-item-content" routerLink="/{{notification.redirect}}">
+                            <p class="preview-subject font-weight-normal">{{notification.message}}</p>
+                            <p class="font-weight-light small-text mb-0 text-muted">
+                                Unread <span class="dot"></span>
+                            </p>
+                        </div>
+                    </a>
+
+                    <!-- <a class="dropdown-item preview-item">
                         <div class="preview-thumbnail">
                             <div class="preview-icon bg-success">
                                 <i class="mdi mdi-information mx-0"></i>
@@ -130,8 +141,8 @@
                                 2 days ago
                             </p>
                         </div>
-                    </a>
-                </div> -->
+                    </a> -->
+                </div>
             </li>
             <li class="nav-item nav-profile dropdown mr-0">
                 <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">

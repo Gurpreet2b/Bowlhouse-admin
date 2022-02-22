@@ -20,6 +20,7 @@ export class OrderDetailComponent implements OnInit {
   id: number | null = null;
   cancelRemarks: any;
   public loading = false;
+  RoleName: any;
 
   constructor(
     private http: HttpService,
@@ -31,7 +32,8 @@ export class OrderDetailComponent implements OnInit {
   ngOnInit(): void {
     this.order_id = this.activeRoute.snapshot.params['id'] || 0;
     this.authService.SetRestaurantName(``);
-    this.getOrderHistory(1)
+    this.getOrderHistory(1);
+    this.RoleName = this.authService.getRoleName();
   }
 
 

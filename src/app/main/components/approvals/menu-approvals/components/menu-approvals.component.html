@@ -4,12 +4,14 @@
             <a class="nav-link active" data-toggle="tab" href="#FinanceApproval" role="tab">Finance Approval
             </a>
         </li> -->
-        <li class="nav-item active">
-            <a class="nav-link active" data-toggle="tab" href="#RefundApproval" role="tab">Refund Approval
+        <li class="nav-item" [ngClass]="{'active': IsActiveRefund === true}">
+            <a class="nav-link" data-toggle="tab" href="#RefundApproval" role="tab"
+            [ngClass]="{'active': IsActiveRefund === true}">Refund Approval
             </a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#PODApproval" role="tab">COD Approval
+        <li class="nav-item" [ngClass]="{'active': IsActiveCOD === true}">
+            <a class="nav-link" data-toggle="tab" href="#PODApproval" role="tab"
+            [ngClass]="{'active': IsActiveCOD === true}">COD Approval
             </a>
         </li>
     </ul>
@@ -89,7 +91,7 @@
             </div>
         </div> -->
 
-        <div class="tab-pane active" id="RefundApproval" role="tabpanel">
+        <div class="tab-pane active" id="RefundApproval" role="tabpanel" [ngClass]="{'active': IsActiveRefund === true}">
             <div class="card">
                 <div class="card-body">
                     <div class="table-responsive">
@@ -197,7 +199,7 @@
             </div>
         </div>
 
-        <div class="tab-pane" id="PODApproval" role="tabpanel">
+        <div class="tab-pane" id="PODApproval" role="tabpanel" [ngClass]="{'active': IsActiveCOD === true}">
             <div class="card">
                 <div class="card-body">
                     <div class="table-responsive">

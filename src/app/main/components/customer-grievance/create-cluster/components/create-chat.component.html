@@ -17,9 +17,12 @@
                 <label for="">Assign To <span class="required">*</span></label>
                 <select formControlName="tag" class="form-control">
                     <option value="" selected>Select Assign To</option>
-                    <option value="self">Self</option>
+                    <option *ngFor="let item of UserList" [value]="item.id">
+                        {{ item.username }}
+                    </option>
+                    <!-- <option value="self">Self</option>
                     <option value="admin">Admin</option>
-                    <option value="finance">Finance</option>
+                    <option value="finance">Finance</option> -->
                 </select>
                 <div *ngIf="form.controls['tag'].invalid && (form.controls['tag'].dirty || form.controls['tag'].touched)"
                     class="alert1">

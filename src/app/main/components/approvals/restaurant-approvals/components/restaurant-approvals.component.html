@@ -1,40 +1,45 @@
 <div class="row">
     <ul class="nav nav-tabs" role="tablist" style="border-bottom: none;">
-        <li class="nav-item active">
-            <a class="nav-link active" data-toggle="tab" href="#RestaurantApproval" role="tab"
-            (click)="IsRestaurantApproval()">Restaurant Approval
+        <li class="nav-item" [ngClass]="{'active': IsActiveRestaurant === true}">
+            <a class="nav-link" data-toggle="tab" href="#RestaurantApproval" role="tab"
+            (click)="IsRestaurantApproval()"
+            [ngClass]="{'active': IsActiveRestaurant === true}">Restaurant Approval
             </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" [ngClass]="{'active': IsActiveMenu === true}">
             <a class="nav-link" data-toggle="tab" href="#MenuApproval" role="tab"
-            (click)="IsMenuApproval()">Menu Approval
+            (click)="IsMenuApproval()"
+            [ngClass]="{'active': IsActiveMenu === true}">Menu Approval
             </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" [ngClass]="{'active': IsActiveMaster === true}">
             <a class="nav-link" data-toggle="tab" href="#MasterItem" role="tab"
-            (click)="IsMasterApproval()">Master Items
+            (click)="IsMasterApproval()" [ngClass]="{'active': IsActiveMaster === true}">Master Items
             </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" [ngClass]="{'active': IsActiveCoupons === true}">
             <a class="nav-link" data-toggle="tab" href="#coupon" role="tab"
-            (click)="IsCouponsApproval()">Coupons
+            (click)="IsCouponsApproval()" 
+            [ngClass]="{'active': IsActiveCoupons === true}">Coupons
             </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" [ngClass]="{'active': IsActiveOffers === true}">
             <a class="nav-link" data-toggle="tab" href="#offer" role="tab"
-            (click)="IsOffersApproval()">Offer Flash Cards
+            (click)="IsOffersApproval()"
+            [ngClass]="{'active': IsActiveOffers === true}">Offer Flash Cards
             </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" [ngClass]="{'active': IsActiveRestaurantOffers === true}">
             <a class="nav-link" data-toggle="tab" href="#restaurantOffer" role="tab"
-            (click)="IsRestaurantOffersApproval()">Restaurant Offers
+            (click)="IsRestaurantOffersApproval()"
+            [ngClass]="{'active': IsActiveRestaurantOffers === true}">Restaurant Offers
             </a>
         </li>
     </ul>
 
     <!-- Tab panes -->
     <div class="tab-content" style="border-top: 2px solid #ececec;  width: 100%;">
-        <div class="tab-pane active" id="RestaurantApproval" role="tabpanel">
+        <div class="tab-pane" id="RestaurantApproval" role="tabpanel" [ngClass]="{'active': IsActiveRestaurant === true}">
             <div class="card">
                 <div class="card-body">
                     <div class="table-responsive">
@@ -107,7 +112,7 @@
             </div>
         </div>
 
-        <div class="tab-pane" id="MenuApproval" role="tabpanel">
+        <div class="tab-pane" id="MenuApproval" role="tabpanel" [ngClass]="{'active': IsActiveMenu === true}">
             <div class="card">
                 <div class="card-body">
                     <div class="table-responsive">
@@ -186,7 +191,7 @@
             </div>
         </div>
 
-        <div class="tab-pane" id="MasterItem" role="tabpanel">
+        <div class="tab-pane" id="MasterItem" role="tabpanel" [ngClass]="{'active': IsActiveMaster === true}">
             <div class="card">
                 <div class="card-body p-0">
                     <div class="table-responsive" style="display: contents;">
@@ -409,7 +414,7 @@
             </div>
         </div>
 
-        <div class="tab-pane" id="coupon" role="tabpanel">
+        <div class="tab-pane" id="coupon" role="tabpanel" [ngClass]="{'active': IsActiveCoupons === true}">
             <div class="card">
                 <div class="card-body">
                     <div class="table-responsive">
@@ -571,7 +576,7 @@
             </div>
         </div>
 
-        <div class="tab-pane" id="restaurantOffer" role="tabpanel">
+        <div class="tab-pane" id="restaurantOffer" role="tabpanel" [ngClass]="{'active': IsActiveRestaurantOffers === true}">
             <div class="card">
                 <div class="card-body">
                     <div class="table-responsive">
@@ -666,7 +671,7 @@
             </div>
         </div>
 
-        <div class="tab-pane" id="offer" role="tabpanel">
+        <div class="tab-pane" id="offer" role="tabpanel" [ngClass]="{'active': IsActiveOffers === true}">
             <div class="card">
                 <div class="card-body">
                     <div class="table-responsive">

@@ -23,6 +23,8 @@ export class MenuApprovalsComponent implements OnInit {
   public loading = false;
   IsUserName: any;
   RoleName: any;
+  IsActiveRefund: any = true;
+  IsActiveCOD: any = '';
 
   constructor(private modalService: NgbModal,
     private http: HttpService,
@@ -37,6 +39,15 @@ export class MenuApprovalsComponent implements OnInit {
     this.RoleName = this.authService.getRoleName();
     this.getRefundApprovals(1);
     this.getPODApprovals(1);
+    let notification = this.activeRoute.snapshot.params['refund'] || 0;
+    if(notification === 'refund') {
+      this.IsActiveRefund = true;
+      this.getRefundApprovals(1);
+    } else if (notification === 'COD') {
+      this.IsActiveRefund = '';
+      this.IsActiveCOD = true;
+      this.getPODApprovals(1);
+    }
   }
 
   onPageChange(event: any, data: any) {

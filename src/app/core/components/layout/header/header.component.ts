@@ -14,8 +14,7 @@ import { ToastrService } from 'ngx-toastr';
 export class HeaderComponent implements OnInit, DoCheck {
   public loading = false;
   totalItems: number | undefined;
-  restaurants: any = [
-  ];
+  restaurants: any = [];
   // Maintain the sidebar state
   isIconOnly: boolean = false;
   form = new FormGroup({
@@ -23,6 +22,8 @@ export class HeaderComponent implements OnInit, DoCheck {
   });
   name: string | null | undefined;
   public RestaurantName: any;
+  NotificationList: any = [];
+
   constructor(
       @Inject(DOCUMENT) private document: Document, 
       private renderer: Renderer2,
@@ -36,6 +37,7 @@ export class HeaderComponent implements OnInit, DoCheck {
   ngOnInit(): void {
     let UserName = this.authService.getUserName();
     this.name = UserName;
+    this.getNotifications();
   }
 
   ngDoCheck(){
@@ -88,6 +90,19 @@ export class HeaderComponent implements OnInit, DoCheck {
       // else {
       //   this.toastr.success("Restaurant List");
       // }
+    });
+  }
+
+  private getNotifications() {
+    this.http.get(`notification/`, null,).subscribe((res: any) => {
+      if(res.status === true) {
+        this.NotificationList = res.data;
+      }
+      else {
+        this.toastr.warning("Something went wrong !!");
+      }
+    }, (error: any) => {
+      this.toastr.error(error.message);
     });
   }
 
