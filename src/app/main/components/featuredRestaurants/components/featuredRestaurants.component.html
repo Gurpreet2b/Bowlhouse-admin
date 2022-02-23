@@ -101,7 +101,7 @@
                         <th>
                             Restaurant Name
                         </th>
-                        <th>
+                        <th style="width: 350px;">
                             Restaurant Address
                         </th>
                         <th>
@@ -127,10 +127,10 @@
                             {{featured.restaurant_address}}
                         </td>
                         <td>
-                            {{featured.from_date | date}}
+                            {{featured.from_date | date}}, {{featured.from_date | date:'shortTime'}}
                         </td>
                         <td>
-                            {{featured.to_date | date}}
+                            {{featured.to_date | date}}, {{featured.to_date | date:'shortTime'}}
                         </td>
                     </tr>
                     <tr *ngIf="FeaturedRestaurants.length === 0">

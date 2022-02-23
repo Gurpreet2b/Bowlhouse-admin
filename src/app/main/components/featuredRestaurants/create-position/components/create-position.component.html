@@ -90,6 +90,31 @@
                 </div>
             </div>
 
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="">Form Time <span class="required">*</span></label>
+                    <input type="time" formControlName="from_time" class="form-control" placeholder="Enter Your Time">
+                    <div *ngIf="form.controls['from_time'].invalid && (form.controls['from_time'].dirty || form.controls['from_time'].touched)"
+                    class="alert1">
+                        <div *ngIf="form.controls['from_time'].errors.required">
+                            Please Enter Time.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="">To Time <span class="required">*</span></label>
+                    <input type="time" formControlName="to_time" class="form-control" placeholder="Enter Your Time">
+                    <div *ngIf="form.controls['to_time'].invalid && (form.controls['to_time'].dirty || form.controls['to_time'].touched)"
+                    class="alert1">
+                        <div *ngIf="form.controls['to_time'].errors.required">
+                            Please Enter Time.
+                        </div>
+                    </div>
+                </div>
+            </div>
             
         </div>
     </div>

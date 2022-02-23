@@ -23,6 +23,8 @@ export class CreatePositionComponent implements OnInit {
     restaurant: new FormControl('', [Validators.required]),
     from: new FormControl('', [Validators.required]),
     to: new FormControl('', [Validators.required]),
+    from_time: new FormControl('', [Validators.required]),
+    to_time: new FormControl('', [Validators.required]),
   });
 
   constructor(
