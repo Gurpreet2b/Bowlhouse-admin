@@ -21,6 +21,7 @@ export class ViewCustomersComponent implements OnInit {
   customer_id: number | null = null;
   currentPage: number = 1;
   totalItems: number | undefined;
+  SubscribedFilter: any;
   form = new FormGroup({
     search: new FormControl(''),
   });
@@ -36,6 +37,11 @@ export class ViewCustomersComponent implements OnInit {
     this.getcustomersExport(1);
   }
 
+  IsFilterChange(event: any){
+    this.SubscribedFilter = event.target.value;
+    this.getcustomers(1);
+  }
+
   PageJump: any = 10;
   PageTotalNumber: any = [];
   private getcustomers(page: number) {
@@ -45,7 +51,7 @@ export class ViewCustomersComponent implements OnInit {
     let params = new HttpParams();
     params = params.append('page', page.toString())
 
-    this.http.get(`customer/?search=${search}`, null, { params: params }).subscribe((res: any) => {
+    this.http.get(`customer/?search=${search}&filter=${this.SubscribedFilter}`, null, { params: params }).subscribe((res: any) => {
       const responseData = res;
       this.customers = responseData.data.customer;
       this.totalItems = responseData.data.count;

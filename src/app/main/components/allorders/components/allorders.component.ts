@@ -35,6 +35,7 @@ export class AllordersComponent implements OnInit {
   public start: any;
   public end: any;
   public DriverDetail: any;
+  FilterDate: any;
 
   // date = this.dtPipe.transform(new Date(), 'yyyy-MM-dd');
   form = new FormGroup({
@@ -48,10 +49,25 @@ export class AllordersComponent implements OnInit {
 
   ngOnInit(): void {
     this.restaurant_id = this.activeRoute.snapshot.params['id'] || 0;
+    this.FilterDate = this.activeRoute.snapshot.params['date'] || 0;
     this.authService.SetRestaurantName(`Order Details`);
     this.getOrders(1);
     this.getCategory();
     this.getStatus();
+
+    if(this.FilterDate === 'Today') {
+      this.Today();
+    } else if(this.FilterDate === 'days7') {
+      this.days7();
+    } else if(this.FilterDate === 'days15') {
+      this.days15();
+    } else if(this.FilterDate === 'days30') {
+      this.days30();
+    } else if(this.FilterDate === 'month6') {
+      this.month6();
+    } else if(this.FilterDate === 'year') {
+      this.year();
+    }
   }
 
   private getCategory() {
@@ -185,6 +201,82 @@ export class AllordersComponent implements OnInit {
         this.toastr.warning("No Record Found");
       }
     });
+  }
+
+  Today() {
+    let fromDate = new Date();
+    this.from = this.dtPipe.transform(new Date(), 'yyyy-MM-dd');
+
+    let to = new Date(fromDate);
+    to.setDate(to.getDate() + 1);
+    this.to = this.dtPipe.transform(to, 'yyyy-MM-dd');
+    this.getOrders(1);
+    // this.GetExportDashboard(1);
+    this.loading = true;
+  }
+  days7() {
+    let fromDate = new Date();
+    let from = new Date(fromDate);
+    from.setDate(from.getDate() - 6);
+    this.from = this.dtPipe.transform(from, 'yyyy-MM-dd');
+
+    let to = new Date(fromDate);
+    to.setDate(to.getDate() + 1);
+    this.to = this.dtPipe.transform(to, 'yyyy-MM-dd');
+    this.getOrders(1);
+    // this.GetExportDashboard(1);
+    this.loading = true;
+  }
+  days15() {
+    let fromDate = new Date();
+    let from = new Date(fromDate);
+    from.setDate(from.getDate() - 14);
+    this.from = this.dtPipe.transform(from, 'yyyy-MM-dd');
+
+    let to = new Date(fromDate);
+    to.setDate(to.getDate() + 1);
+    this.to = this.dtPipe.transform(to, 'yyyy-MM-dd');
+    this.getOrders(1);
+    // this.GetExportDashboard(1);
+    this.loading = true;
+  }
+  days30() {
+    let fromDate = new Date();
+    let from = new Date(fromDate);
+    from.setMonth(from.getMonth() - 1);
+    from.setDate(from.getDate() + 1);
+    this.from = this.dtPipe.transform(from, 'yyyy-MM-dd');
+
+    let to = new Date(fromDate);
+    to.setDate(to.getDate());
+    this.to = this.dtPipe.transform(to, 'yyyy-MM-dd');
+    this.getOrders(1);
+    // this.GetExportDashboard(1);
+  }
+
+  month6() {
+    let fromDate = new Date();
+    let from = new Date(fromDate);
+    from.setMonth(from.getMonth() - 6);
+    this.from = this.dtPipe.transform(from, 'yyyy-MM-dd');
+
+    let to = new Date(fromDate);
+    to.setDate(to.getDate() + 1);
+    this.to = this.dtPipe.transform(to, 'yyyy-MM-dd');
+    this.getOrders(1);
+    // this.GetExportDashboard(1);
+  }
+  year() {
+    let fromDate = new Date();
+    let from = new Date(fromDate);
+    from.setFullYear(from.getFullYear() - 1);
+    this.from = this.dtPipe.transform(from, 'yyyy-MM-dd');
+
+    let to = new Date(fromDate);
+    to.setDate(to.getDate() + 1);
+    this.to = this.dtPipe.transform(to, 'yyyy-MM-dd');
+    this.getOrders(1);
+    // this.GetExportDashboard(1);
   }
 
 

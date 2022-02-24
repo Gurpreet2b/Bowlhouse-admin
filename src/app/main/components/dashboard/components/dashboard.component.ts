@@ -58,6 +58,7 @@ export class DashboardComponent implements OnInit {
   public ClusterList: any = [];
   public UserName: any;
   public RoleName: any;
+  public FilterDate: any = 'Today';
   
   form = new FormGroup({
     search: new FormControl(''),
@@ -222,6 +223,7 @@ export class DashboardComponent implements OnInit {
   }
 
   Today() {
+    this.FilterDate = 'Today';
     this.IsRange = false;
     let fromDate = new Date();
     this.from = this.dtPipe.transform(new Date(), 'yyyy-MM-dd');
@@ -234,6 +236,7 @@ export class DashboardComponent implements OnInit {
     this.loading = true;
   }
   days7() {
+    this.FilterDate = 'days7';
     this.IsRange = false;
     let fromDate = new Date();
     let from = new Date(fromDate);
@@ -248,6 +251,7 @@ export class DashboardComponent implements OnInit {
     this.loading = true;
   }
   days15() {
+    this.FilterDate = 'days15';
     this.IsRange = false;
     let fromDate = new Date();
     let from = new Date(fromDate);
@@ -262,6 +266,7 @@ export class DashboardComponent implements OnInit {
     this.loading = true;
   }
   days30() {
+    this.FilterDate = 'days30';
     this.IsRange = false;
     let fromDate = new Date();
     let from = new Date(fromDate);
@@ -277,6 +282,7 @@ export class DashboardComponent implements OnInit {
   }
 
   month6() {
+    this.FilterDate = 'month6';
     this.IsRange = false;
     let fromDate = new Date();
     let from = new Date(fromDate);
@@ -290,6 +296,7 @@ export class DashboardComponent implements OnInit {
     // this.GetExportDashboard(1);
   }
   year() {
+    this.FilterDate = 'year';
     this.IsRange = false;
     let fromDate = new Date();
     let from = new Date(fromDate);

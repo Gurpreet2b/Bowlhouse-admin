@@ -126,11 +126,12 @@
                                             <div class="panel-body"
                                                 ng-transclude="">
                                                 <div class="pie-chart-item ng-scope">
-                                                    <div class="description">
+                                                    <div class="description" [routerLink]="['/allorders', FilterDate]">
                                                         <div>Total Sales: AED {{ alldata.sales?.total | number: '.0-2'}}</div>
-                                                        <div *ngIf="alldata?.restaurant_order_count?.length > 0">
+                                                        <div>Order Sales: AED {{ alldata.sales?.order_sales | number: '.0-2'}}</div>
+                                                        <!-- <div *ngIf="alldata?.restaurant_order_count?.length > 0">
                                                             Renewal Subscriptions: {{ alldata.subscription_renewal_count | number: '.0-2' }}
-                                                        </div>
+                                                        </div> -->
                                                         <!-- <div class="ng-binding">Total Sales</div>
                                                         <div class="description-stats ng-binding">AED {{
                                                             alldata.sales?.total | number: '.0-2'
@@ -155,11 +156,12 @@
                                             <div class="panel-body"
                                                 ng-transclude="">
                                                 <div class="pie-chart-item ng-scope">
-                                                    <div class="description">
-                                                        <div>Order Sales: AED {{ alldata.sales?.order_sales | number: '.0-2'}}</div>
-                                                        <div *ngIf="alldata?.restaurant_order_count?.length > 0">
+                                                    <div class="description" [routerLink]="['/allorders', FilterDate]">
+                                                        <div>Commission: AED {{ alldata.total_commission | number: '.0-2'}}</div>
+                                                        <div>Delivery Charges: AED {{ alldata.total_delivery_charge | number: '.0-2'}}</div>
+                                                        <!-- <div *ngIf="alldata?.restaurant_order_count?.length > 0">
                                                             Subscriptions: {{ alldata.sales?.subscription_sales | number: '.0-2' }}
-                                                        </div>
+                                                        </div> -->
                                                         <!-- <div class="ng-binding">Order Sales</div>
                                                         <div class="description-stats ng-binding">AED {{
                                                             alldata.sales?.order_sales }} </div> -->
@@ -184,10 +186,15 @@
                                             <div class="panel-body"
                                                 ng-transclude="">
                                                 <div class="pie-chart-item ng-scope">
-                                                    <div class="description">
-                                                        <div class="ng-binding">Commission</div>
+                                                    <div class="description" [routerLink]="['/allorders', FilterDate]">
+                                                        <!-- <div class="ng-binding">Commission</div>
                                                         <div class="description-stats ng-binding">AED {{
-                                                            alldata.total_commission | number: '.0-2'}}</div>
+                                                            alldata.total_commission | number: '.0-2'}}</div> -->
+                                                        <div class="ng-binding">Tax Collected</div>
+                                                        <div class="description-stats ng-binding">AED {{
+                                                            alldata.total_tax | number: '.0-2'
+                                                            }}
+                                                        </div>
                                                     </div><i class="chart-icon i-person"></i>
                                                 </div>
                                             </div>
@@ -210,10 +217,14 @@
                                             <div class="panel-body"
                                                 ng-transclude="">
                                                 <div class="pie-chart-item ng-scope">
-                                                    <div class="description">
-                                                        <div class="ng-binding">Delivery Charges</div>
+                                                    <div class="description" [routerLink]="['/allorders', FilterDate]">
+                                                        <!-- <div class="ng-binding">Delivery Charges</div>
                                                         <div class="description-stats ng-binding">AED {{
-                                                            alldata.total_delivery_charge | number: '.0-2' }}</div>
+                                                            alldata.total_delivery_charge | number: '.0-2' }}</div> -->
+                                                        <div class="ng-binding">Refund</div>
+                                                        <div class="description-stats ng-binding">AED {{
+                                                            alldata.total_refund | number: '.0-2' }} 
+                                                        </div>
                                                     </div><i class="chart-icon i-person"></i>
                                                 </div>
                                             </div>
@@ -234,15 +245,16 @@
                                                 <i class="icon-location-pin"></i>
                                             </button>
                                             <!-- <div class="text-value">7</div> -->
-
+                                            <div class="Subs-amount">Subscriptions Amount</div>
                                             <div class="panel-body"
                                                 ng-transclude="">
                                                 <div class="pie-chart-item ng-scope">
                                                     <div class="description">
-                                                        <div class="ng-binding">Tax Collected</div>
-                                                        <div class="description-stats ng-binding">AED {{
-                                                            alldata.total_tax | number: '.0-2'
-                                                            }}
+                                                        <div *ngIf="alldata?.restaurant_order_count?.length > 0">
+                                                            New Subscriptions: {{ alldata.sales?.subscription_sales | number: '.0-2' }}
+                                                        </div>
+                                                        <div *ngIf="alldata?.restaurant_order_count?.length > 0">
+                                                            Renewal Subscriptions: {{ alldata.subscription_renewal_amount | number: '.0-2' }}
                                                         </div>
                                                     </div><i class="chart-icon i-person"></i>
                                                 </div>
@@ -260,13 +272,17 @@
                                             <button type="button" class="btn btn-transparent p-0 float-right">
                                                 <i class="icon-location-pin"></i>
                                             </button>
+                                            <div class="Subs-amount">Subscriptions Count</div>
                                             <div class="panel-body"
                                                 ng-transclude="">
                                                 <div class="pie-chart-item ng-scope">
                                                     <div class="description">
-                                                        <div class="ng-binding">Refund</div>
-                                                        <div class="description-stats ng-binding">AED {{
-                                                            alldata.total_refund | number: '.0-2' }} </div>
+                                                        <div *ngIf="alldata?.restaurant_order_count?.length > 0">
+                                                            New Subscriptions: {{ alldata.new_subscriber_count | number: '.0-2' }}
+                                                        </div>
+                                                        <div *ngIf="alldata?.restaurant_order_count?.length > 0">
+                                                            Renewal Subscriptions: {{ alldata.subscription_renewal_count | number: '.0-2' }}
+                                                        </div>
                                                     </div><i class="chart-icon i-person"></i>
                                                 </div>
                                             </div>
@@ -286,7 +302,7 @@
                                             <div class="panel-body"
                                                 ng-transclude="">
                                                 <div class="pie-chart-item ng-scope">
-                                                    <div class="description">
+                                                    <div class="description" [routerLink]="['/allorders', FilterDate]">
                                                         <div>Placed Order: {{ alldata.total_placed_orders | number: '.0-2' }}</div>
                                                         <div>Delivered Ordered: {{ alldata.delivered_orders_count | number: '.0-2' }}
                                                         </div>
@@ -310,7 +326,7 @@
                                             <div class="panel-body"
                                                 ng-transclude="">
                                                 <div class="pie-chart-item ng-scope">
-                                                    <div class="description">
+                                                    <div class="description" [routerLink]="['/customers']">
                                                         <div class="ng-binding">Distinct Customer</div>
                                                         <div class="description-stats ng-binding"> {{
                                                             alldata.count_of_customer_placed_order | number: '.0-2' }} </div>

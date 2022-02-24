@@ -214,3 +214,12 @@ h5 {
   font-weight: bold;
   font-size: 17px;
 }
+
+.Subs-amount{
+  margin-bottom: 6px; 
+  margin-top: -18px;
+}
+
+.description{
+  cursor: pointer;
+}
