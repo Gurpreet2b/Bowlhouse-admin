@@ -57,7 +57,7 @@
         </div>
         <div class="col-md-2">
             <button data-toggle="modal" data-target="#ExportExcelModal" class="btn-sm btn btn-secondary selc"
-             style="height: 37px;" title="Export Excel">Export To Excel
+                style="height: 37px;" title="Export Excel">Export To Excel
                 <!-- Export To Excel -->
                 <!-- <img src="/assets/images/export.jpg" style="width: 37px;" /> -->
             </button>
@@ -123,12 +123,15 @@
                                                 <i class="icon-location-pin"></i>
                                             </button>
 
-                                            <div class="panel-body"
-                                                ng-transclude="">
+                                            <div class="panel-body" ng-transclude="">
                                                 <div class="pie-chart-item ng-scope">
                                                     <div class="description" [routerLink]="['/allorders', FilterDate]">
-                                                        <div>Total Sales: AED {{ alldata.sales?.total | number: '.0-2'}}</div>
-                                                        <div>Order Sales: AED {{ alldata.sales?.order_sales | number: '.0-2'}}</div>
+                                                        <div>Total Sales: AED {{ alldata.sales?.total | number: '.0-2'}}
+                                                        </div>
+                                                        <div>Order Sales: AED {{ alldata.sales?.order_sales | number:
+                                                            '.0-2'}}</div>
+                                                        <div style="margin: 0px -20px;">Subscriptions: AED 
+                                                            {{ alldata.sales?.subscription_sales | number: '.0-2'}}</div>
                                                         <!-- <div *ngIf="alldata?.restaurant_order_count?.length > 0">
                                                             Renewal Subscriptions: {{ alldata.subscription_renewal_count | number: '.0-2' }}
                                                         </div> -->
@@ -153,12 +156,13 @@
                                             <button type="button" class="btn btn-transparent p-0 float-right">
                                                 <i class="icon-location-pin"></i>
                                             </button>
-                                            <div class="panel-body"
-                                                ng-transclude="">
+                                            <div class="panel-body" ng-transclude="">
                                                 <div class="pie-chart-item ng-scope">
                                                     <div class="description" [routerLink]="['/allorders', FilterDate]">
-                                                        <div>Commission: AED {{ alldata.total_commission | number: '.0-2'}}</div>
-                                                        <div>Delivery Charges: AED {{ alldata.total_delivery_charge | number: '.0-2'}}</div>
+                                                        <div>Commission: AED {{ alldata.total_commission | number:
+                                                            '.0-2'}}</div>
+                                                        <div>Delivery Charges: AED {{ alldata.total_delivery_charge |
+                                                            number: '.0-2'}}</div>
                                                         <!-- <div *ngIf="alldata?.restaurant_order_count?.length > 0">
                                                             Subscriptions: {{ alldata.sales?.subscription_sales | number: '.0-2' }}
                                                         </div> -->
@@ -183,8 +187,7 @@
                                                 <i class="icon-location-pin"></i>
                                             </button>
 
-                                            <div class="panel-body"
-                                                ng-transclude="">
+                                            <div class="panel-body" ng-transclude="">
                                                 <div class="pie-chart-item ng-scope">
                                                     <div class="description" [routerLink]="['/allorders', FilterDate]">
                                                         <!-- <div class="ng-binding">Commission</div>
@@ -214,8 +217,7 @@
                                             <!-- <div class="text-value">7</div> -->
                                             <!-- <div> Tax Collected</div> -->
 
-                                            <div class="panel-body"
-                                                ng-transclude="">
+                                            <div class="panel-body" ng-transclude="">
                                                 <div class="pie-chart-item ng-scope">
                                                     <div class="description" [routerLink]="['/allorders', FilterDate]">
                                                         <!-- <div class="ng-binding">Delivery Charges</div>
@@ -223,7 +225,7 @@
                                                             alldata.total_delivery_charge | number: '.0-2' }}</div> -->
                                                         <div class="ng-binding">Refund</div>
                                                         <div class="description-stats ng-binding">AED {{
-                                                            alldata.total_refund | number: '.0-2' }} 
+                                                            alldata.total_refund | number: '.0-2' }}
                                                         </div>
                                                     </div><i class="chart-icon i-person"></i>
                                                 </div>
@@ -246,15 +248,20 @@
                                             </button>
                                             <!-- <div class="text-value">7</div> -->
                                             <div class="Subs-amount">Subscriptions Amount</div>
-                                            <div class="panel-body"
-                                                ng-transclude="">
+                                            <div class="panel-body" ng-transclude="">
                                                 <div class="pie-chart-item ng-scope">
                                                     <div class="description">
-                                                        <div *ngIf="alldata?.restaurant_order_count?.length > 0">
-                                                            New Subscriptions: {{ alldata.sales?.subscription_sales | number: '.0-2' }}
+                                                        <div *ngIf="alldata?.restaurant_order_count?.length > 0"
+                                                            data-toggle="modal" data-target="#SubscriptionModal"
+                                                            (click)="IsNewSubscriptions()">
+                                                            New Subscriptions: {{ alldata.new_subs_amount |
+                                                            number: '.0-2' }}
                                                         </div>
-                                                        <div *ngIf="alldata?.restaurant_order_count?.length > 0">
-                                                            Renewal Subscriptions: {{ alldata.subscription_renewal_amount | number: '.0-2' }}
+                                                        <div *ngIf="alldata?.restaurant_order_count?.length > 0"
+                                                            data-toggle="modal" data-target="#SubscriptionModal"
+                                                            (click)="IsRenewalSubscriptions()">
+                                                            Renewal Subscriptions: {{
+                                                            alldata.subscription_renewal_amount | number: '.0-2' }}
                                                         </div>
                                                     </div><i class="chart-icon i-person"></i>
                                                 </div>
@@ -273,15 +280,20 @@
                                                 <i class="icon-location-pin"></i>
                                             </button>
                                             <div class="Subs-amount">Subscriptions Count</div>
-                                            <div class="panel-body"
-                                                ng-transclude="">
+                                            <div class="panel-body" ng-transclude="">
                                                 <div class="pie-chart-item ng-scope">
                                                     <div class="description">
-                                                        <div *ngIf="alldata?.restaurant_order_count?.length > 0">
-                                                            New Subscriptions: {{ alldata.new_subscriber_count | number: '.0-2' }}
+                                                        <div *ngIf="alldata?.restaurant_order_count?.length > 0"
+                                                            data-toggle="modal" data-target="#SubscriptionModal"
+                                                            (click)="IsNewSubscriptions()">
+                                                            New Subscriptions: {{ alldata.new_subs_count | number:
+                                                            '.0-2' }}
                                                         </div>
-                                                        <div *ngIf="alldata?.restaurant_order_count?.length > 0">
-                                                            Renewal Subscriptions: {{ alldata.subscription_renewal_count | number: '.0-2' }}
+                                                        <div *ngIf="alldata?.restaurant_order_count?.length > 0"
+                                                            data-toggle="modal" data-target="#SubscriptionModal"
+                                                            (click)="IsRenewalSubscriptions()">
+                                                            Renewal Subscriptions: {{ alldata.subscription_renewal_count
+                                                            | number: '.0-2' }}
                                                         </div>
                                                     </div><i class="chart-icon i-person"></i>
                                                 </div>
@@ -299,12 +311,13 @@
                                             <button type="button" class="btn btn-transparent p-0 float-right">
                                                 <i class="icon-location-pin"></i>
                                             </button>
-                                            <div class="panel-body"
-                                                ng-transclude="">
+                                            <div class="panel-body" ng-transclude="">
                                                 <div class="pie-chart-item ng-scope">
                                                     <div class="description" [routerLink]="['/allorders', FilterDate]">
-                                                        <div>Placed Order: {{ alldata.total_placed_orders | number: '.0-2' }}</div>
-                                                        <div>Delivered Ordered: {{ alldata.delivered_orders_count | number: '.0-2' }}
+                                                        <div>Placed Order: {{ alldata.total_placed_orders | number:
+                                                            '.0-2' }}</div>
+                                                        <div>Delivered Ordered: {{ alldata.delivered_orders_count |
+                                                            number: '.0-2' }}
                                                         </div>
                                                         <div> </div>
                                                     </div><i class="chart-icon i-person"></i>
@@ -323,13 +336,13 @@
                                             <button type="button" class="btn btn-transparent p-0 float-right">
                                                 <i class="icon-location-pin"></i>
                                             </button>
-                                            <div class="panel-body"
-                                                ng-transclude="">
+                                            <div class="panel-body" ng-transclude="">
                                                 <div class="pie-chart-item ng-scope">
                                                     <div class="description" [routerLink]="['/customers']">
                                                         <div class="ng-binding">Distinct Customer</div>
                                                         <div class="description-stats ng-binding"> {{
-                                                            alldata.count_of_customer_placed_order | number: '.0-2' }} </div>
+                                                            alldata.count_of_customer_placed_order | number: '.0-2' }}
+                                                        </div>
                                                     </div><i class="chart-icon i-person"></i>
                                                 </div>
                                             </div>
@@ -358,8 +371,7 @@
                                             </button>
                                             <!-- <div class="text-value">7</div> -->
 
-                                            <div class="panel-body"
-                                                ng-transclude="">
+                                            <div class="panel-body" ng-transclude="">
                                                 <div class="pie-chart-item ng-scope">
                                                     <div class="description">
                                                         <div class="ng-binding">Placed Order</div>
@@ -382,8 +394,7 @@
                                             <button type="button" class="btn btn-transparent p-0 float-right">
                                                 <i class="icon-location-pin"></i>
                                             </button>
-                                            <div class="panel-body"
-                                                ng-transclude="">
+                                            <div class="panel-body" ng-transclude="">
                                                 <div class="pie-chart-item ng-scope">
                                                     <div class="description">
                                                         <div class="ng-binding">Delivered Ordered</div>
@@ -406,13 +417,13 @@
                                             <button type="button" class="btn btn-transparent p-0 float-right">
                                                 <i class="icon-location-pin"></i>
                                             </button>
-                                            <div class="panel-body"
-                                                ng-transclude="">
+                                            <div class="panel-body" ng-transclude="">
                                                 <div class="pie-chart-item ng-scope">
                                                     <div class="description">
                                                         <div class="ng-binding">Distinct Customer </div>
                                                         <div class="description-stats ng-binding">
-                                                            {{ alldata.count_of_customer_placed_order | number: '.0-2' }}
+                                                            {{ alldata.count_of_customer_placed_order | number: '.0-2'
+                                                            }}
                                                         </div>
                                                     </div><i class="chart-icon i-person"></i>
                                                 </div>
@@ -431,8 +442,7 @@
                                             <button type="button" class="btn btn-transparent p-0 float-right">
                                                 <i class="icon-location-pin"></i>
                                             </button>
-                                            <div class="panel-body"
-                                                ng-transclude="">
+                                            <div class="panel-body" ng-transclude="">
                                                 <div class="pie-chart-item ng-scope">
                                                     <div class="description">
                                                         <div class="ng-binding">Pending Ticket</div>
@@ -680,7 +690,8 @@
                                         <tbody>
                                             <tr *ngFor="let customer of alldata?.customer_order_count">
                                                 <td class="td-trand">
-                                                    <a style="color: #24415d" [routerLink]="['/customers','profile', customer.id]">
+                                                    <a style="color: #24415d"
+                                                        [routerLink]="['/customers','profile', customer.id]">
                                                         {{customer.name}}
                                                     </a>
                                                 </td>
@@ -739,7 +750,8 @@
                             <ChartPieCuisine [RestaurantCuisineChart]="RestaurantCuisineChart"></ChartPieCuisine>
                         </div>
                     </div>
-                    <div class="col-md-6" *ngIf="RoleName === 'Admin' || RoleName === 'Finance' || UserName === 'Super Admin'">
+                    <div class="col-md-6"
+                        *ngIf="RoleName === 'Admin' || RoleName === 'Finance' || UserName === 'Super Admin'">
                         <div class="chart-border">
                             <h4 class="head-chart">Sales</h4>
                             <chart [SalesChart]="SalesChart"></chart>
@@ -789,7 +801,7 @@
                 </div>
             </div>
 
-            
+
         </div>
     </div>
 </div>
@@ -1128,8 +1140,7 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-6">
-                        <select (change)="IsRestChangeExport($event)"
-                            class="btn-sm btn-secondary" style="width: 220px;
+                        <select (change)="IsRestChangeExport($event)" class="btn-sm btn-secondary" style="width: 220px;
                             margin-bottom: 20px;">
                             <option [ngValue]="undefined" hidden>Filter Restaurant</option>
                             <option value="undefined">All</option>
@@ -1139,8 +1150,7 @@
                         </select>
                     </div>
                     <div class="col-md-6">
-                        <select (change)="ExportDaysFilter($event)" class="btn-sm btn-secondary"
-                        style="width: 200px;">
+                        <select (change)="ExportDaysFilter($event)" class="btn-sm btn-secondary" style="width: 200px;">
                             <option selected value="undefined">Filter Days</option>
                             <option value="7">Last 7 days</option>
                             <option value="15">Last 15 days</option>
@@ -1160,12 +1170,103 @@
                 <div class="row mt-4">
                     <div class="col-md-12 text-center">
                         <button class="btn-sm btn btn-secondary ml-2" [disabled]="loading"
-                        style="padding: 10px; width: 150px;" (click)="exportToExcel()">
-                        Excel Download </button>
+                            style="padding: 10px; width: 150px;" (click)="exportToExcel()">
+                            Excel Download </button>
                         <img src="../../../../../../assets/images/loader.gif" *ngIf="loading">
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="SubscriptionModal">
+    <div class="modal-dialog" style="margin: 40px 200px;">
+        <div class="modal-content" style="width: 1000px;">
+            <!-- Modal Header -->
+            <div class="modal-header" style="padding: 15px 26px;">
+                <h4 class="modal-title">{{IsSubName}} Subscription View List</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body" style="padding: 10px 26px;">
+                <table class="table table-hover">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th style="width: 150px;">
+                                Customer Name
+                            </th>
+                            <th>
+                                Email
+                            </th>
+                            <th>
+                                Mobile
+                            </th>
+                            <!-- <th>
+                                DOB
+                            </th> -->
+                            <th>
+                                Nationality
+                            </th>
+                            <th style="width: 150px;">
+                                Subscribed
+                            </th>
+                            <th>
+                                Subscribed Bought
+                            </th>
+                            <th>
+                                Subscribed Bought Date
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let subs of SubscriptionsList; let i=index">
+
+                            <td>
+                                <span *ngIf="subs.name">
+                                    {{subs.name}}
+                                </span>
+                                <span *ngIf="!subs.name" style="color: red;">
+                                    Not Provided
+                                </span>
+                            </td>
+
+                            <td>
+                                <span *ngIf="subs.email">
+                                    {{subs.email}}
+                                </span>
+                                <span *ngIf="!subs.email" style="color: red;">
+                                    Not Provided
+                                </span>
+                            </td>
+                            <td>
+                                {{subs.Mobile}}
+                            </td>
+                            <!-- <td>
+                                {{subs.dob}}
+                            </td> -->
+                           
+                            <td>
+                                {{subs.nationality}}
+                            </td>
+                            <td>
+                                {{subs.is_subscribed}}
+                            </td>
+                            <td style="text-align: center;">
+                                {{subs.subscription_bought_count}}
+                            </td>
+                            <td>
+                                {{subs.subscription_bought_date | date}}
+                            </td>
+                        </tr>
+                        <tr *ngIf="SubscriptionsList.length === 0">
+                            No Record Found!
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
         </div>
     </div>
 </div>

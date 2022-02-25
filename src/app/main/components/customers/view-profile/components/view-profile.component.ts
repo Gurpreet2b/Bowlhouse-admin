@@ -18,6 +18,7 @@ export class ViewProfileComponent implements OnInit {
   customers: any = [];
   total: any;
   orderhistory: any = [];
+  public RestaurantChart: any;
   form = new FormGroup({
     name: new FormControl('', [Validators.required]),
     Mobile: new FormControl('', [Validators.required]),
@@ -61,6 +62,14 @@ export class ViewProfileComponent implements OnInit {
         this.total = responseData.data;
         this.orderhistory = responseData.data.orders;
         this.CuisineDictionary = responseData.data.cuisine_based_order_count;
+        let RestaurantChart = responseData.data.cuisine_based_order_count;
+        this.RestaurantChart = [];
+        RestaurantChart.forEach((element: any) => {
+          this.RestaurantChart.push({
+                  'name': element.cuisine ,
+                  "y": Number(element.count),  
+                })
+        });
         if (this.orderhistory.length === 0) {
           this.toastr.warning("No Record Found");
         }

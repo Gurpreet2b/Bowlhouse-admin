@@ -59,6 +59,9 @@ export class DashboardComponent implements OnInit {
   public UserName: any;
   public RoleName: any;
   public FilterDate: any = 'Today';
+  public NewSubscriptionsList: any = [];
+  public RenewalSubscriptionsList: any = [];
+  public SubscriptionsList: any = [];
   
   form = new FormGroup({
     search: new FormControl(''),
@@ -142,6 +145,17 @@ export class DashboardComponent implements OnInit {
     this.getData(1);
   }
 
+  IsNewSubscriptions(){
+    this.SubscriptionsList = this.NewSubscriptionsList;
+    this.IsSubName = 'New';
+  }
+
+  IsRenewalSubscriptions(){
+    this.SubscriptionsList = this.RenewalSubscriptionsList;
+    this.IsSubName = 'Renewal';
+  }
+
+  IsSubName: any;
   public SalesChart: any;
   ClusterId: any;
   FDate: any;
@@ -155,6 +169,8 @@ export class DashboardComponent implements OnInit {
         this.loading = false;
         const responseData = res;
         this.alldata = responseData.data;
+        this.NewSubscriptionsList = responseData.data.new_sub_customer_list;
+        this.RenewalSubscriptionsList = responseData.data.renewal_customer_list;
         this.BreakFastData = responseData.data.sales.breakfast;
         this.SnacksData = responseData.data.sales.snacks;
         this.LunchData = responseData.data.sales.lunch;

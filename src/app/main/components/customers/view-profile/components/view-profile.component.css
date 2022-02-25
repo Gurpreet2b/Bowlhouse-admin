@@ -42,4 +42,7 @@ max-width: 1000px;
   width: 50%;
    max-width: 100px;  
 }
+.order-card{
+  margin: 0;
+}
 

@@ -12,7 +12,8 @@
                         <div class="input-group">
                             <select class="btn-sm btn btn-secondary"
                                 style="width: 155px;" (change)="IsFilterChange($event)">
-                                <option [ngValue]="undefined" selected>Filter Subscribed</option>
+                                <option [ngValue]="undefined" hidden>Filter Subscribed</option>
+                                <option [ngValue]="undefined">All</option>
                                 <option value="NotSubscribed">Never Subscribed</option>
                                 <option value="NotRenewalSubscribed">Never Re-Subscribed</option>
                                 <option value="NewSubscribed">Newly Subscribed</option>
@@ -129,6 +130,9 @@
                                 </button>
                             </div>
                         </td> -->
+                    </tr>
+                    <tr *ngIf="customers.length === 0">
+                        No Record Found !!
                     </tr>
                 </tbody>
             </table>

@@ -7,14 +7,17 @@ import { ViewProfileComponent } from './components/view-profile.component';
 import { TabModule } from 'angular-tabs-component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { ChartComponent } from '../chart/chart.component';
+import { HighchartsChartModule } from 'highcharts-angular';
 @NgModule({
-  declarations: [ViewProfileComponent],
+  declarations: [ViewProfileComponent,ChartComponent],
   imports: [
     CommonModule,
     ViewProfileRoutingModule,
     TabModule,
     ReactiveFormsModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    HighchartsChartModule
   ]
 })
 export class ViewProfileModule { }
